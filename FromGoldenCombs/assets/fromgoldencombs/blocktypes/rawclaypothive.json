@@ -1,0 +1,33 @@
+{
+  "code": "rawclaypothive",
+  "class": "rawclaypothive",
+  "behaviors": [
+    { "name": "GroundStorable" },
+    {
+      "name": "Unplaceable",
+      "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility"
+    },
+    { "name": "RightClickPickup" }
+  ],
+  "shape": { "base": "fromgoldencombs:block/rawclaypothive" },
+  "combustibleProps": {
+    "meltingPoint": 650,
+    "meltingDuration": 45,
+    "smeltedRatio": 1,
+    "smeltingType": "fire",
+    "smeltedStack": {
+      "type": "block",
+      "code": "fromgoldencombs:claypothive-empty-none-notop"
+    },
+    "requiresContainer": false
+  },
+  "lightAbsorption": 0,
+  "sideopaque": { "all": false },
+  "sidesolid": { "all": false },
+  "blockmaterial": "Ceramic",
+  "creativeinventory": { "general": [ "*" ] },
+  "maxstacksize": 1,
+  "sounds": {
+    "place": "game:block/planks"
+  }
+}

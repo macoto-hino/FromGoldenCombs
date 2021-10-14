@@ -1,0 +1,11 @@
+{
+  "type": "code",
+  "modid": "fromgoldencombs",
+  "name": "From Golden Combs",
+  "author": "Unknown",
+  "description": "A Simple Expansion on Apiculture in VS",
+  "version": "1.2.0",
+  "dependency": {
+    "game": ""
+  }
+}

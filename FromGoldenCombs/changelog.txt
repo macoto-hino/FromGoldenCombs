@@ -1,0 +1,30 @@
+﻿1.15.6-v1.1.1
+- Add Config File to control Wildhive and Skep hivepop times.
+- Set skeps and wild hives to only swarm in spring
+
+1.15.6-v1.2.1
+
+Upcoming
+ - Add config for changing swarm seasons
+ - Varietal honey based on prominent flowers when skep/pot/frame fills.
+ - Changing swarm frequency
+	- Add config
+ - Wild hives depopulate when moved to skep
+	- Add config
+ - Add Clay Honeypot For Pre-Bucket/Barrel storage
+ - Add Wax Blocks For placeable, stackable storage of wax
+ - Langstroth Hive:
+	- Add Langstroth Base
+	 - Langstroth base will contain controlling logic
+	- Add Langstroth Super
+	- Add Langstroth Brood Box
+ - Beeframes will have durability that will degrade when harvested
+	- Beeframes can be repaired with wax infused linen swatches/twine
+	- Beeframes require wax infused linen swatches to make
+ - Wax infused linen swatches is crafted using wax and linen swatches, or waxed linen twince
+ - Wax infused linen twine is crafted using wax and linen twine (in batches of 4 twine, 1 wax)
+  
+ - Raccoons can knock the top off a calypot hive, and then eat from it.
+	- Have hive top gradually fill over time
+	- Adjust eat a portion of for raccoons to remove one portion
+	- Raccoons can reduce hive population as well (Once my hive population process is introduced)

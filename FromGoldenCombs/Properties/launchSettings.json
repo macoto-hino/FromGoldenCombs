@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "VinterMods.Mods.FromGoldenCombs": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Owner\\AppData\\Roaming\\Vintagestory\\Vintagestory.exe",
+      "commandLineArgs": "--addModPath=\"C:\\Users\\Owner\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\Owner\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\\\"",
+      "sqlDebugging": false
+    }
+  }
+}

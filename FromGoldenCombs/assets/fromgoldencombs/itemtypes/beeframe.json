@@ -1,0 +1,40 @@
+{
+  "code": "beeframe",
+  "class": "langstrothframe",
+  "maxstacksize": 10,
+  "variantgroups": [
+    { "code": "harvestable", "states": [ "empty", "harvestable" ]}
+  ],
+  "shape": { "base": "item/beeframe-{harvestable}" },
+  "attributes": {
+    "beeframe": true
+  },
+  "creativeinventory": {
+    "general": [ "*" ],
+    "decorative": [ "*" ]
+  },
+  "guiTransform": {
+    "translation": { "x": 5, "y": 3, "z": 0},
+    "rotation": { "x": -33, "y": -46, "z": 180},
+    "origin": { "x": 0.5, "y": 0.05, "z": 0.5},
+    "scale": 3
+  },
+  	fpHandTransform: {
+		translation: { x: 0.05, y: 0.25, z: 0 },
+		rotation: { x: 22, y: -4, z: -7 },
+		origin: { x: 0.5, y: 0.05, z: 0.5 },
+		scale: 2.24
+	},
+  	tpHandTransform: {
+		translation: { x: -0.35, y: 0.7, z: -0.92 },
+		rotation: { x: -87, y: 65, z: -93 },
+		origin: { x: 0.44, y: -1.21, z: 0.47 },
+		scale: 0.63
+	},
+  	groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 7, y: -118, z: 87 },
+		origin: { x: 0.47, y: 0, z: 0.5299 },
+		scale: 4.37
+	}
+}

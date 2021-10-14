@@ -1,0 +1,38 @@
+{
+  "my-test-string": "From Golden Combs Initialized.",
+  "hivewrongseason": "Hive will not swarm until Spring.",
+  
+  //Blocks
+  "block-claypothive": "Claypot Hive",
+  "block-fromgoldencombs:handbooktitle-claypothive": "Used for:",
+  "block-fromgoldencombs:handbooktext-claypothive": "Claypot Test",
+  "blockhelp-claypothive-empty-notop": "Pick up in empty bag slot, use populated skep, or hive top.",
+  "blockhelp-claypothive-populated-notop": "Pick up in empty bag slot, or place hive top.",
+  "blockhelp-claypothive-empty-withtop": "Right click removes hive top, or use populated skep.",
+  "blockhelp-claypothive-populated-withtop": "Right click removes hive top, wax ring indicates harvestable.",
+
+  "block-claypothive-empty-none-notop": "Claypot Hive",
+  "block-claypothive-empty-none-withtop": "Claypot Hive",
+  "block-claypothive-populated-none-notop": "Claypot Hive With Colony",
+  "block-claypothive-populated-none-withtop": "Claypot Hive With Colony",
+  "block-claypothive-populated-harvestable-withtop": "Claypot Hive With Colony",
+  "block-hivetop-raw": "Raw Clay Hive Top",
+  "block-hivetop-empty": "Clay Hive Top",
+  "block-hivetop-harvestable": "Clay Hive Top",
+  "block-rawclaypothive": "Raw Claypot Hive",
+  "blockhelp-rawclaypothive": "Place in pitkiln to fire.",
+
+  "block-langstrothsuper-*": "Hive Super",
+
+
+  //Items
+  "item-beeframe-empty": "Empty Beeframe",
+  "item-beeframe-harvestable": "Full Beeframe",
+
+  //Guide Info
+  "fromgoldencombsguide-title": "From Golden Combs - Guide To New Hives",
+  "fromgoldencombsguide-text": "<strong>Advanced Apiary 101 - From Golden Combs</strong><br><i>Overcoming the Tyranny Of The Skep</i><br><br>From Golden Combs introduces a new beehive, the <a href=\"handbooksearch://claypot hive\">Clay Pot Hive</a>.<br><br><strong>Getting Started</strong><br>To start on your new apiary adventure, you first must acquire clay, either fire clay or blue clay will do.  This clay is used to make a claypot hive base, and a <a href=\"handbooksearch://hive top\">hive top</a>.  After firing your claypot hive base, pick it up in a bag slot and place it in a place with plenty of flowers.<br><br><strong>Populating Your Hive</strong><br>Your next step is to find a wild hive with a standard skep.  Once you have a populated skep, simply place it in the hive base by clicking right clicking the claypot hive base with it.  Set your empty and fired hive top on top of your new hive by right-clicking, and wait.<br><br><strong>Harvesting Your Hive</strong><br>When you see a wax ring around the top of the hive, it's time to collect your harvest!  Just pick up the hive top again, set it on the ground, and clean it out with a knife.  Now take the empty hive top and put it back on the hive base. <br><br><strong>Final Comments</strong><br>Be warned, claypot hives may be reusable, but they won't swarm to new hives. You'll have to fill new skeps to make new claypot hives."
+
+
+
+}
