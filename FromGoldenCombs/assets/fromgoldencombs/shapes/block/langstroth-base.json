@@ -8,9 +8,9 @@
 	"textureSizes": {
 	},
 	"textures": {
-		"birch1": "C:/Users/Owner/AppData/Roaming/Vintagestory/assets/survival/textures/block/wood/planks/birch1",
-		"maple1": "C:/Users/Owner/AppData/Roaming/Vintagestory/assets/survival/textures/block/wood/planks/maple1",
-		"aged1": "C:/Users/Owner/AppData/Roaming/Vintagestory/assets/survival/textures/block/wood/planks/aged1"
+		"birch1": "game:block/wood/planks/birch1",
+		"maple1": "game:block/wood/planks/maple1",
+		"aged1": "game:block/wood/planks/aged1"
 	},
 	"elements": [
 		{

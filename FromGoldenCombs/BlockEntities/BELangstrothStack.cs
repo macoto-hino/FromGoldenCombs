@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -37,10 +36,7 @@ namespace FromGoldenCombs.BlockEntities
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isSuper = colObj?.Class == "langstrothsuper" && colObj.Variant["open"] == "closed";
-            //BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
-            //block.SetContents(new ItemStack(block), this.GetContentStacks());
-            //ItemStack stack = new ItemStack(block);
-
+            
             if (slot.Empty && (int)slot.StorageType == 2)  
             {
                 if (TryTake(byPlayer, blockSel))
@@ -99,11 +95,6 @@ namespace FromGoldenCombs.BlockEntities
                     AssetLocation sound = stack.Block?.Sounds?.Place;
                     Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                 }
-
-                //if (stack.StackSize > 0)
-                //{
-                //    Api.World.SpawnItemEntity(stack, Pos.ToVec3d().Add(0.5, 0.5, 0.5));
-                //}
 
                 updateMeshes();
                 MarkDirty(true);
@@ -172,14 +163,7 @@ namespace FromGoldenCombs.BlockEntities
             float z = 0;
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             
-            mesh.Translate(offset.XYZ); 
-            //ModelTransform transform = stack.Collectible.Attributes.AsObject<ModelTransform>();
-            //transform.EnsureDefaultValues();
-            //transform.Rotation.X = 0;
-            //transform.Rotation.Y = block.Shape.rotateY;
-            //transform.Rotation.Z = 0;
-            //mesh.ModelTransform(transform);
-            
+            mesh.Translate(offset.XYZ);           
 
             return mesh;
         }

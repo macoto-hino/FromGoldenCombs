@@ -6,56 +6,56 @@
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
-    "behaviors": [
-      {
+  "behaviors": [
+    {
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }
-      }
-    ],
-    "variantgroups": [
-      {
-        "code": "open",
-        "states": [ "open", "closed" ]
+    }
+  ],
+  "variantgroups": [
+    {
+      "code": "open",
+      "states": [ "open", "closed" ]
       },
-      {
-        "code": "side",
-        "loadFromProperties": "abstract/horizontalorientation"
-      }
-    ],
-    "shapeByType": {
-      "*-north": {
-        "base": "block/langstrothsuper-{open}",
-        "rotateY": 0
-      },
-      "*-east": {
-        "base": "block/langstrothsuper-{open}",
-        "rotateY": 270
-      },
-      "*-south": {
+    {
+      "code": "side",
+      "loadFromProperties": "abstract/horizontalorientation"
+    }
+  ],
+  "shapeByType": {
+  "*-north": {
+     "base": "block/langstrothsuper-{open}",
+     "rotateY": 0
+     },
+     "*-east": {
+     "base": "block/langstrothsuper-{open}",
+     "rotateY": 270
+     },
+     "*-south": {
         "base": "block/langstrothsuper-{open}",
         "rotateY": 180
-      },
-      "*-west": {
-        "base": "block/langstrothsuper-{open}",
-        "rotateY": 90
-      }
-    },
-    "creativeinventory": {
+     },
+     "*-west": {
+     "base": "block/langstrothsuper-{open}",
+     "rotateY": 90
+     }
+  },
+  "creativeinventory": {
       "general": [ "*-east" ],
       "flora": [ "*-east" ],
       "decorative": [ "*-east" ]
     },
-    "lightAbsorption": 0,
-    "sideopaque": { "all": false },
-    "sidesolid": { "all": false },
-    "blockmaterial": "Ceramic",
-    "sounds": {
+  "lightAbsorption": 0,
+  "sideopaque": { "all": false },
+  "sidesolid": { "all": false },
+  "blockmaterial": "Ceramic",
+  "sounds": {
       "place": "game:block/planks"
     },
-    "groundTransform": {
+  "groundTransform": {
       "scale": 2.01
     },
-    "fpHandTransform": {
+  "fpHandTransform": {
       "translation": {
         "x": 0,
         "y": 0.85,
@@ -73,7 +73,7 @@
       },
       "scale": 3.04
     },
-    "tpHandTransform": {
+  "tpHandTransform": {
       "translation": {
         "x": -1.2,
         "y": -0.8,
@@ -91,7 +91,7 @@
       },
       "scale": 0.56
     },
-    "collisionboxesByType": {
+  "collisionboxesByType": {
       "*-closed": [
         { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, rotateYByType: { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
       ],
@@ -100,7 +100,7 @@
        
       ]
     },
-    "selectionboxesByType": {
+  "selectionboxesByType": {
       "*-closed-*": [
         { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, rotateYByType: { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
       ],
@@ -118,4 +118,4 @@
         { "x1": 0.094, "y1": 0, "z1": 0.1575, "x2": 0.9055, "y2": 0.2818, "z2": 0.8425, rotateYByType: { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
       ]
     }
-  }
+}
