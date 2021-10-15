@@ -1,12 +1,7 @@
 ﻿using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.Blocks.Langstroth;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
-using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.Blocks
 {

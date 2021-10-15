@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -17,7 +16,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public override InventoryBase Inventory => inv;
 
-        public override string InventoryClassName => "langstrothstacks";
+        public override string InventoryClassName => "langstrothstack";
 
         public BELangstrothStack()
         {
@@ -86,7 +85,7 @@ namespace FromGoldenCombs.BlockEntities
          private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)
         {
             int index = blockSel.SelectionBoxIndex;
-            System.Diagnostics.Debug.WriteLine("Selected Index is :" + index);
+            
             if (!inv[index].Empty && (index==2 || inv[index+1].Empty))
             {
                 ItemStack stack = inv[index].TakeOutWhole();
@@ -162,11 +161,13 @@ namespace FromGoldenCombs.BlockEntities
             float y = .3333f * index;
             float z = 0;
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-            
+            //This seems to work for rotating the actual appearance of the blocks in the itemslots.
+            //mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, block.Shape.rotateY * GameMath.DEG2RAD, 0f);
             mesh.Translate(offset.XYZ);           
 
             return mesh;
         }
+
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
             if (forPlayer.CurrentBlockSelection == null)

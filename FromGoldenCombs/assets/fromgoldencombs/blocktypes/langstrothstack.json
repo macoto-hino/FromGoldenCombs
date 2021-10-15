@@ -1,7 +1,7 @@
 {
   "code": "langstrothstack",
-  "class": "langstrothstack",
-  "entityClass": "belangstrothstack",
+  //"class": "langstrothstack",
+  //"entityClass": "belangstrothstack",
   "maxstacksize": 1,
   "behaviors": [
     {
