@@ -4,7 +4,7 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.Blocks.Langstroth
 {
-    class LangstrothStack : BlockContainer 
+    class LangstrothStack : LangstrothCore 
     {
         public override void OnLoaded(ICoreAPI api)
         {

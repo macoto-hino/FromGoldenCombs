@@ -14,11 +14,11 @@ namespace FromGoldenCombs.BlockEntities
     {
         Block block;
 
-        InventoryGeneric inv;
+        readonly InventoryGeneric inv;
 
         public override InventoryBase Inventory => inv;
 
-        public override string InventoryClassName => "langstrothstack";
+        public override string InventoryClassName => "langstrothstacks";
 
         public BELangstrothStack()
         {
@@ -46,6 +46,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (TryTake(byPlayer, blockSel))
                 {
                     UpdateStackSize();
+                    MarkDirty();
                     return true;
                 }
             } else if (isSuper)
@@ -53,6 +54,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (TryPut(slot, blockSel))
                 {
                     UpdateStackSize();
+                    MarkDirty();
                     return true;
                 }
             }
@@ -72,7 +74,7 @@ namespace FromGoldenCombs.BlockEntities
                 System.Diagnostics.Debug.WriteLine(filledstacks);
             }
            
-            stacksize = filledstacks == 0 ? stacksize = "zero" : filledstacks == 1 ? stacksize = "one" : filledstacks == 2 ? stacksize = "two" : stacksize="three";
+            stacksize = filledstacks == 0 ? "zero" : filledstacks == 1 ? "one" : filledstacks == 2 ? "two" : "three";
             System.Diagnostics.Debug.WriteLine(stacksize);
             if (stacksize != "zero")
             {
@@ -82,6 +84,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.World.BlockAccessor.SetBlock(0, Pos);
             }
+            MarkDirty();
         }
 
          private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)
@@ -90,17 +93,17 @@ namespace FromGoldenCombs.BlockEntities
             System.Diagnostics.Debug.WriteLine("Selected Index is :" + index);
             if (!inv[index].Empty && (index==2 || inv[index+1].Empty))
             {
-                ItemStack stack = inv[index].TakeOut(1);
+                ItemStack stack = inv[index].TakeOutWhole();
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
                 {
                     AssetLocation sound = stack.Block?.Sounds?.Place;
                     Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                 }
 
-                if (stack.StackSize > 0)
-                {
-                    Api.World.SpawnItemEntity(stack, Pos.ToVec3d().Add(0.5, 0.5, 0.5));
-                }
+                //if (stack.StackSize > 0)
+                //{
+                //    Api.World.SpawnItemEntity(stack, Pos.ToVec3d().Add(0.5, 0.5, 0.5));
+                //}
 
                 updateMeshes();
                 MarkDirty(true);
@@ -110,10 +113,11 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-        public bool InitializePut(ItemStack first,ItemStack second)
+        public bool InitializePut(ItemStack first,ItemSlot slot)
         {
             inv[0].Itemstack = first;
-            inv[1].Itemstack = second;
+            inv[1].Itemstack = slot.TakeOutWhole();
+            UpdateStackSize();
             updateMeshes();
             MarkDirty(true);
             return true;
@@ -126,7 +130,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 if (inv[index].Empty && (index==0 || !inv[index-1].Empty))
                 {
-                    inv[index].Itemstack = slot.Itemstack;
+                    inv[index].Itemstack = slot.TakeOutWhole();
                     updateMeshes();
                     MarkDirty(true);
                     return true;
@@ -164,7 +168,7 @@ namespace FromGoldenCombs.BlockEntities
             mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
 
             float x = 0;
-            float y = y = .3333f * index;
+            float y = .3333f * index;
             float z = 0;
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             

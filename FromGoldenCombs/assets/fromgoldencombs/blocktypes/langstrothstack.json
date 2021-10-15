@@ -25,6 +25,11 @@
     "*-south": { "base": "block/langstrothstack", "rotateY": 180},
     "*-west": { "base": "block/langstrothstack", "rotateY": 90}
   },
+  "creativeinventory": {
+      "general": [ "*" ],
+      "flora": [ "*" ],
+      "decorative": [ "*" ]
+    },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },
@@ -43,29 +48,31 @@
     "scale": 0.56 },
   "collisionboxesByType": {
     "*-one-*": [
-      { "x1": 0.1487, "y1": 0, "z1": 0.062, "x2": 0.844, "y2": 0.3333, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.3333, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
     ],
     "*-two-*": [
-      { "x1": 0.1487, "y1": 0, "z1": 0.062, "x2": 0.844, "y2": 0.6666, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.6666, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
     ],
     "*-three-*": [
-      { "x1": 0.1487, "y1": 0, "z1": 0.062, "x2": 0.844, "y2": 1, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 1, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
     ]
   },
   "selectionboxesByType": {
     "*-one-*": [
-      { "x1": 0.1487, "y1": 0, "z1": 0.062, "x2": 0.844, "y2": 0.3333, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
-      { "x1": 0.1487, "y1": 0.3333, "z1": 0.062, "x2": 0.844, "y2": 0.6666, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.3333, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
+      { "x1": 0.0746, "y1": 0.3333, "z1": 0.155,"x2": 0.938, "y2": 0.6666, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
     ],
     "*-two-*": [
-      { "x1": 0.1487, "y1": 0, "z1": 0.062, "x2": 0.844, "y2": 0.3333, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
-      { "x1": 0.1487, "y1": 0.3333, "z1": 0.062, "x2": 0.844, "y2": 0.6666, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
-      { "x1": 0.1487, "y1": 0.6666, "z1": 0.062, "x2": 0.844, "y2": 1, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.3333, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
+      { "x1": 0.0746, "y1": 0.3333, "z1": 0.155,"x2": 0.938, "y2": 0.6666, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
+      { "x1": 0.0746, "y1": 0.6666, "z1": 0.155,"x2": 0.938, "y2": 1, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
     ],
     "*-three-*": [
-      { "x1": 0.1487, "y1": 0, "z1": 0.062, "x2": 0.844, "y2": 0.3333, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
-      { "x1": 0.1487, "y1": 0.3333, "z1": 0.062, "x2": 0.844, "y2": 0.6666, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
-      { "x1": 0.1487, "y1": 0.6666, "z1": 0.062, "x2": 0.844, "y2": 1, "z2": 0.9254, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.3333, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
+      { "x1": 0.0746, "y1": 0.3333, "z1": 0.155,"x2": 0.938, "y2": 0.6666, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}},
+      { "x1": 0.0746, "y1": 0.6666, "z1": 0.155,"x2": 0.938, "y2": 1, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
     ]
   }
 }
+
+	

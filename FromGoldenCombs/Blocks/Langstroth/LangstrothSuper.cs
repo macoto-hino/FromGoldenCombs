@@ -22,7 +22,7 @@ namespace FromGoldenCombs.Blocks
         {
             ItemStack stack = base.OnPickBlock(world, pos);
 
-            BlockEntityDisplay bed = world.BlockAccessor.GetBlockEntity(pos) as BlockEntityDisplay;
+            BELangstrothSuper bed = world.BlockAccessor.GetBlockEntity(pos) as BELangstrothSuper;
             if (bed != null)
             {
                 SetContents(stack, bed.GetContentStacks());
