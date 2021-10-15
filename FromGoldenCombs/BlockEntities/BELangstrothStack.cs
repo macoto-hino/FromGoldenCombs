@@ -22,7 +22,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public BELangstrothStack()
         {
-            inv = new InventoryGeneric(3, "frameslot-0", null, null);
+            inv = new InventoryGeneric(3, "superslot-0", null, null);
             meshes = new MeshData[3];
         }
 
@@ -37,30 +37,58 @@ namespace FromGoldenCombs.BlockEntities
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isSuper = colObj?.Class == "langstrothsuper" && colObj.Variant["open"] == "closed";
-            BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
-            block.SetContents(new ItemStack(block), this.GetContentStacks());
-            ItemStack stack = new ItemStack(block);
+            //BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
+            //block.SetContents(new ItemStack(block), this.GetContentStacks());
+            //ItemStack stack = new ItemStack(block);
 
             if (slot.Empty && (int)slot.StorageType == 2)  
             {
                 if (TryTake(byPlayer, blockSel))
                 {
+                    UpdateStackSize();
                     return true;
                 }
             } else if (isSuper)
             {
                 if (TryPut(slot, blockSel))
                 {
+                    UpdateStackSize();
                     return true;
                 }
             }
             return false;
         }
 
+        private void UpdateStackSize()
+        {
+            int filledstacks = 0;
+            string stacksize;
+            for (int i = 0; i < inv.Count; i++)
+            {
+                if (!inv[i].Empty)
+                {
+                    filledstacks++;
+                }
+                System.Diagnostics.Debug.WriteLine(filledstacks);
+            }
+           
+            stacksize = filledstacks == 0 ? stacksize = "zero" : filledstacks == 1 ? stacksize = "one" : filledstacks == 2 ? stacksize = "two" : stacksize="three";
+            System.Diagnostics.Debug.WriteLine(stacksize);
+            if (stacksize != "zero")
+            {
+                Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-"+stacksize+"-"+this.block.Variant["side"])).BlockId,Pos);
+                MarkDirty();
+            } else
+            {
+                Api.World.BlockAccessor.SetBlock(0, Pos);
+            }
+        }
+
          private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)
         {
             int index = blockSel.SelectionBoxIndex;
-             if (!inv[index].Empty)
+            System.Diagnostics.Debug.WriteLine("Selected Index is :" + index);
+            if (!inv[index].Empty && (index==2 || inv[index+1].Empty))
             {
                 ItemStack stack = inv[index].TakeOut(1);
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
@@ -86,7 +114,6 @@ namespace FromGoldenCombs.BlockEntities
         {
             inv[0].Itemstack = first;
             inv[1].Itemstack = second;
-            inv[2].Itemstack = second;
             updateMeshes();
             MarkDirty(true);
             return true;
@@ -97,17 +124,13 @@ namespace FromGoldenCombs.BlockEntities
         {
             int index = blockSel.SelectionBoxIndex;
 
-            for (int i = 0; i < inv.Count; i++)
-            {
-                int slotnum = (index + i) % inv.Count;
-                if (inv[slotnum].Empty)
+                if (inv[index].Empty && (index==0 || !inv[index-1].Empty))
                 {
-                    int moved = slot.TryPutInto(Api.World, inv[slotnum]);
+                    inv[index].Itemstack = slot.Itemstack;
                     updateMeshes();
                     MarkDirty(true);
-                    return moved > 0;
+                    return true;
                 }
-            }
 
             return false;
         }
@@ -136,25 +159,23 @@ namespace FromGoldenCombs.BlockEntities
 
             ICoreClientAPI capi = Api as ICoreClientAPI;
             mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-
+            nowTesselatingItem = stack.Item;
+            nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Block.Shape.Base);
             mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
 
             float x = 0;
-            float y = 0;
+            float y = y = .3333f * index;
             float z = 0;
-
-                x = 0f;
-                y = .3333f * index;
-                z = 0f;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
-                    
+            Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
+            
+            mesh.Translate(offset.XYZ); 
             //ModelTransform transform = stack.Collectible.Attributes.AsObject<ModelTransform>();
             //transform.EnsureDefaultValues();
             //transform.Rotation.X = 0;
             //transform.Rotation.Y = block.Shape.rotateY;
             //transform.Rotation.Z = 0;
             //mesh.ModelTransform(transform);
+            
 
             return mesh;
         }
@@ -164,7 +185,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 base.GetBlockInfo(forPlayer, sb);
             } else { 
-                for (int i = 0; i < inv.Count; i++)
+                for (int i = inv.Count-1; i >= 0; i--)
                 {
                     ItemSlot slot = inv[i];
                     if (slot.Empty)

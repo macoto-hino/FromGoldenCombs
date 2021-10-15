@@ -14,11 +14,11 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-            ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
-            BELangstrothStack belangstrothsuper = (BELangstrothStack)world.BlockAccessor.GetBlockEntity(blockSel.Position);
-            if (belangstrothsuper != null) 
-                return belangstrothsuper.OnInteract(byPlayer, blockSel);
-
+            BELangstrothStack belangstrothstack = (BELangstrothStack)world.BlockAccessor.GetBlockEntity(blockSel.Position);
+            if (belangstrothstack != null)
+            {
+                return belangstrothstack.OnInteract(byPlayer, blockSel);
+            }
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
     }

@@ -92,7 +92,7 @@ namespace FromGoldenCombs.BlockEntities
                 string side = getSide(block);
                 ItemStack held = slot.Itemstack;
                 ItemStack super = block.OnPickBlock(Api.World, blockSel.Position);
-                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + getSide(block))).BlockId, blockSel.Position);
+                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-one-west")).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
                 lStack.InitializePut(super, held);
                 slot.TakeOutWhole();
@@ -140,7 +140,7 @@ namespace FromGoldenCombs.BlockEntities
         private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)
         {
             int index = blockSel.SelectionBoxIndex;
-
+            
             if (!inv[index].Empty)
             {
                 ItemStack stack = inv[index].TakeOut(1);
