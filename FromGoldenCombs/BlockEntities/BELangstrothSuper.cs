@@ -94,7 +94,7 @@ namespace FromGoldenCombs.BlockEntities
                 
                 //string side = GetSide(block);
                 ItemStack super = block.OnPickBlock(Api.World, blockSel.Position);
-                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-one-"+GetSide(block))).BlockId, blockSel.Position);
+                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-"+GetSide(block))).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
                 lStack.InitializePut(super, slot);
                 MarkDirty(true);

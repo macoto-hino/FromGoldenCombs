@@ -38,10 +38,11 @@ namespace FromGoldenCombs.BlockEntities
             
             if (slot.Empty && (int)slot.StorageType == 2)  
             {
+                
                 if (TryTake(byPlayer, blockSel))
                 {
                     UpdateStackSize();
-                    MarkDirty();
+                    MarkDirty(true);
                     return true;
                 }
             } else if (isSuper)
@@ -49,7 +50,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (TryPut(slot, blockSel))
                 {
                     UpdateStackSize();
-                    MarkDirty();
+                    MarkDirty(true);
                     return true;
                 }
             }
@@ -75,19 +76,20 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor
                     .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-"+stacksize+"-"+this.block.Variant["side"])).BlockId,Pos);
-                MarkDirty();
+                MarkDirty(true);
             } else
             {
                 Api.World.BlockAccessor.SetBlock(0, Pos);
             }
-            MarkDirty();
+            MarkDirty(true);
         }
 
          private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)
         {
             int index = blockSel.SelectionBoxIndex;
-            
-            if (!inv[index].Empty && (index==2 || inv[index+1].Empty))
+            System.Diagnostics.Debug.WriteLine(IsSuperAbove(blockSel.Position.Up()));
+            if (!inv[index].Empty && ((index == 2 && !IsSuperAbove(Pos.Up())) || (index<2 && inv[index+1].Empty)))
+            if (!inv[index].Empty && (index == 2 || inv[index + 1].Empty))
             {
                 ItemStack stack = inv[index].TakeOutWhole();
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
@@ -96,12 +98,17 @@ namespace FromGoldenCombs.BlockEntities
                     Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                 }
 
-                updateMeshes();
-                MarkDirty(true);
                 return true;
             }
 
             return false;
+        }
+
+        private bool IsSuperAbove(BlockPos pos)
+        {
+            
+            return Api.World.BlockAccessor.GetBlock(pos).BlockId != 0;
+        
         }
 
         public bool InitializePut(ItemStack first,ItemSlot slot)
