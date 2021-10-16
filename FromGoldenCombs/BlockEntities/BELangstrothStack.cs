@@ -88,7 +88,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             int index = blockSel.SelectionBoxIndex;
             System.Diagnostics.Debug.WriteLine(IsSuperAbove(blockSel.Position.Up()));
-            if (!inv[index].Empty && ((index == 2 && !IsSuperAbove(Pos.Up())) || (index<2 && inv[index+1].Empty)))
+            //if (!inv[index].Empty && ((index == 2 && !IsSuperAbove(Pos.Up())) || (index<2 && inv[index+1].Empty)))
             if (!inv[index].Empty && (index == 2 || inv[index + 1].Empty))
             {
                 ItemStack stack = inv[index].TakeOutWhole();
