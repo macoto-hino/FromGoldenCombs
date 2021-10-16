@@ -7,6 +7,7 @@ namespace FromGoldenCombs.Blocks
 {
     class LangstrothSuper : LangstrothCore
     {
+        
         public override void OnLoaded(ICoreAPI api)
         {
             base.OnLoaded(api);

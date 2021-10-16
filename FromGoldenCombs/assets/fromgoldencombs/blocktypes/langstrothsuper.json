@@ -10,7 +10,8 @@
     {
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }
-    }
+    },
+    { "name": "BreakIfFloating" }
   ],
   "variantgroups": [
     {
