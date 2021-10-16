@@ -1,14 +1,8 @@
 {
   "code": "langstrothstack",
-  //"class": "langstrothstack",
-  //"entityClass": "belangstrothstack",
+  "class": "langstrothstack",
+  "entityClass": "belangstrothstack",
   "maxstacksize": 1,
-  "behaviors": [
-    {
-      "name": "HorizontalOrientable",
-      "properties": { "dropBlockFace": "east" }
-    }
-  ],
   "variantgroups": [
     {
       "code": "stackheight",
@@ -20,10 +14,10 @@
     }
   ],
   "shapeByType": {
-    "*-north": { "base": "block/langstrothstack", "rotateY": 0},
-    "*-east": { "base": "block/langstrothstack", "rotateY": 270},
-    "*-south": { "base": "block/langstrothstack", "rotateY": 180},
-    "*-west": { "base": "block/langstrothstack", "rotateY": 90}
+    "*-north": { "base": "block/langstrothstack", "rotateY": 90},
+    "*-east": { "base": "block/langstrothstack", "rotateY": 0},
+    "*-south": { "base": "block/langstrothstack", "rotateY": 270},
+    "*-west": { "base": "block/langstrothstack", "rotateY": 180}
   },
   "creativeinventory": {
       "general": [ "*" ],
@@ -48,13 +42,13 @@
     "scale": 0.56 },
   "collisionboxesByType": {
     "*-one-*": [
-      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.3333, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.3333, "z2": 0.844, "rotateYByType": { "*-north": 90, "*-east": 0, "*-south": 270, "*-west": 180}}
     ],
     "*-two-*": [
-      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.6666, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 0.6666, "z2": 0.844, "rotateYByType": { "*-north": 90, "*-east": 0, "*-south": 270, "*-west": 180}}
     ],
     "*-three-*": [
-      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 1, "z2": 0.844, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west": 90}}
+      { "x1": 0.0746, "y1": 0, "z1": 0.155,"x2": 0.938, "y2": 1, "z2": 0.844, "rotateYByType": { "*-north": 90, "*-east": 0, "*-south": 270, "*-west": 180}}
     ]
   },
   "selectionboxesByType": {

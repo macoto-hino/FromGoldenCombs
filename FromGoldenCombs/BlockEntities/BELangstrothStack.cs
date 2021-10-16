@@ -73,7 +73,8 @@ namespace FromGoldenCombs.BlockEntities
             System.Diagnostics.Debug.WriteLine(stacksize);
             if (stacksize != "zero")
             {
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-"+stacksize+"-"+this.block.Variant["side"])).BlockId,Pos);
+                Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor
+                    .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-"+stacksize+"-"+this.block.Variant["side"])).BlockId,Pos);
                 MarkDirty();
             } else
             {
@@ -162,7 +163,7 @@ namespace FromGoldenCombs.BlockEntities
             float z = 0;
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             //This seems to work for rotating the actual appearance of the blocks in the itemslots.
-            //mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, block.Shape.rotateY * GameMath.DEG2RAD, 0f);
+            mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, block.Shape.rotateY * GameMath.DEG2RAD, 0f);
             mesh.Translate(offset.XYZ);           
 
             return mesh;
