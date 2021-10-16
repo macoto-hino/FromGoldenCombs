@@ -3,11 +3,11 @@
   "class": "rawclaypothive",
   "behaviors": [
     { "name": "GroundStorable" },
-    {
-      "name": "Unplaceable",
-      "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility"
-    },
-    { "name": "RightClickPickup" }
+      {
+        "name": "Unplaceable",
+        "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility"
+      },
+      { "name": "RightClickPickup" }
   ],
   "shape": { "base": "fromgoldencombs:block/rawclaypothive" },
   "combustibleProps": {

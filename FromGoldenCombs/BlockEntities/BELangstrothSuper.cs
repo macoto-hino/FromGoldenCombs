@@ -92,7 +92,6 @@ namespace FromGoldenCombs.BlockEntities
                         this.Block.Variant["open"]=="closed")
             {
                 
-                //string side = GetSide(block);
                 ItemStack super = block.OnPickBlock(Api.World, blockSel.Position);
                 Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-"+GetSide(block))).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(blockSel.Position);

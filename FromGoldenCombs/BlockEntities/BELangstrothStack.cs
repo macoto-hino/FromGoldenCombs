@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using FromGoldenCombs.Blocks;
+using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -30,16 +31,18 @@ namespace FromGoldenCombs.BlockEntities
             base.Initialize(api);
         }
 
-        internal bool OnInteract(IPlayer byPlayer, BlockSelection blockSel)
+        internal bool OnInteract(IPlayer byPlayer)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isSuper = colObj?.Class == "langstrothsuper" && colObj.Variant["open"] == "closed";
-            
-            if (slot.Empty && (int)slot.StorageType == 2)  
+            if ((int)slot.StorageType != 2) return false;
+
+            if (slot.Empty)   
             {
-                
-                if (TryTake(byPlayer, blockSel))
+                if (TryTake(byPlayer)) //Attempt to take a super from the topmost stack
+                                       //if there are multiple stacks on top of each other.
+                                       //Or from the topmost occupied slot of this stack.
                 {
                     UpdateStackSize();
                     MarkDirty(true);
@@ -47,13 +50,15 @@ namespace FromGoldenCombs.BlockEntities
                 }
             } else if (isSuper)
             {
-                if (TryPut(slot, blockSel))
+                if (TryPut(slot)) //Attempt to place super either in the current stack,
+                                            //any stacks above this, or as a new stack above the
+                                            //topmost stack if the block at that position is an air block.
                 {
                     UpdateStackSize();
                     MarkDirty(true);
-                    return true;
                 }
-            }
+                return true; //This prevents TryPlaceBlock from passing if TryPut fails.
+            } 
             return false;
         }
 
@@ -72,43 +77,79 @@ namespace FromGoldenCombs.BlockEntities
            
             stacksize = filledstacks == 0 ? "zero" : filledstacks == 1 ? "one" : filledstacks == 2 ? "two" : "three";
             System.Diagnostics.Debug.WriteLine(stacksize);
-            if (stacksize != "zero")
+            if (stacksize == "zero")
+            {
+
+                Api.World.BlockAccessor.SetBlock(0, Pos);
+
+            } 
+            ////else if (stacksize == "one")
+            //{
+            //    ItemStack stack = inv[0].TakeOutWhole();
+                
+            //    Api.World.BlockAccessor.SetBlock(0, Pos);
+            //    Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+
+            //} 
+            else
             {
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor
-                    .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-"+stacksize+"-"+this.block.Variant["side"])).BlockId,Pos);
+                    .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-" + stacksize + "-" + this.block.Variant["side"])).BlockId, Pos);
                 MarkDirty(true);
-            } else
-            {
-                Api.World.BlockAccessor.SetBlock(0, Pos);
             }
             MarkDirty(true);
         }
 
-         private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)
+         private bool TryTake(IPlayer byPlayer)
         {
-            int index = blockSel.SelectionBoxIndex;
-            System.Diagnostics.Debug.WriteLine(IsSuperAbove(blockSel.Position.Up()));
-            //if (!inv[index].Empty && ((index == 2 && !IsSuperAbove(Pos.Up())) || (index<2 && inv[index+1].Empty)))
-            if (!inv[index].Empty && (index == 2 || inv[index + 1].Empty))
-            {
-                ItemStack stack = inv[index].TakeOutWhole();
-                if (byPlayer.InventoryManager.TryGiveItemstack(stack))
-                {
-                    AssetLocation sound = stack.Block?.Sounds?.Place;
-                    Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
-                }
 
-                return true;
+            //TODO: Restructure code to take top super in any stack, or top index from top stack in a stack of stacks.
+            bool isSuccess = false;
+            int index = 0;
+
+            while (index < inv.Count - 1 && !inv[index+1].Empty ) //Cycle through indices until reach the top index,
+                                                                  //or topmost index with an empty slot over it
+            {
+                index++;
             }
 
-            return false;
-        }
+            bool isTopSlot = index==inv.Count-1; // Check to see if we're accessing the top slot
+            bool superAbove = IsSuperAbove(Pos.UpCopy());
+            bool airAbove = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air;
+            if (inv[index].Empty) return isSuccess;
 
-        private bool IsSuperAbove(BlockPos pos)
-        {
+            if (isTopSlot && (!airAbove && !superAbove) || inv[index].Empty) //If the block above isn't air, or another super, of if the target index is empty, fail.
+            {
+                return isSuccess;
+            }
             
-            return Api.World.BlockAccessor.GetBlock(pos).BlockId != 0;
-        
+            if (superAbove)
+            {
+                string blockName = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart();
+                if (blockName == "langstrothsuper")
+                {
+                   ItemStack super = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).OnPickBlock(Api.World, Pos.UpCopy());
+                   return byPlayer.InventoryManager.TryGiveItemstack(super);
+                } else if (blockName == "langstrothstack")
+                {
+                    BELangstrothStack BELangStack = Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack;
+                    return BELangStack.RetrieveSuper(byPlayer);
+                }
+                
+            }
+            else 
+            {
+                System.Diagnostics.Debug.WriteLine("Active index is:" + index);
+                if (byPlayer.InventoryManager.TryGiveItemstack(inv[index].TakeOutWhole()))
+                {
+                    isSuccess = true; //isSuccess only equals true ONLY if the above if passes. All other cases its false.
+                    //AssetLocation sound = stack.Block?.Sounds?.Place;
+                    //Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
+                    MarkDirty(true);
+                }
+            }
+            UpdateStackSize();
+            return isSuccess;
         }
 
         public bool InitializePut(ItemStack first,ItemSlot slot)
@@ -122,21 +163,82 @@ namespace FromGoldenCombs.BlockEntities
             
         }
 
-        private bool TryPut(ItemSlot slot, BlockSelection blockSel)
+        private bool TryPut(ItemSlot slot)
         {
-            int index = blockSel.SelectionBoxIndex;
+            int index = 0;
 
-                if (inv[index].Empty && (index==0 || !inv[index-1].Empty))
+            while (index < inv.Count - 1 && !inv[index].Empty) //Cycle through indices until reach an empty index, or the top index
+            {
+                index++;
+            }
+            if (inv[index].Empty) //If the new target index is empty, place a super
+            {
+                inv[index].Itemstack = slot.TakeOutWhole();
+                updateMeshes();
+                MarkDirty(true);
+                return true;
+                System.Diagnostics.Debug.WriteLine(Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart());
+            }
+            else if (IsSuperAbove(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
+            {
+                
+                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart() == "langstrothstack") //If It's a SuperStack, Send Super To Next Stack
                 {
-                    inv[index].Itemstack = slot.TakeOutWhole();
-                    updateMeshes();
-                    MarkDirty(true);
-                    return true;
+                    (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).ReceiveSuper(slot); 
                 }
-
-            return false;
+                else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart() == "langstrothsuper") //If It's a Super, create a new SuperStack
+                {
+                    System.Diagnostics.Debug.WriteLine("Checkpoint Charlie Reached");
+                    ItemStack super = block.OnPickBlock(Api.World, Pos.UpCopy());
+                    Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(block))).BlockId, Pos.UpCopy());
+                    BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
+                    lStack.InitializePut(super, slot);
+                    MarkDirty(true);
+                }
+            }
+            else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air)
+            {
+                System.Diagnostics.Debug.WriteLine("Checkpoint Delta Reached");
+                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-one-" + GetSide(block))).BlockId, Pos.UpCopy());
+                TryPut(slot);
+            }
+            UpdateStackSize();
+            return true;
         }
 
+        public void ReceiveSuper(ItemSlot slot)
+        {
+            TryPut(slot);
+
+        }
+
+        public bool RetrieveSuper(IPlayer byPlayer)
+        {
+            return TryTake(byPlayer);
+        }
+
+        private string GetSide(Block block)
+        {
+            return Api.World.BlockAccessor.GetBlock(block.BlockId).Variant["side"].ToString();
+        }
+        private bool IsSuperAbove(BlockPos pos)
+        {
+            string aboveBlockName = Api.World.BlockAccessor.GetBlock(pos).FirstCodePart();
+
+            return (aboveBlockName == "langstrothsuper"
+                 || aboveBlockName == "langstrothstack");
+        }
+
+
+
+
+
+
+
+
+
+
+        //Rendering Processes
         readonly Matrixf mat = new();
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
