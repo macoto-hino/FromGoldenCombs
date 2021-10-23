@@ -45,6 +45,8 @@
 	<Compile Remove="Blocks\BlockClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockHiveTop.cs" />
 	<Compile Remove="Blocks\BlockRawClaypotHive .cs" />
+	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbase.json" />
+	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbrood.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothstack.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothsuper.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\beeframe.json" />

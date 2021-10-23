@@ -162,7 +162,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (Api?.World != null)
                 {
                 harvestableAtTotalHours = Api.World.Calendar.TotalHours + getHarvestTime();
-            }
+                }
             }
 
 
@@ -504,7 +504,7 @@ namespace FromGoldenCombs.BlockEntities
             //if (Api.World.Calendar.GetSeason(Pos) != EnumSeason.Spring)
             //{
             //    str += "\n" + Lang.Get("fromgoldencombs:hivewrongseason");
-        //    } else 
+            //} else 
             if (skepToPop != null && Api.World.Calendar.TotalHours > cooldownUntilTotalHours)
                 {
                     double inhours = beginPopStartTotalHours + popHiveAfterHours - Api.World.Calendar.TotalHours;

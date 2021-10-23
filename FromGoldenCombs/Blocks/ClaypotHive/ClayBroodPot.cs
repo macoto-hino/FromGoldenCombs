@@ -21,6 +21,7 @@ namespace FromGoldenCombs.Blocks
 
             if (bebeehive != null && bebeehive is BEClayBroodPot)
             {
+                //If there's a block entity at this pos, and its a BEClayBroodPot
                 bebeehive.BlockInteract(world, byPlayer, blockSel, this);
                 
             } else if (byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null 
@@ -28,6 +29,8 @@ namespace FromGoldenCombs.Blocks
                 && (int)byPlayer.InventoryManager.ActiveHotbarSlot.StorageType == 2 
                 && byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(this)))
             {
+                //If the players hand is empty, and there's no top on the hive, and the open slot is a bagslot... Try to take the pot.
+
                 world.BlockAccessor.SetBlock(0, blockSel.Position);
                 world.PlaySoundAt(new AssetLocation("sounds/block/planks"), blockSel.Position.X + 0.5, blockSel.Position.Y, blockSel.Position.Z + 0.5, byPlayer, false);
             }
@@ -35,15 +38,20 @@ namespace FromGoldenCombs.Blocks
                        && this.Variant["populated"] == "empty"
                        && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null)
             {
+                //If the variant has a top, and no colony in the pot, and the players hand is empty. Remove the top and give to the player.
+
                 world.BlockAccessor.ExchangeBlock(emptyNoPot.BlockId, blockSel.Position);
                 byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack = new ItemStack(emptyTop, 1);
 
             } else if (byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack != null)
             {
+                //Otherwise, if the players hand is NOT empty
                 if (byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*"))
                     && Variant["populated"] == "empty"
                     && Variant["top"] == "notop")
                 {
+                    //TODO: Combine these else If statements and find a cleaner way to change its state. 
+                    //And they're holding a skep, and the pot has no colony in it, and it has no top.  Populate hive.
                     world.BlockAccessor.SetBlock(liveNoPot.BlockId, blockSel.Position);
                     byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
 
@@ -52,6 +60,8 @@ namespace FromGoldenCombs.Blocks
                   && Variant["populated"] == "empty"
                   && Variant["top"] == "withtop")
                 {
+                    //TODO: Combine these else If statements and find a cleaner way to change its state. 
+                    //And they're holding a skep, and the pot has no colony in it, and it has a top.  Populate hive.
                     world.BlockAccessor.SetBlock(livePot.BlockId, blockSel.Position);
                     byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
 
@@ -60,6 +70,7 @@ namespace FromGoldenCombs.Blocks
                     && this.Variant["populated"] == "empty"
                     && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.Code.ToString() == "fromgoldencombs:hivetop-empty")
                 {
+                    //TODO: Combine these else If statements and find a cleaner way to change its state. 
                     //add pot, retain empty status
                     world.BlockAccessor.ExchangeBlock(emptyPot.BlockId, blockSel.Position);
                     byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
@@ -74,6 +85,7 @@ namespace FromGoldenCombs.Blocks
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
         {
+            //If the hive is broken, and is populated, potentially spawn bee mob.
             if (this.Variant["populated"] == "populated" 
                 && world.Rand.NextDouble() < 0.4)
             {
@@ -98,6 +110,7 @@ namespace FromGoldenCombs.Blocks
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {
+            //Information about world interaction
             return new WorldInteraction[]
             {
                 new WorldInteraction()

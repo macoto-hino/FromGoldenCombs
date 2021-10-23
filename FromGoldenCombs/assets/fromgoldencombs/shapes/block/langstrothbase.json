@@ -17,7 +17,8 @@
 			"name": "Base",
 			"from": [ 3.0, 4.5, 4.0 ], 
 			"to": [ 13.0, 6.0, 12.0 ], 
-			"rotationOrigin": [ 9.0, 4.5, 9.0 ],
+			"rotationOrigin": [ 8.0, 8.0, 8.0 ],
+			"rotationY": 180.0,
 			"faces": {
 				"north": { "texture": "#birch1", "uv": [ 0.0, 0.0, 10.0, 1.5 ] },
 				"east": { "texture": "#birch1", "uv": [ 0.0, 0.0, 8.0, 1.5 ] },

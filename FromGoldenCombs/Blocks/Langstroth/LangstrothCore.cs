@@ -9,6 +9,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
 {
     class LangstrothCore : BlockContainer
     {
+        //Enable selectionbox interaction
         public override bool DoParticalSelection(IWorldAccessor world, BlockPos pos)
         {
             return true;

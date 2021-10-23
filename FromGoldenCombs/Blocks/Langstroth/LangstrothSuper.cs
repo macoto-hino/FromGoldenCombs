@@ -13,7 +13,8 @@ namespace FromGoldenCombs.Blocks
             base.OnLoaded(api);
             // Todo: Add interaction help
         }
-
+        
+        //Picks up block while retaining its contents
         public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
         {
             ItemStack stack = base.OnPickBlock(world, pos);

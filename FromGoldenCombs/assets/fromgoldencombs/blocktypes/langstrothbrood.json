@@ -1,0 +1,80 @@
+{
+  "code": "langstrothbrood",
+  "class": "langstrothbrood",
+  //"entityClass": "belangstrothstack",
+  "storageFlags": 2,
+  "maxstacksize": 1,
+  "behaviors": [{
+        "name": "HorizontalOrientable",
+        "properties": { "dropBlockFace": "east" }
+    },
+    { "name": "BreakIfFloating" }
+  ],
+  "heldTpIdleAnimation": "holdbothhandslarge",
+  "heldTpUseAnimation": "twohandplaceblock",
+  "variantgroups": [ 
+    {
+      "code": "side",
+      "loadFromProperties": "abstract/horizontalorientation"
+    }
+  ],
+  "shapeByType": {
+  "*-north": {
+     "base": "block/langstrothbrood",
+     "rotateY": 0
+     },
+     "*-east": {
+     "base": "block/langstrothbrood",
+     "rotateY": 270
+     },
+     "*-south": {
+        "base": "block/langstrothbrood",
+        "rotateY": 180
+     },
+     "*-west": {
+     "base": "block/langstrothbrood",
+     "rotateY": 90
+     }
+  },
+  "creativeinventory": {
+      "general": [ "*-east" ],
+      "flora": [ "*-east" ],
+      "decorative": [ "*-east" ]
+    },
+  "lightAbsorption": 0,
+  "sideopaque": { "all": false },
+  "sidesolid": { "all": false },
+  "blockmaterial": "Ceramic",
+  "sounds": {
+      "place": "game:block/planks"
+    },
+  "groundTransform": {
+      "scale": 4
+    },
+  	fpHandTransform: {
+		translation: { x: 0, y: 0.65, z: 0 },
+		rotation: { x: 26, y: -46, z: -2 },
+		origin: { x: 1.7, y: 0.1, z: 0.3 },
+		scale: 3.04
+	},
+  	fpHandTransform: {
+		translation: { x: 0, y: 0.85, z: 0 },
+		rotation: { x: 26, y: -136, z: -1 },
+		origin: { x: 0.1, y: 0.2, z: -0.1 },
+		scale: 3.04
+	},
+
+  "collisionboxesByType": {
+      "*": [
+        { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, rotateYByType: { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
+      ]
+    },
+  "selectionboxesByType": {
+      "*": [
+        { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, rotateYByType: { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}
+        ]
+    }
+
+}
+
+	

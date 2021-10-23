@@ -23,7 +23,8 @@
   "blockhelp-rawclaypothive": "Place in pitkiln to fire.",
 
   "block-langstrothsuper-*": "Hive Super",
-
+  "block-langstrothstack-*": "Stack of Langstroth Supers",
+  "block-langstrothbrood-*": "Langstroth Brood Box",
 
   //Items
   "item-beeframe-empty": "Empty Beeframe",

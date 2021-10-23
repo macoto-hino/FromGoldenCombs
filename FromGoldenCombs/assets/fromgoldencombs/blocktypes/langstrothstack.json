@@ -2,7 +2,8 @@
   "code": "langstrothstack",
   "class": "langstrothstack",
   "entityClass": "belangstrothstack",
-  "behaviors": [ { "name": "BreakIfFloating" } ],
+  "behaviors": [ { "name": "BreakIfFloating" }, 
+                 { name: "Carryable"} ],
   "maxstacksize": 1,
   "variantgroups": [
     {
@@ -31,11 +32,6 @@
       "base": "block/langstrothstack",
       "rotateY": 180
     }
-  },
-  "creativeinventory": {
-    "general": [ "*" ],
-    "flora": [ "*" ],
-    "decorative": [ "*" ]
   },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
