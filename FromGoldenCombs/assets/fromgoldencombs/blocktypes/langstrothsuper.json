@@ -14,15 +14,15 @@
     { "name": "BreakIfFloating" }
   ],
   "variantgroups": [
-    {
-      "code": "open",
-      "states": [ "open", "closed" ]
-      },
-    {
-      "code": "side",
-      "loadFromProperties": "abstract/horizontalorientation"
-    }
+    { "code": "open", "states": [ "open", "closed" ] },
+    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
+  "textures": {		
+			"accent": { base: "game:block/wood/debarked/{wood}" },
+      "primary": { base: "game:block/wood/debarked/{wood}" }
+	},
   "shapeByType": {
   "*-north": {
      "base": "block/langstrothsuper-{open}",
@@ -42,9 +42,8 @@
      }
   },
   "creativeinventory": {
-      "general": [ "*-east" ],
-      "flora": [ "*-east" ],
-      "decorative": [ "*-east" ]
+      "general": [ "*-closed-maple-birch-east" ],
+      "decorative": [  "*closed-*-*-east" ]
     },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
