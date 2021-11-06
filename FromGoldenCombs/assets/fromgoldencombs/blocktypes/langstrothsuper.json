@@ -7,21 +7,18 @@
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "behaviors": [
-    {
-        "name": "HorizontalOrientable",
-        "properties": { "dropBlockFace": "east" }
-    },
+    { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
     { "name": "BreakIfFloating" }
   ],
   "variantgroups": [
     { "code": "open", "states": [ "open", "closed" ] },
-    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
   "textures": {		
-			"accent": { base: "game:block/wood/debarked/{wood}" },
-      "primary": { base: "game:block/wood/debarked/{wood}" }
+      "primary": { base: "game:block/wood/debarked/{primary}" },
+			"accent": { base: "game:block/wood/debarked/{accent}" }
 	},
   "shapeByType": {
   "*-north": {

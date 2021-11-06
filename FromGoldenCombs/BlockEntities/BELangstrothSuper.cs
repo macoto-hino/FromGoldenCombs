@@ -101,14 +101,13 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (this.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
             {
-                
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothsuper-closed-"+ GetSide(block))).BlockId, blockSel.Position);
+                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
                 MarkDirty(true);
                 return true;
             }
             else if (this.Block.Variant["open"] == "closed")
             {
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothsuper-open-"+ GetSide(block))).BlockId, blockSel.Position);
+                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open","open")).BlockId, blockSel.Position);
                 MarkDirty(true);
                 return true;
             }

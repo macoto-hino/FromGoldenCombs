@@ -3,8 +3,14 @@
   "class": "langstrothframe",
   "maxstacksize": 10,
   "variantgroups": [
+    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "harvestable", "states": [ "empty", "harvestable" ]}
   ],
+  "textures": {		
+			"accent": { base: "game:block/wood/debarked/{accent}" },
+      "primary": { base: "game:block/wood/debarked/{primary}" }
+	},
   "shape": { "base": "item/beeframe-{harvestable}" },
   "attributes": {
     "beeframe": true
