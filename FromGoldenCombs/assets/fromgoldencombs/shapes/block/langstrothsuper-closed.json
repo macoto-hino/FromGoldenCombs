@@ -34,7 +34,7 @@
 					"rotationOrigin": [ 5.0, 23.0, 4.0 ],
 					"rotationZ": -1.3660367819322412E-5,
 					"faces": {
-						"north": { "texture": "#aged1", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
+						"north": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
 						"east": { "texture": "#primary", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
 						"south": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
 						"west": { "texture": "#primary", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
