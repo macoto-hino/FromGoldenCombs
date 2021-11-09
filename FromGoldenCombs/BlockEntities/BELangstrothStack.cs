@@ -171,6 +171,8 @@ namespace FromGoldenCombs.BlockEntities
             {
                 index++;
             }
+            //TODO: Add check to determine if the index under the current one is a brood box, and fail TryPut() if it is.
+
             if (inv[index].Empty) //If the new target index is empty, place a super
             {
                 inv[index].Itemstack = slot.TakeOutWhole();
@@ -188,8 +190,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart() == "langstrothsuper") //If It's a Super, create a new SuperStack
                 {
-                    System.Diagnostics.Debug.WriteLine("Checkpoint Charlie Reached");
-                    ItemStack super = block.OnPickBlock(Api.World, Pos.UpCopy());
+                                 ItemStack super = block.OnPickBlock(Api.World, Pos.UpCopy());
                     Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(block))).BlockId, Pos.UpCopy());
                     BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
                     lStack.InitializePut(super, slot);
@@ -198,7 +199,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air)
             {
-                System.Diagnostics.Debug.WriteLine("Checkpoint Delta Reached");
                 Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-one-" + GetSide(block))).BlockId, Pos.UpCopy());
                 TryPut(slot);
             }
