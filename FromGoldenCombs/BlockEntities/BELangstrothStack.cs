@@ -38,7 +38,7 @@ namespace FromGoldenCombs.BlockEntities
             bool isSuper = colObj?.Class == "langstrothsuper" && colObj.Variant["open"] == "closed";
             if ((int)slot.StorageType != 2) return false;
 
-            if (slot.Empty)   
+            if (slot.Empty)
             {
                 if (TryTake(byPlayer)) //Attempt to take a super from the topmost stack
                                        //if there are multiple stacks on top of each other.
@@ -48,17 +48,18 @@ namespace FromGoldenCombs.BlockEntities
                     MarkDirty(true);
                     return true;
                 }
-            } else if (isSuper)
+            }
+            else if (isSuper)
             {
                 if (TryPut(slot)) //Attempt to place super either in the current stack,
-                                            //any stacks above this, or as a new stack above the
-                                            //topmost stack if the block at that position is an air block.
+                                  //any stacks above this, or as a new stack above the
+                                  //topmost stack if the block at that position is an air block.
                 {
                     UpdateStackSize();
                     MarkDirty(true);
                 }
                 return true; //This prevents TryPlaceBlock from passing if TryPut fails.
-            } 
+            }
             return false;
         }
 
@@ -74,7 +75,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 System.Diagnostics.Debug.WriteLine(filledstacks);
             }
-           
+
             stacksize = filledstacks == 0 ? "zero" : filledstacks == 1 ? "one" : filledstacks == 2 ? "two" : "three";
             System.Diagnostics.Debug.WriteLine(stacksize);
             if (stacksize == "zero")
@@ -82,15 +83,14 @@ namespace FromGoldenCombs.BlockEntities
 
                 Api.World.BlockAccessor.SetBlock(0, Pos);
 
-            } 
-            ////else if (stacksize == "one")
-            //{
-            //    ItemStack stack = inv[0].TakeOutWhole();
-                
-            //    Api.World.BlockAccessor.SetBlock(0, Pos);
-            //    Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+            }
+            else if (stacksize == "one")
+            {
+                ItemStack stack = inv[0].TakeOutWhole();
 
-            //} 
+                Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(stack.Block.CodeWithVariant("side", this.block.Variant["side"])).BlockId, Pos, stack);
+
+            }
             else
             {
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor
@@ -100,20 +100,20 @@ namespace FromGoldenCombs.BlockEntities
             MarkDirty(true);
         }
 
-         private bool TryTake(IPlayer byPlayer)
+        private bool TryTake(IPlayer byPlayer)
         {
 
             //TODO: Restructure code to take top super in any stack, or top index from top stack in a stack of stacks.
             bool isSuccess = false;
             int index = 0;
 
-            while (index < inv.Count - 1 && !inv[index+1].Empty ) //Cycle through indices until reach the top index,
-                                                                  //or topmost index with an empty slot over it
+            while (index < inv.Count - 1 && !inv[index + 1].Empty) //Cycle through indices until reach the top index,
+                                                                   //or topmost index with an empty slot over it
             {
                 index++;
             }
 
-            bool isTopSlot = index==inv.Count-1; // Check to see if we're accessing the top slot
+            bool isTopSlot = index == inv.Count - 1; // Check to see if we're accessing the top slot
             bool superAbove = IsSuperAbove(Pos.UpCopy());
             bool airAbove = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air;
             if (inv[index].Empty) return isSuccess;
@@ -122,22 +122,23 @@ namespace FromGoldenCombs.BlockEntities
             {
                 return isSuccess;
             }
-            
+
             if (superAbove)
             {
                 string blockName = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart();
                 if (blockName == "langstrothsuper")
                 {
-                   ItemStack super = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).OnPickBlock(Api.World, Pos.UpCopy());
-                   return byPlayer.InventoryManager.TryGiveItemstack(super);
-                } else if (blockName == "langstrothstack")
+                    ItemStack super = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).OnPickBlock(Api.World, Pos.UpCopy());
+                    return byPlayer.InventoryManager.TryGiveItemstack(super);
+                }
+                else if (blockName == "langstrothstack")
                 {
                     BELangstrothStack BELangStack = Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack;
                     return BELangStack.RetrieveSuper(byPlayer);
                 }
-                
+
             }
-            else 
+            else
             {
                 System.Diagnostics.Debug.WriteLine("Active index is:" + index);
                 if (byPlayer.InventoryManager.TryGiveItemstack(inv[index].TakeOutWhole()))
@@ -148,11 +149,11 @@ namespace FromGoldenCombs.BlockEntities
                     MarkDirty(true);
                 }
             }
-            UpdateStackSize();
+            //UpdateStackSize();
             return isSuccess;
         }
 
-        public bool InitializePut(ItemStack first,ItemSlot slot)
+        public bool InitializePut(ItemStack first, ItemSlot slot)
         {
             inv[0].Itemstack = first;
             inv[1].Itemstack = slot.TakeOutWhole();
@@ -160,7 +161,7 @@ namespace FromGoldenCombs.BlockEntities
             updateMeshes();
             MarkDirty(true);
             return true;
-            
+
         }
 
         private bool TryPut(ItemSlot slot)
@@ -183,14 +184,14 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (IsSuperAbove(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
             {
-                
+
                 if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart() == "langstrothstack") //If It's a SuperStack, Send Super To Next Stack
                 {
-                    (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).ReceiveSuper(slot); 
+                    (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).ReceiveSuper(slot);
                 }
                 else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).FirstCodePart() == "langstrothsuper") //If It's a Super, create a new SuperStack
                 {
-                                 ItemStack super = block.OnPickBlock(Api.World, Pos.UpCopy());
+                    ItemStack super = block.OnPickBlock(Api.World, Pos.UpCopy());
                     Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(block))).BlockId, Pos.UpCopy());
                     BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
                     lStack.InitializePut(super, slot);
@@ -273,7 +274,7 @@ namespace FromGoldenCombs.BlockEntities
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             //This seems to work for rotating the actual appearance of the blocks in the itemslots.
             mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, block.Shape.rotateY * GameMath.DEG2RAD, 0f);
-            mesh.Translate(offset.XYZ);           
+            mesh.Translate(offset.XYZ);
 
             return mesh;
         }
@@ -283,8 +284,10 @@ namespace FromGoldenCombs.BlockEntities
             if (forPlayer.CurrentBlockSelection == null)
             {
                 base.GetBlockInfo(forPlayer, sb);
-            } else { 
-                for (int i = inv.Count-1; i >= 0; i--)
+            }
+            else
+            {
+                for (int i = inv.Count - 1; i >= 0; i--)
                 {
                     ItemSlot slot = inv[i];
                     if (slot.Empty)
