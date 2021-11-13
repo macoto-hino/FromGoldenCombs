@@ -8,7 +8,7 @@
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }
     },
-    { "name": "BreakIfFloating" }
+    { "name": "Unstable" }
   ],
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",

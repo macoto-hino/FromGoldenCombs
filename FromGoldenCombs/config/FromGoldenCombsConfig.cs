@@ -17,12 +17,14 @@ namespace FromGoldenCombs.config
 
         public static FromGoldenCombsConfig Current { get; set; }
 
-        public static FromGoldenCombsConfig getDefault()
+        public static FromGoldenCombsConfig GetDefault()
         {
-            FromGoldenCombsConfig defaultConfig = new FromGoldenCombsConfig();
+            FromGoldenCombsConfig defaultConfig = new();
 
-            defaultConfig.hiveHoursToHarvest = 120;
-            defaultConfig.clayPotHiveHoursToHarvest = 120;
+            //Set to 120 before launch
+            defaultConfig.hiveHoursToHarvest = 1;
+            //Set to 120 before launch
+            defaultConfig.clayPotHiveHoursToHarvest = 1;
             //defaultConfig.HiveSeasons = 
             return defaultConfig;
         }

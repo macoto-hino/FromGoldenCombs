@@ -85,42 +85,19 @@ namespace FromGoldenCombs.BlockEntities
                 MarkDirty(true);
                 return true;        
             }
-            //TODO: Remove This Code once transferring to LangstrothCore
-            //else if (   !slot.Empty && 
-            //            slot.Itemstack.Block is LangstrothSuper &&
-            //            slot.Itemstack.Collectible.Variant["open"]  == "closed" &&
-            //            this.Block.Variant["open"]=="closed")
-            //{
-                
-            //    ItemStack super = block.OnPickBlock(Api.World, blockSel.Position);
-            //    Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-"+GetSide(block))).BlockId, blockSel.Position);
-            //    BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
-            //    lStack.InitializePut(super, slot);
-            //    MarkDirty(true);
-            //    return true;
-            //}
             else if (this.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
             {
-                //TODO: Try following variation to change block state
-                //this.Block.Variant["open"] = "closed";
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
                 MarkDirty(true);
                 return true;
             }
             else if (this.Block.Variant["open"] == "closed")
-            {
-                //TODO: Try following variation to change block state
-                //this.Block.Variant["open"] = "open";
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open","open")).BlockId, blockSel.Position);
+            { 
+                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
                 MarkDirty(true);
                 return true;
             }
             return false;
-        }
-
-        private string GetSide(Block block)
-        {
-            return Api.World.BlockAccessor.GetBlock(block.BlockId).Variant["side"].ToString();
         }
 
         private bool TryPut(ItemSlot slot, BlockSelection blockSel)
@@ -240,10 +217,10 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (this.Block.Variant["open"] == "closed")
             {
+                sb.AppendLine(Lang.Get("fromgoldencombs:getmaterials", this.Block.Variant["primary"].ToString().UcFirst(), this.Block.Variant["accent"].ToString().UcFirst()));
                 return;
             } else if (index == 10)
             {
-
                 for (int i = 0; i < 10; i++)
                 {
                     ItemSlot slot = inv[i];

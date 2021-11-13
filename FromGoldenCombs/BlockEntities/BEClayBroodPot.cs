@@ -146,13 +146,13 @@ namespace FromGoldenCombs.BlockEntities
             if (temp <= -10)
             {
                 //TODO: Readdress harvestAtTotalHours math to ensure it works for all ranges of growth time.
-                harvestableAtTotalHours = worldTime + harvestableTime(harvestBase);
+                harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
             }
 
             if(!Harvestable && harvestableAtTotalHours==0 && hivePopSize > EnumHivePopSize.Poor && hive.Variant["top"] == "withtop")
             {
-                harvestableAtTotalHours = worldTime + harvestableTime(harvestBase);
+                harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
             }
             else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor && hive.Variant["top"] == "withtop")
             {
@@ -162,7 +162,7 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        private double harvestableTime(int i)
+        private double HarvestableTime(int i)
         {
             Random rand = new();
             return (i * .75) + ((i * .5) * rand.NextDouble());

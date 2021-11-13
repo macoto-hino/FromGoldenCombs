@@ -19,7 +19,7 @@ namespace FromGoldenCombs.Blocks
             Block emptyPot = world.GetBlock(new AssetLocation("fromgoldencombs", "claypothive-empty-none-withtop"));
             Block emptyTop = world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"));
 
-            if (bebeehive != null && bebeehive is BEClayBroodPot)
+            if (bebeehive is BEClayBroodPot)
             {
                 //If there's a block entity at this pos, and its a BEClayBroodPot
                 bebeehive.BlockInteract(world, byPlayer, blockSel, this);

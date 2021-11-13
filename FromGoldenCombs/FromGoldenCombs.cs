@@ -52,12 +52,12 @@ namespace FromGoldenCombs
                 else
                 {
                     api.Logger.Notification("No Mod Config specified. Falling back to default settings");
-                    FromGoldenCombsConfig.Current = FromGoldenCombsConfig.getDefault();
+                    FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
                 }
             }
             catch
             {
-                FromGoldenCombsConfig.Current = FromGoldenCombsConfig.getDefault();
+                FromGoldenCombsConfig.Current = FromGoldenCombsConfig.GetDefault();
                 api.Logger.Error("Failed to load custom mod configuration. Falling back to default settings!");
             }
             finally

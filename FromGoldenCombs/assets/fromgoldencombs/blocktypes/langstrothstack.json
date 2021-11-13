@@ -2,8 +2,6 @@
   "code": "langstrothstack",
   "class": "langstrothstack",
   "entityClass": "belangstrothstack",
-  "behaviors": [ { "name": "BreakIfFloating" }, 
-                 { name: "Carryable"} ],
   "maxstacksize": 1,
   "variantgroups": [
     {
@@ -15,6 +13,11 @@
       "loadFromProperties": "abstract/horizontalorientation"
     }
   ],
+  "behaviors": [{ name: "Unstable", properties: { attachmentArea: { x1: 0, y1: 0, z1: 0, x2: 16, y2: 0, z2: 16 } }}],
+   "attributes": {
+    "drop": {"*": false},
+    "drops": []
+  }, 
   "shapeByType": {
     "*-north": {
       "base": "block/langstrothstack",

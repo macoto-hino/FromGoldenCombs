@@ -1,4 +1,5 @@
 ﻿using FromGoldenCombs.BlockEntities;
+using System.Collections.Generic;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
@@ -17,7 +18,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
         {
 
             BELangstrothStack belangstrothstack = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BELangstrothStack;
-            if (belangstrothstack != null) return belangstrothstack.OnInteract(byPlayer);
+            if (belangstrothstack is BELangstrothStack) return belangstrothstack.OnInteract(byPlayer);
             
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }

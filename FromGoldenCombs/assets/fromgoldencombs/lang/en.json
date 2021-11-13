@@ -19,16 +19,18 @@
   "block-hivetop-raw": "Raw Clay Hive Top",
   "block-hivetop-empty": "Clay Hive Top",
   "block-hivetop-harvestable": "Clay Hive Top",
+  "blockhelp-hivetop-raw": "Place in pitkiln to fire.",
   "block-rawclaypothive": "Raw Claypot Hive",
   "blockhelp-rawclaypothive": "Place in pitkiln to fire.",
 
   "block-langstrothsuper-*": "Hive Super",
-  "block-langstrothstack-*": "Stack of Langstroth Supers",
+  "block-langstrothstack-*": "Langstroth Stack",
   "block-langstrothbrood-*": "Langstroth Brood Box",
-
+  "getmaterials": "Constructed from {0} and {1}",
   //Items
-  "item-beeframe-empty": "Empty Beeframe",
-  "item-beeframe-harvestable": "Full Beeframe",
+  "item-beeframe-empty": "Empty Frame",
+  "item-beeframe-lined": "Lined Frame",
+  "item-beeframe-harvestable": "Full Frame",
 
   //Guide Info
   "fromgoldencombsguide-title": "From Golden Combs - Guide To New Hives",

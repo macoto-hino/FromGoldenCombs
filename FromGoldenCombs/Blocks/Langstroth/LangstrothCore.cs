@@ -28,14 +28,12 @@ namespace FromGoldenCombs.Blocks.Langstroth
                 new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.LastCodePart())).BlockId, blockSel.Position);
                 BELangstrothStack lStack = (BELangstrothStack)api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
                 lStack.InitializePut(super, slot);
-                return true;
             }
-            return base.OnBlockInteractStart(world, byPlayer, blockSel);
+            return true;
         }
-
         public bool IsValidLangstroth(Block block)
         {
-            if (block is LangstrothCore)
+            if (block is LangstrothCore && !(block is LangstrothBrood))
             {
                 return true;
             }

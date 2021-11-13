@@ -6,9 +6,9 @@
   "maxstacksize": 1,
   "behaviors": [{
         "name": "HorizontalOrientable",
-        "properties": { "dropBlockFace": "east" }
+        "properties": { "dropBlockFace": "east" },
     },
-    { "name": "BreakIfFloating" }
+    { "name": "Unstable" }
   ],
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",

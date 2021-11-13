@@ -20,7 +20,7 @@ namespace FromGoldenCombs.Blocks
             ItemStack stack = base.OnPickBlock(world, pos);
 
             BELangstrothSuper bed = world.BlockAccessor.GetBlockEntity(pos) as BELangstrothSuper;
-            if (bed != null)
+            if (bed is BELangstrothSuper)
             {
                 SetContents(stack, bed.GetContentStacks());
             }
@@ -30,10 +30,10 @@ namespace FromGoldenCombs.Blocks
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-            if (!(byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Block is LangstrothCore))
+            if (!(byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack?.Block is LangstrothCore))
             {
                 BELangstrothSuper belangstrothsuper = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BELangstrothSuper;
-                if (belangstrothsuper != null) return belangstrothsuper.OnInteract(byPlayer, blockSel);
+                if (belangstrothsuper is BELangstrothSuper) return belangstrothsuper.OnInteract(byPlayer, blockSel);
             }
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }

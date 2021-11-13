@@ -8,7 +8,7 @@
   "heldTpUseAnimation": "twohandplaceblock",
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
-    { "name": "BreakIfFloating" }
+    { "name": "Unstable" }
   ],
   "variantgroups": [
     { "code": "open", "states": [ "open", "closed" ] },
