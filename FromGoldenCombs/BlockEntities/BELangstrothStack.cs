@@ -1,9 +1,13 @@
 ﻿using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
+using FromGoldenCombs.config;
+using System;
 using System.Text;
+using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
@@ -12,9 +16,28 @@ namespace FromGoldenCombs.BlockEntities
 {
     class BELangstrothStack : BlockEntityDisplay
     {
+        MeshData plane;
+        TextureAtlasPosition texPosition;
+        double harvestableAtTotalHours;
+        double cooldownUntilTotalHours;
+        public bool Harvestable;
+        int quantityNearbyFlowers;
+        int quantityNearbyHives;
+        float actvitiyLevel;
+        RoomRegistry roomreg;
+        float roomness;
+        public static SimpleParticleProperties Bees;
+        int scanQuantityNearbyFlowers;
+        int scanQuantityNearbyHives;
+        int scanIteration;
+        EnumHivePopSize hivePopSize;
+        int harvestableFrames = 0;
+
         Block block;
 
         readonly InventoryGeneric inv;
+
+        bool isActiveHive = false;
 
         public override InventoryBase Inventory => inv;
 
@@ -24,19 +47,152 @@ namespace FromGoldenCombs.BlockEntities
         {
             inv = new InventoryGeneric(3, "superslot-0", null, null);
             meshes = new MeshData[3];
+
         }
 
         public override void Initialize(ICoreAPI api)
         {
             block = api.World.BlockAccessor.GetBlock(Pos);
             base.Initialize(api);
+            RegisterGameTickListener(TestHarvestable, 6000);
+            RegisterGameTickListener(OnScanForFlowers, api.World.Rand.Next(5000) + 30000);
         }
+
+        private void TestHarvestable(float dt)
+        {
+            if (isActiveHive && (Pos == GetBottomStack().Pos))
+            {
+                int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
+                double worldTime = Api.World.Calendar.TotalHours;
+                ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+                if (conds == null) return;
+
+                float temp = conds.Temperature + (roomness > 0 ? 5 : 0);
+                actvitiyLevel = GameMath.Clamp(temp / 5f, 0f, 1f);
+
+                // Reset timers during winter
+                if (temp <= -10)
+                {
+                    //TODO: Readdress harvestAtTotalHours math to ensure it works for all ranges of growth time.
+                    harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                    cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+                }
+
+                if (!Harvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)
+                {
+                    harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                }
+                else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
+                {
+                    System.Diagnostics.Debug.WriteLine("Frames Updated");
+                    UpdateFrames(1);
+                    MarkDirty(true);
+                }
+            }
+        }
+
+        private double HarvestableTime(int i)
+        {
+            Random rand = new();
+            return (i * .75) + ((i * .5) * rand.NextDouble());
+        }
+
+
+        private void OnScanForFlowers(float dt)
+        {
+            if (isActiveHive && (Pos == GetBottomStack().Pos))
+            {
+                //Scan to get number of nearby flowers and active hives
+                Room room = roomreg?.GetRoomForPosition(Pos);
+                roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+
+                if (actvitiyLevel < 1) return;
+                if (Api.Side == EnumAppSide.Client) return;
+                if (Api.World.Calendar.TotalHours < cooldownUntilTotalHours) return;
+
+                if (scanIteration == 0)
+                {
+                    scanQuantityNearbyFlowers = 0;
+                    scanQuantityNearbyHives = 0;
+                }
+
+                int minX = -8 + 8 * (scanIteration / 2);
+                int minZ = -8 + 8 * (scanIteration % 2);
+                int size = 8;
+
+                Block fullSkepN = Api.World.GetBlock(new AssetLocation("skep-populated-north"));
+                Block fullSkepE = Api.World.GetBlock(new AssetLocation("skep-populated-east"));
+                Block fullSkepS = Api.World.GetBlock(new AssetLocation("skep-populated-south"));
+                Block fullSkepW = Api.World.GetBlock(new AssetLocation("skep-populated-west"));
+
+                Block wildhive1 = Api.World.GetBlock(new AssetLocation("wildbeehive-medium"));
+                Block wildhive2 = Api.World.GetBlock(new AssetLocation("wildbeehive-large"));
+
+                Block claypothive = Api.World.GetBlock(new AssetLocation("claypothive-populated-empty-withtop"));
+                Block claypothive2 = Api.World.GetBlock(new AssetLocation("claypothive-populated-empty-notop"));
+                Block claypothive3 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-notop"));
+                Block claypothive4 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-withtop"));
+
+                Block langstrothstacke = Api.World.GetBlock(new AssetLocation("langstrothstack-one-east"));
+                Block langstrothstackn = Api.World.GetBlock(new AssetLocation("langstrothstack-one-north"));
+                Block langstrothstacks = Api.World.GetBlock(new AssetLocation("langstrothstack-one-south"));
+                Block langstrothstackw = Api.World.GetBlock(new AssetLocation("langstrothstack-one-west"));
+
+                Block langstrothstack2e = Api.World.GetBlock(new AssetLocation("langstrothstack-two-east"));
+                Block langstrothstack2n = Api.World.GetBlock(new AssetLocation("langstrothstack-two-north"));
+                Block langstrothstack2s = Api.World.GetBlock(new AssetLocation("langstrothstack-two-south"));
+                Block langstrothstack2w = Api.World.GetBlock(new AssetLocation("langstrothstack-two-west"));
+
+                Block langstrothstack3e = Api.World.GetBlock(new AssetLocation("langstrothstack-three-east"));
+                Block langstrothstack3n = Api.World.GetBlock(new AssetLocation("langstrothstack-three-north"));
+                Block langstrothstack3s = Api.World.GetBlock(new AssetLocation("langstrothstack-three-south"));
+                Block langstrothstack3w = Api.World.GetBlock(new AssetLocation("langstrothstack-three-west"));
+
+
+                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, pos) =>
+                {
+                    if (block.Id == 0) return;
+
+                    if (block.Attributes?.IsTrue("beeFeed") == true) scanQuantityNearbyFlowers++;
+
+                    if (block == fullSkepN || block == fullSkepE || block == fullSkepS || block == fullSkepW
+                    || block == wildhive1 || block == wildhive2
+                    || block == claypothive || block == claypothive2 || block == claypothive3 || block == claypothive4
+                    || block == langstrothstacke || block == langstrothstackn || block == langstrothstacks || block == langstrothstackw
+                    || block == langstrothstack2e || block == langstrothstack2n || block == langstrothstack2s || block == langstrothstack2w
+                    || block == langstrothstack3e || block == langstrothstack3n || block == langstrothstack3s || block == langstrothstack3w)
+                    {
+                        scanQuantityNearbyHives++;
+                    }
+                });
+
+                scanIteration++;
+
+                if (scanIteration == 4)
+                {
+                    scanIteration = 0;
+                    OnScanComplete();
+                }
+            }
+        }
+
+        private void OnScanComplete()
+        {
+            quantityNearbyFlowers = scanQuantityNearbyFlowers;
+            quantityNearbyHives = scanQuantityNearbyHives;
+
+            hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 3 * quantityNearbyHives, 0, 2);
+
+            MarkDirty();
+
+        }
+
 
         internal bool OnInteract(IPlayer byPlayer)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
-            bool isSuper = colObj is LangstrothCore;
+            bool isLangstroth = colObj is LangstrothCore;
             if ((int)slot.StorageType != 2) return false;
 
             if (slot.Empty)
@@ -45,22 +201,135 @@ namespace FromGoldenCombs.BlockEntities
                                        //if there are multiple stacks on top of each other.
                                        //Or from the topmost occupied slot of this stack.
                 {
-                    //UpdateStackSize();
                     MarkDirty(true);
+                    if (Api.World.BlockAccessor.GetBlock(Pos) is LangstrothStack)
+                    {
+                        isActiveHive = IsValidHive();
+                    }
                     return true;
                 }
-            } else if (isSuper)
+            }
+            else if (isLangstroth && !IsStackFull())
             {
                 if (TryPut(slot)) //Attempt to place super either in the current stack,
                                   //any stacks above this, or as a new stack above the
                                   //topmost stack if the block at that position is an air block.
                 {
-                    //UpdateStackSize();
+                    isActiveHive = IsValidHive();
                     MarkDirty(true);
                 }
+
                 return true; //This prevents TryPlaceBlock from passing if TryPut fails.
             }
             return false;
+        }
+
+        //UpdateFrames cycles through the stack checking for frames that lined to update to Harvestable
+        //Will do as many frames as fillframes
+        private void UpdateFrames(int fillframes)
+        {
+            BELangstrothStack TopStack = GetTopStack();
+            BELangstrothStack BottomStack = GetBottomStack();
+            BlockEntity curBelowBlockEntity = Api.World.BlockAccessor.GetBlockEntity(TopStack.Pos.DownCopy());
+
+            if (TopStack == BottomStack)
+            {
+                for (int index = 2; index >= 0 && fillframes > 0; index--)
+                {
+                    if (inv[index].Itemstack.Block is LangstrothSuper)
+                    {
+                        ITreeAttribute contents = inv[index].Itemstack?.Attributes.GetTreeAttribute("contents");
+                        int contentsSize = contents.Count;
+
+                        for (int j = 0; j <= contentsSize && fillframes > 0; j++)
+                        {
+                            ItemStack stack = contents.GetItemstack((j - 1).ToString());
+                            if (stack.Collectible is LangstrothFrame)
+                            {
+                                if (stack.Collectible.Variant["harvestable"] == "lined")
+                                {
+                                    stack = new ItemStack(Api.World.GetItem(stack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
+                                    fillframes--;
+                                }
+                                inv[index].Itemstack.Attributes.GetTreeAttribute("contents").SetItemstack((j - 1).ToString(), stack);
+                            }
+                            inv[index].MarkDirty();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                int downCount = 1;
+                while (curBelowBlockEntity is BELangstrothStack && fillframes > 0)
+                {
+                    for (int index = 2; index >= 0 && fillframes > 0; index--)
+                    {
+                        if (inv[index].Itemstack.Block is LangstrothSuper)
+                        {
+                            ITreeAttribute contents = inv[index].Itemstack?.Attributes.GetTreeAttribute("contents");
+                            int contentsSize = contents.Count;
+
+                            for (int j = 0; j <= contentsSize && fillframes > 0; j++)
+                            {
+                                ItemStack stack = contents.GetItemstack((j - 1).ToString());
+                                if (stack.Collectible is LangstrothFrame)
+                                {
+                                    if (stack.Collectible.Variant["harvestable"] == "lined")
+                                    {
+                                        stack = new ItemStack(Api.World.GetItem(stack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
+                                        fillframes--;
+                                    }
+                                    inv[index].Itemstack.Attributes.GetTreeAttribute("contents").SetItemstack((j - 1).ToString(), stack);
+                                }
+                                inv[index].MarkDirty();
+                            }
+                        }
+                    }
+                    downCount++;
+                    curBelowBlockEntity = Api.World.BlockAccessor.GetBlockEntity(TopStack.Pos.DownCopy(downCount));
+                }
+            }
+        }
+
+        private int CountHarvestable()
+        {
+
+            BELangstrothStack topStack = GetTopStack();
+            BELangstrothStack bottomStack = GetBottomStack();
+            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
+            bottomStack.harvestableFrames = 0;
+
+            while (curBE is BELangstrothStack)
+            {
+                for (int index = 2; index >= 0; index--)
+                {
+                    System.Diagnostics.Debug.WriteLine("Current Stack Position Is: " + curBE.Pos);
+                    System.Diagnostics.Debug.WriteLine("Current Index is: " + index);
+                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                    {
+                        ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
+                        int contentsSize = contents.Count;
+
+                        for (int j = 0; j <= contentsSize; j++)
+                        {
+                            ItemStack stack = contents.GetItemstack((j - 1).ToString());
+                            if (stack?.Collectible is LangstrothFrame)
+                            {
+                                if (stack.Collectible.Variant["harvestable"] == "harvestable")
+                                {
+                                    bottomStack.harvestableFrames++;
+                                }
+                                
+                            }
+                            curBE.inv[index].MarkDirty();
+                        }
+                    }
+                }
+                curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
+            }
+           
+            return harvestableFrames;
         }
 
         public bool InitializePut(ItemStack first, ItemSlot slot)
@@ -69,6 +338,7 @@ namespace FromGoldenCombs.BlockEntities
             inv[1].Itemstack = slot.TakeOutWhole();
             UpdateStackSize();
             updateMeshes();
+            CountHarvestable();
             MarkDirty(true);
             return true;
 
@@ -139,21 +409,21 @@ namespace FromGoldenCombs.BlockEntities
             int index = 0;
 
             //Cycle through indices until the topmost occupied index that has an empty index over it is reached, or the top index is reached.
-            while (index < inv.Count - 1 && !inv[index + 1].Empty) 
+            while (index < inv.Count - 1 && !inv[index + 1].Empty)
             {
                 index++;
             }
 
             // Confirm if this is the top inventory slot of the stack
-            bool isTopSlot = index == inv.Count - 1; 
+            bool isTopSlot = index == inv.Count - 1;
             bool langstrothAbove = IsLangstrothAt(Pos.UpCopy());
             bool airAbove = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air;
 
             // If the index is empty, return isSuccess (False at this point)
-            if (inv[index].Empty) return isSuccess; 
+            if (inv[index].Empty) return isSuccess;
 
             //If the block above isn't air, or another super, of if the target index is empty, return iSSuccess, Still False
-            if (isTopSlot && (!airAbove && !langstrothAbove) || inv[index].Empty) 
+            if (isTopSlot && (!airAbove && !langstrothAbove) || inv[index].Empty)
             {
                 return isSuccess;
             }
@@ -263,29 +533,82 @@ namespace FromGoldenCombs.BlockEntities
         //Identify if the block at the given BlockPos is a LangstrothStack
         private bool IsLangstrothStackAt(BlockPos pos)
         {
-        if (IsLangstrothAt(pos) && Api.World.BlockAccessor.GetBlock(pos) is LangstrothStack)
-        return true;
-        
-        return false; 
-        }
+            if (IsLangstrothAt(pos) && Api.World.BlockAccessor.GetBlock(pos) is LangstrothStack)
+                return true;
 
-        private bool ValidHive()
-        {
-            //Will check size and configuration of stack to determine if it's a valid hive
             return false;
         }
 
-        public bool CanAdd() {
+        private bool IsValidHive()
+        {
+            BELangstrothStack topStack = GetTopStack();
+            BELangstrothStack bottomStack = GetBottomStack();
+            CountHarvestable();
+            //Check bottomStack's bottom index for a LangstrothBase
+            if (!(bottomStack.inv[0].Itemstack.Block is LangstrothBase))
+                return false;
+
+            //Check topStack's top Index for populated brood box
+            Block topBlock = topStack?.inv[topStack.StackSize() - 1].Itemstack.Block;
+            System.Diagnostics.Debug.WriteLine("topBlock is " + topStack?.inv[topStack.StackSize() - 1].Itemstack.Block);
+            if (!(topBlock is LangstrothBrood && topBlock.Variant["populated"] == "populated"))
+                return false;
+
+
+            System.Diagnostics.Debug.WriteLine("No Block But Super In Stack: " + (CheckForNonSuper()));
+            //Check the rest of the hive for anything not a super
+            return CheckForNonSuper();
+        }
+
+        private bool CheckForNonSuper()
+        {
+            BELangstrothStack topStack = GetTopStack();
+            BELangstrothStack bottomStack = GetBottomStack();
+            BlockEntity curBelowBlockEntity = Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy());
+            int downCount = 1;
+
+            if (topStack.Pos != bottomStack.Pos)
+            {
+                for (int i = topStack.StackSize() - 2; i >= 0; i--)
+                {
+                    System.Diagnostics.Debug.WriteLine("Current Index Is " + i + ". Index holds: " + topStack.inv[i].Itemstack.Block);
+                    System.Diagnostics.Debug.WriteLine("Current Index Is " + (topStack.inv[i].Itemstack.Block is LangstrothSuper) + " A Super");
+                    if (!(topStack.inv[i].Itemstack.Block is LangstrothSuper))
+                        return false;
+                }
+
+                while (curBelowBlockEntity is BELangstrothStack)
+                {
+                    for (int index = 2; index >= 0 && !(curBelowBlockEntity.Pos == bottomStack.Pos && index == 0); index--)
+                    {
+                        if (!(inv[index].Itemstack.Block is LangstrothSuper))
+                            return false;
+                    }
+                    downCount++;
+                    curBelowBlockEntity = Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy(downCount));
+                }
+            } else if ((topStack.inv[2].Itemstack.Block is LangstrothBrood && topStack.inv[2].Itemstack.Block.Variant["populated"] == "populated") 
+                        && topStack.inv[0].Itemstack.Block is LangstrothBase)
+            {
+                return true;
+            }
+            return true;
+        }
+
+        public bool IsStackFull()
+        {
             //If there is a stack below this stack
-                //True -> GetStackSize from Stack.Down();
-                    
-            
+            //True -> GetStackSize from Stack.Down();
+            int maxStackSize = FromGoldenCombsConfig.Current.MaxStackSize;
+            if (TotalStackSize() >= maxStackSize)
+                return true;
+
             return false;
         }
 
 
         //ReturnStackSize
-        private int StackSize()
+        public int StackSize()
         {
             int filledstacks = 0;
             for (int i = 0; i < inv.Count; i++)
@@ -296,6 +619,48 @@ namespace FromGoldenCombs.BlockEntities
                 }
             }
             return filledstacks;
+        }
+
+        //Return total number of Supers in the Stack
+        public int TotalStackSize()
+        {
+
+            int totalStackSize = GetTopStack().StackSize();
+            BlockPos TopStack = GetTopStack().Pos;
+            int downCount = 1;
+            while (Api.World.BlockAccessor.GetBlockEntity(TopStack.DownCopy(downCount)) is BELangstrothStack i)
+            {
+                totalStackSize += i.StackSize();
+                downCount++;
+            }
+            return totalStackSize;
+        }
+
+        //Return Top Stack of Stack
+        public BELangstrothStack GetTopStack()
+        {
+            BlockPos topPos = Pos;
+            int upCount = 1;
+            while (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(upCount)) is LangstrothStack)
+            {
+                topPos = Pos.UpCopy(upCount);
+                upCount++;
+            }
+            return (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topPos);
+        }
+
+        public BELangstrothStack GetBottomStack()
+        {
+            BlockPos bottomPos = Pos;
+            int downCount = 1;
+
+            while (Api.World.BlockAccessor.GetBlock(Pos.DownCopy(downCount)) is LangstrothStack)
+            {
+                bottomPos = Pos.DownCopy(downCount);
+                downCount++;
+            }
+
+            return (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(bottomPos);
         }
 
         //Rendering Processes
@@ -333,33 +698,89 @@ namespace FromGoldenCombs.BlockEntities
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             //This seems to work for rotating the actual appearance of the blocks in the itemslots.
             mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, block.Shape.rotateY * GameMath.DEG2RAD, 0f);
-            mesh.Translate(offset.XYZ);           
+            mesh.Translate(offset.XYZ);
 
             return mesh;
         }
 
+        // BEES
+
+        //Bee Tesselation
+        //public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
+        //{
+        //    mesher.AddMeshData(plane);
+        //    return false;
+        //}
+
+        public override void ToTreeAttributes(ITreeAttribute tree)
+        {
+            base.ToTreeAttributes(tree);
+
+
+            tree.SetInt("scanIteration", scanIteration);
+
+            tree.SetInt("quantityNearbyFlowers", quantityNearbyFlowers);
+            tree.SetInt("quantityNearbyHives", quantityNearbyHives);
+
+
+            tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
+            tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
+
+            tree.SetInt("harvestable", Harvestable ? 1 : 0);
+            tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
+            tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
+            tree.SetInt("hiveHealth", (int)hivePopSize);
+            tree.SetFloat("roomness", roomness);
+            tree.SetInt("harvestableFrames", harvestableFrames);
+        }
+
+        public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
+        {
+            base.FromTreeAttributes(tree, worldForResolving);
+
+            bool wasHarvestable = Harvestable;
+
+            scanIteration = tree.GetInt("scanIteration");
+            harvestableFrames = tree.GetInt("harvestableFrames");
+            quantityNearbyFlowers = tree.GetInt("quantityNearbyFlowers");
+            quantityNearbyHives = tree.GetInt("quantityNearbyHives");
+
+            scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
+            scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
+
+            Harvestable = tree.GetInt("harvestable") > 0;
+            cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
+            harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
+            hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
+            roomness = tree.GetFloat("roomness");
+
+            if (Harvestable != wasHarvestable && Api != null)
+            {
+                MarkDirty(true);
+            }
+        }
+
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
-            
+
             if (forPlayer.CurrentBlockSelection == null)
             {
 
-            base.GetBlockInfo(forPlayer, sb);
+                base.GetBlockInfo(forPlayer, sb);
 
-            } else {
-                for (int i = inv.Count-1; i >= 0; i--)
+            }
+            else
+            {
+                BELangstrothStack topStack = GetTopStack();
+                BELangstrothStack bottomStack = GetBottomStack();
+                sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames);
+                sb.AppendLine("Hive is Active: " + bottomStack.isActiveHive);          
+                if (bottomStack.isActiveHive)
                 {
-                ItemSlot slot = inv[i];
-                    if (slot.Empty)
-                    {
-                        sb.AppendLine(Lang.Get("Empty"));
-                    }
-                    else
-                    {
-                        sb.AppendLine(slot.Itemstack.GetName());
-                    }
+                    string str = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
+                    if (Harvestable) str += "\n" + Lang.Get("Harvestable");
+                    sb.AppendLine(str);
                 }
-            return;
             }
         }
     }

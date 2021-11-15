@@ -51,7 +51,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
-            bool isBeeframe = colObj?.Attributes != null && colObj.Attributes["beeframe"].AsBool(false) == true;
+            bool isBeeframe = colObj is LangstrothFrame;
             BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
             block.SetContents(new(block), this.GetContentStacks());
                         

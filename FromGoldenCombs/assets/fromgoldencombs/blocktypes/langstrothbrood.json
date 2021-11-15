@@ -13,6 +13,7 @@
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "variantgroups": [ 
+    { "code": "populated", "states": ["empty","populated"]},
     { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
