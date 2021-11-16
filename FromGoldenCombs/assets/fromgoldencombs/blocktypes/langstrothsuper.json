@@ -40,7 +40,7 @@
   },
   "creativeinventory": {
       "general": [ "*-closed-maple-birch-east" ],
-      "decorative": [  "*closed-*-*-east" ]
+      "decorative": [  "*-closed-*-*-east" ]
     },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },

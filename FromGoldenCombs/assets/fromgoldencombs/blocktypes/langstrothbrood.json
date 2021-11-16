@@ -19,31 +19,31 @@
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
   "textures": {		
-      "primary": { base: "game:block/wood/debarked/{primary}" },
-			"accent": { base: "game:block/wood/debarked/{accent}" }
+      "primary": {"base": "game:block/wood/debarked/{primary}" },
+			"accent": {"base": "game:block/wood/debarked/{accent}" }
 	},
   "shapeByType": {
   "*-north": {
-     "base": "block/langstrothbrood",
+     "base": "block/langstrothbrood-large",
      "rotateY": 0
      },
      "*-east": {
-     "base": "block/langstrothbrood",
+     "base": "block/langstrothbrood-large",
      "rotateY": 270
      },
      "*-south": {
-        "base": "block/langstrothbrood",
+        "base": "block/langstrothbrood-large",
         "rotateY": 180
      },
      "*-west": {
-     "base": "block/langstrothbrood",
+     "base": "block/langstrothbrood-large",
      "rotateY": 90
      }
   },
   "creativeinventory": {
-      "general": [ "*-east" ],
-      "flora": [ "*-east" ],
-      "decorative": [ "*-east" ]
+      "general": [ "langstrothbrood-empty-maple-maple-east" ],
+      "flora": [ "langstrothbrood-empty-*-*-east" ],
+      "decorative": [ "langstrothbrood-empty-*-*-east" ]
     },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },

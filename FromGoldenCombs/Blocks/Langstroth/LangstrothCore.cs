@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.Blocks.Langstroth
@@ -39,5 +41,20 @@ namespace FromGoldenCombs.Blocks.Langstroth
             }
             return false;
         }
+
+        public override string GetPlacedBlockName(IWorldAccessor world, BlockPos pos)
+        {
+            if (this is LangstrothStack) {
+
+                //BELangstrothStack beStack = (BELangstrothStack)world.BlockAccessor.GetBlockEntity(pos);
+                //if (beStack is BELangstrothStack && beStack.GetBottomStack().isActiveHive)
+                //{
+                //    return Lang.Get(this.Code.ToString() + "-hive");
+                //} else
+                return base.GetPlacedBlockName(world, pos);
+                } 
+                StringBuilder sb = new();
+                return sb.AppendLine(this.Variant["primary"].ToString().UcFirst() + " Wood and " + Variant["accent"].ToString().UcFirst() + " Wood").ToString() + base.GetPlacedBlockName(world, pos).ToString();
+            }
+        }
     }
-}

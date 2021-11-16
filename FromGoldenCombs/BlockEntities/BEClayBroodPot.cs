@@ -21,7 +21,6 @@ namespace FromGoldenCombs.BlockEntities
     class BEClayBroodPot : BlockEntity
     {
         MeshData plane;
-        TextureAtlasPosition texPosition;
         double harvestableAtTotalHours;
         double cooldownUntilTotalHours;
         public bool Harvestable;
@@ -65,13 +64,11 @@ namespace FromGoldenCombs.BlockEntities
 
             roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
 
-            Block block = Api.World.BlockAccessor.GetBlock(Pos);
             if (api.Side == EnumAppSide.Client)
             {
                ICoreClientAPI capi = api as ICoreClientAPI;
-                Block ownBlock = block;
+                Block ownBlock = Api.World.BlockAccessor.GetBlock(Pos);
                 Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/claypothive-empty-none-notop.json")).ToObject<Shape>();
-                texPosition = capi.BlockTextureAtlas.GetPosition(ownBlock, "north");
                 capi.Tesselator.TesselateShape(ownBlock, shape, out plane);
 
                 if (api.Side == EnumAppSide.Client)
