@@ -9,7 +9,7 @@
 	},
 	"textures": {
 		"honey": "fromgoldencombs:block/beehive/honey",
-		"clay": "fromgoldencombs:block/beehive/clay",
+		"clay": "game:block/clay/ceramic",
 		"wax": "fromgoldencombs:block/beehive/wax"
 	},
 	"elements": [

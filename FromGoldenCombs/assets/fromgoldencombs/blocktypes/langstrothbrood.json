@@ -24,25 +24,25 @@
 	},
   "shapeByType": {
   "*-north": {
-     "base": "block/langstrothbrood-large",
+     "base": "block/langstrothbrood",
      "rotateY": 0
      },
      "*-east": {
-     "base": "block/langstrothbrood-large",
+     "base": "block/langstrothbrood",
      "rotateY": 270
      },
      "*-south": {
-        "base": "block/langstrothbrood-large",
+        "base": "block/langstrothbrood",
         "rotateY": 180
      },
      "*-west": {
-     "base": "block/langstrothbrood-large",
+     "base": "block/langstrothbrood",
      "rotateY": 90
      }
   },
   "creativeinventory": {
-      "general": [ "langstrothbrood-empty-maple-maple-east" ],
-      "flora": [ "langstrothbrood-empty-*-*-east" ],
+      "general": [ "langstrothbrood-empty-oak-maple-east" ],
+      "flora": [ "langstrothbrood-empty-oak-maple-east" ],
       "decorative": [ "langstrothbrood-empty-*-*-east" ]
     },
   "lightAbsorption": 0,

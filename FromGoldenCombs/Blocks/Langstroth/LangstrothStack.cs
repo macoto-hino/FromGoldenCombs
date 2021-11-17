@@ -27,7 +27,6 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
         {
-            BELangstrothStack beStack = (BELangstrothStack)world.BlockAccessor.GetBlockEntity(pos);
             if (world.Side == EnumAppSide.Server && (byPlayer == null || byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative))
             {
                 ItemStack[] array = new ItemStack[]{};

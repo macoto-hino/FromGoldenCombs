@@ -11,16 +11,17 @@
   "blockhelp-claypothive-empty-withtop": "Right click removes honey pot, or use populated skep.",
   "blockhelp-claypothive-populated-withtop": "Right click removes honey pot, wax ring indicates harvestable.",
 
-  "block-claypothive-empty-none-notop": "Ceramic Brood Pot",
-  "block-claypothive-empty-none-withtop": "Ceramic Hive",
-  "block-claypothive-populated-none-notop": "Ceramic Brood Pot With Colony",
-  "block-claypothive-populated-none-withtop": "Ceramic Hive With Colony",
-  "block-claypothive-populated-harvestable-withtop": "Ceramic Hive With Colony",
+  "block-ceramicbroodpot-notop":  "Ceramic Hive",
+  "block-claypothive-empty-none-notop": "Claypot Brood Pot",
+  "block-claypothive-empty-none-withtop": "Claypot Hive",
+  "block-claypothive-populated-none-notop": "Claypot Brood Pot With Colony",
+  "block-claypothive-populated-none-withtop": "Claypot Hive With Colony",
+  "block-claypothive-populated-harvestable-withtop": "Claypot Hive With Colony",
   "block-hivetop-raw": "Raw Ceramic Honey Pot",
   "block-hivetop-empty": "Ceramic Honey Pot",
   "block-hivetop-harvestable": "Ceramic Honey Pot",
   "blockhelp-hivetop-raw": "Place in pitkiln to fire.",
-  "block-rawclaypothive": "Raw Ceramic Brood Pot",
+  "block-rawclaypothive": "Raw Claypot Brood Pot",
   "blockhelp-rawclaypothive": "Place in pitkiln to fire.",
 
   "block-langstrothbase-*": "Langstroth Base",
@@ -29,10 +30,11 @@
   "langstrothstack-*-*-hive": "Langstroth Hive",
   "block-langstrothbrood-*": "Langstroth Brood Box",
   "getmaterials": "Constructed from {0} and {1}",
+  
   //Items
-  "item-beeframe-empty": "Empty Frame",
-  "item-beeframe-lined": "Lined Frame",
-  "item-beeframe-harvestable": "Full Frame",
+  "item-beeframe-*-empty": "Empty Frame",
+  "item-beeframe-*-lined": "Lined Frame",
+  "item-beeframe-*-harvestable": "Harvestable Frame",
 
   //Guide Info
   "fromgoldencombsguide-title": "From Golden Combs - Guide To New Hives",

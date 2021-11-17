@@ -2,7 +2,6 @@
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.config;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using VFromGoldenCombs.Blocks.Langstroth;
@@ -34,12 +33,12 @@ namespace FromGoldenCombs.BlockEntities
         EnumHivePopSize hivePopSize;
         int harvestableFrames = 0;
         public readonly InventoryGeneric inv;
-
-        private bool isActiveHive = false;
-
         public override InventoryBase Inventory => inv;
 
         public override string InventoryClassName => "langstrothstack";
+        private bool isActiveHive = false;
+
+        
 
         public BELangstrothStack()
         {
@@ -69,7 +68,9 @@ namespace FromGoldenCombs.BlockEntities
             base.Initialize(api);
             RegisterGameTickListener(TestHarvestable, 6000);
             RegisterGameTickListener(OnScanForFlowers, api.World.Rand.Next(5000) + 30000);
+
             block = Api.World.BlockAccessor.GetBlock(Pos);
+
             if (api.Side == EnumAppSide.Client)
             {
                 ICoreClientAPI capi = api as ICoreClientAPI;
@@ -82,6 +83,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
             }
         }
+
         internal bool OnInteract(IPlayer byPlayer)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
@@ -730,7 +732,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     if (block.Id == 0) return;
 
-                    if (block.Attributes?.IsTrue("beeFeed") == true)
+                    if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
                         flowerList.Add(block.Variant["flower"]);
                         scanQuantityNearbyFlowers++;

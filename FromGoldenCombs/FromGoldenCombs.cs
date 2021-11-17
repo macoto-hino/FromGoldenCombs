@@ -23,10 +23,12 @@ namespace FromGoldenCombs
             //BlockEntities
             api.RegisterBlockEntityClass("fgcbeehive", typeof(FGCBeehive));
             api.RegisterBlockEntityClass("beclaypothive", typeof(BEClayBroodPot));
+            api.RegisterBlockEntityClass("beceramichive", typeof(BECeramicBroodPot));
             api.RegisterBlockEntityClass("belangstrothsuper", typeof(BELangstrothSuper));
             api.RegisterBlockEntityClass("belangstrothstack", typeof(BELangstrothStack));
 
             //Blocks
+            api.RegisterBlockClass("ceramicbroodpot", typeof(CeramicBroodPot));
             api.RegisterBlockClass("claypothive", typeof(ClayBroodPot));
             api.RegisterBlockClass("hivetop", typeof(ClayHiveTop));
             api.RegisterBlockClass("rawclaypothive", typeof(RawBroodPot));

@@ -78,54 +78,73 @@ namespace FromGoldenCombs.BlockEntities
             }
         }
 
-        public void BlockInteract(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ClayBroodPot block)
+        public void BlockInteract(IWorldAccessor world)
         {
+
+            System.Diagnostics.Debug.WriteLine("BlocKInteractTest");
+            //TODO: Create simplified BlockInteract that converts it into the new Ceramic Hive.
+            //This will require identifying the correct type of honeypot to give the player, if the Ceramic Hive has one,
+            //Or, it will require converting the hive to a Ceramic Hive, and placing the new top.  Populated vs Not will have to be transferred as well
+
             Block hive = Api.World.BlockAccessor.GetBlock(Pos);
-            Block livePot = world.GetBlock(new AssetLocation("fromgoldencombs", "claypothive-populated-none-withtop"));
-            Block liveNoPot = world.GetBlock(new AssetLocation("fromgoldencombs", "claypothive-populated-none-notop"));
-            Block emptyTop = world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"));
-            Block fullTop = world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"));
 
-            if (hive.Variant["top"] == "notop"
-                && hive.Variant["populated"] == "populated"
-                && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null
-                && (int)byPlayer.InventoryManager.ActiveHotbarSlot.StorageType == 2
-                && byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(block)))
+            System.Diagnostics.Debug.WriteLine("BEClayBrood Checkpoint Alpha");
+            ItemStack stack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "ceramicbroodpot-notop")));
+            System.Diagnostics.Debug.WriteLine("BEClayBrood Checkpoint Alpha-Beta");
+            ItemStack hivetopStack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-" + (hive.Variant["harvestable"]=="harvestable"?"harvestable":"empty"))));
+
+            stack.Attributes.SetBool("populated", this.Block.Variant["populated"] == "populated");      
+
+            if(hive.Variant["top"] == "notop"){
+                System.Diagnostics.Debug.WriteLine("BlocKInteractTest");
+                Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+            } else
             {
-                //Pick up populated hive in backpack slot
-                world.BlockAccessor.SetBlock(0, blockSel.Position);
-                world.PlaySoundAt(new AssetLocation("sounds/block/planks"), blockSel.Position.X + 0.5, blockSel.Position.Y, blockSel.Position.Z + 0.5, byPlayer, false);
+                Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+                BECeramicBroodPot beCBP = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(Pos);
+                beCBP.TryPutDirect(hivetopStack);
+            }
+
+            //if (hive.Variant["top"] == "notop"
+            //    && (int)byPlayer.InventoryManager.ActiveHotbarSlot.StorageType == 2)
+            //{
+
+            //    //Pick up populated hive in backpack slot
+            //    if (byPlayer.InventoryManager.TryGiveItemstack(stack))
+            //    {
+            //        world.BlockAccessor.SetBlock(0, blockSel.Position);
+            //        world.PlaySoundAt(new AssetLocation("sounds/block/planks"), blockSel.Position.X + 0.5, blockSel.Position.Y, blockSel.Position.Z + 0.5, byPlayer, false);
+            //    }
         
-            }
-            else if (hive.Variant["top"] == "notop"
-                && (hive.Variant["populated"] == "populated"
-                && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack != null && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.Code.ToString() == "fromgoldencombs:hivetop-empty"))
-            {
-                //add pot, retain populated status
-                world.BlockAccessor.ExchangeBlock(livePot.BlockId, blockSel.Position);
-                byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
-
-            }
-            else if (hive.Variant["top"] == "withtop"
-              && hive.Variant["populated"] == "populated"
-              && hive.Variant["harvestable"] == "none"
-              && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null)
-            {
-                //Take back an empty pot from a populated hive
-                byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(emptyTop, 1));
-                world.BlockAccessor.ExchangeBlock(liveNoPot.BlockId, blockSel.Position);
-            }
-            else if (hive.Variant["top"] == "withtop"
-              && hive.Variant["populated"] == "populated"
-              && hive.Variant["harvestable"] == "harvestable"
-              && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null)
-            {
-                //Take a harvestable pot from a populated hive
-                Harvestable = false;
-                byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(fullTop, 1));
-                world.BlockAccessor.ExchangeBlock(liveNoPot.BlockId, blockSel.Position);
-                harvestableAtTotalHours = 0;
-            }
+            //}
+            //else if (hive.Variant["top"] == "notop"
+            //    && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack != null && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.Code.ToString() == "fromgoldencombs:hivetop-empty")
+            //{
+            //    //add pot, retain populated status
+            //    world.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+            //    BECeramicBroodPot beCBP = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(Pos);
+            //    beCBP.OnInteract(byPlayer);
+            //}
+            //else if (hive.Variant["top"] == "withtop"
+            //  && hive.Variant["populated"] == "populated"
+            //  && hive.Variant["harvestable"] == "none"
+            //  && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null)
+            //{
+            //    //Take back an empty pot from a populated hive
+            //    byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(emptyTop, 1));
+            //    world.BlockAccessor.ExchangeBlock(liveNoPot.BlockId, blockSel.Position);
+            //}
+            //else if (hive.Variant["top"] == "withtop"
+            //  && hive.Variant["populated"] == "populated"
+            //  && hive.Variant["harvestable"] == "harvestable"
+            //  && byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null)
+            //{
+            //    //Take a harvestable pot from a populated hive
+            //    Harvestable = false;
+            //    byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(fullTop, 1));
+            //    world.BlockAccessor.ExchangeBlock(liveNoPot.BlockId, blockSel.Position);
+            //    harvestableAtTotalHours = 0;
+            //}
         }
 
         private void TestHarvestable(float dt)

@@ -1,6 +1,6 @@
 {
-  "code": "claypothivebase",
-  "class": "claypothive",
+  "code": "ceramicbroodpot",
+  "class": "ceramicbroodpot",
   "storageFlags": 2,
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhands",
@@ -13,13 +13,14 @@
      "variantgroups": [
       { "code": "top", "states": [ "withtop", "notop" ]}
     ],
+  "entityClass": "beceramichive",
   "behaviorsByType": {
     "*-*-*-notop": [{ "name": "RightClickPickup" }]
     },
     "creativeinventory":{ "general": ["*"], "flora": ["*"], "decorative": ["*"] },
     "shapeByType": {
-      "*-notop": {"base": "block/claypothive-empty-none-notop"},
-      "*-withtop": {"base": "block/claypothive-empty-none-withtop"}
+      "*-notop": {"base": "block/ceramicbroodpot-notop"},
+      "*-withtop": {"base": "block/ceramicbroodpot-withtop"}
     },
     "collisionboxesByType": {
       "*-notop": [
@@ -52,9 +53,9 @@
     "sideopaque": { "all": false },
     "sidesolid": { "all": false },
     "blockmaterial": "Ceramic",
-    "sounds": {
+    "soundsByType": {
       "place": "game:block/planks",
-      "ambientByType": { "*-populated-*-*": "game:creature/beehive" }
+      "ambientByType": { "*-withtop": "game:creature/beehive" }
     },
     "groundTransform": {
       "scale": 2.01
