@@ -1,0 +1,13 @@
+[
+  {
+    "op": "add",
+    "path": "/attributes",
+    "value": {
+      "barrelMoveToLiquidSlot": true,
+      "inContainerTexture": {
+        "base": "block/beehive/beeswax"
+      }
+    },
+    "file": "itemtypes/resource/beeswax.json"
+  }
+]

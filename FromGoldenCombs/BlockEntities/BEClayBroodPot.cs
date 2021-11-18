@@ -11,12 +11,6 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    public enum EnumHivePopSize
-    {
-        Poor = 0,
-        Decent = 1,
-        Large = 2
-    }
 
     class BEClayBroodPot : BlockEntity
     {

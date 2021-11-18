@@ -32,6 +32,8 @@ namespace FromGoldenCombs.BlockEntities
         int scanIteration;
         EnumHivePopSize hivePopSize;
         int harvestableFrames = 0;
+        string honeyVarietal;
+        List<String> honeyTypeCount = new();
         public readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
 
@@ -154,6 +156,9 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
             }
+
+            honeyVarietal = GetHoneyVarietal(honeyTypeCount.ToArray(),honeyTypeCount.Count);
+            System.Diagnostics.Debug.WriteLine("honeyVarietal on Update Is " + honeyVarietal);
 
         }
 
@@ -577,8 +582,6 @@ namespace FromGoldenCombs.BlockEntities
                 mat.Identity();
                 mat.RotateYDeg(this.Block.Shape.rotateY);
                 return base.OnTesselation(mesher, tessThreadTesselator);
-            
-
         }
 
         //Active Hive Methods/Fields
@@ -757,7 +760,8 @@ namespace FromGoldenCombs.BlockEntities
                     OnScanComplete();
                 }
 
-                System.Diagnostics.Debug.WriteLine(GetBottomStack().MostFrequentFlower(flowerList.ToArray(), flowerList.Count));
+                honeyTypeCount.Add(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
+                System.Diagnostics.Debug.WriteLine(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
             }
         }
 
@@ -769,38 +773,42 @@ namespace FromGoldenCombs.BlockEntities
             MarkDirty();
         }
 
-        private String MostFrequentFlower(String[] flowers, int n)
+        private String GetHoneyVarietal(String[] flowers, int n)
         {
-           // Sort the array
-           Array.Sort(flowers);
+            // Sort the array
+            Array.Sort(flowers);
 
-           // find the max frequency using
-           // linear traversal
-           int max_count = 1;
-           String flowerSort = flowers[0];
-           int curr_count = 1;
+            // find the max frequency using
+            // linear traversal
+            int max_count = 1;
+            String flowerSort = flowers[0];
+            int curr_count = 1;
 
             for (int i = 1; i < n; i++)
             {
                 if (flowers[i] == flowers[i - 1])
-                        curr_count++;
+                    curr_count++;
                 else
                 {
-                   if (curr_count > max_count)
-                   {
-                      max_count = curr_count;
-                      flowerSort = flowers[i - 1];
-                   }
+                    if (curr_count > max_count)
+                    {
+                        max_count = curr_count;
+                        flowerSort = flowers[i - 1];
+                    }
                     curr_count = 1;
                 }
             }
 
             // If last element is most frequent
-            if (curr_count > max_count)
+            if (curr_count > quantityNearbyFlowers || max_count > quantityNearbyFlowers)
             {
-                flowerSort = flowers[n - 1];
+                if (curr_count > max_count)
+                {
+                    flowerSort = flowers[n - 1];
+                }
+                return flowerSort;
             }
-            return flowerSort;
+            return "blended";
         }
 
 

@@ -25,19 +25,12 @@
     "*-empty-harvestable-*"
   ],
     "shapeByType": {
-      "*-empty-none-notop": { "base": "block/claypothive-empty-none-notop" },
-      "*-empty-none-withtop": { "base": "block/claypothive-empty-none-withtop" },
-      "*-populated-none-notop": { "base": "block/claypothive-empty-none-notop" },
-      "*-populated-none-withtop": { "base": "block/claypothive-empty-none-withtop" },
-      "*-populated-harvestable-withtop": { "base": "block/claypothive-populated-harvestable-withtop" }
+      "*-empty-none-notop": { "base": "block/hive/ceramic/claypothive-empty-none-notop" },
+      "*-empty-none-withtop": { "base": "block/hive/ceramic/claypothive-empty-none-withtop" },
+      "*-populated-none-notop": { "base": "block/hive/ceramic/claypothive-empty-none-notop" },
+      "*-populated-none-withtop": { "base": "block/hive/ceramic/claypothive-empty-none-withtop" },
+      "*-populated-harvestable-withtop": { "base": "block/hive/ceramic/claypothive-populated-harvestable-withtop" }
     },
-    "drops": [
-      {
-        "type": "item",
-        "code": "game:honeycomb",
-        "quantity": { "avg": 3 }
-      }
-    ],
     "collisionboxesByType": {
       "*-*-*-notop": [
     { "x1": 0.25, "y1": 0.5625, "z1": 0.25, "x2": 0.75, "y2": 0.625, "z2": 0.75 },

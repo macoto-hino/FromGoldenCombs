@@ -22,9 +22,9 @@
     "*": [ { "name": "RightClickPickup" } ]
   },
   "shapebytype": {
-    "*-empty": { "base": "block/hivetop-empty" },
-    "*-harvestable": { "base": "block/hivetop-harvestable" },
-    "*-raw": { "base": "block/hivetop-raw" }
+    "*-empty": { "base": "block/hive/ceramic/hivetop-empty" },
+    "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" },
+    "*-raw": { "base": "block/hive/ceramic/hivetop-raw" }
   },
   "combustiblePropsByType": {
     "*-raw": {

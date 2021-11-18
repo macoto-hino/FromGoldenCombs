@@ -11,7 +11,7 @@ namespace FromGoldenCombs.Blocks
             {
                 new WorldInteraction()
                 {
-                    ActionLangCode = "fromgoldencombs:blockhelp-rawclaypothive",
+                    ActionLangCode = "fromgoldencombs:blockhelp-rawceramichive",
                 }
             };
 

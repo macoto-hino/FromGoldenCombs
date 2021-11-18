@@ -46,15 +46,10 @@ namespace FromGoldenCombs.Blocks.Langstroth
         {
             if (this is LangstrothStack) {
 
-                //BELangstrothStack beStack = (BELangstrothStack)world.BlockAccessor.GetBlockEntity(pos);
-                //if (beStack is BELangstrothStack && beStack.GetBottomStack().isActiveHive)
-                //{
-                //    return Lang.Get(this.Code.ToString() + "-hive");
-                //} else
                 return base.GetPlacedBlockName(world, pos);
                 } 
                 StringBuilder sb = new();
-                return sb.AppendLine(this.Variant["primary"].ToString().UcFirst() + " Wood and " + Variant["accent"].ToString().UcFirst() + " Wood").ToString() + base.GetPlacedBlockName(world, pos).ToString();
-            }
+                return base.GetPlacedBlockName(world, pos).ToString() + sb.AppendLine() + Lang.Get("fromgoldencombs:getmaterials", this.Variant["primary"].ToString().UcFirst(), this.Variant["accent"].ToString().UcFirst());
         }
     }
+ }

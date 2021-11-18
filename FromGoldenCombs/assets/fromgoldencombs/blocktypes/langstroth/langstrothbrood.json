@@ -1,7 +1,6 @@
 {
   "code": "langstrothbrood",
   "class": "langstrothbrood",
-  //"entityClass": "belangstrothstack",
   "storageFlags": 2,
   "maxstacksize": 1,
   "behaviors": [{
@@ -24,19 +23,19 @@
 	},
   "shapeByType": {
   "*-north": {
-     "base": "block/langstrothbrood",
+     "base": "block/hive/langstroth/langstrothbrood",
      "rotateY": 0
      },
      "*-east": {
-     "base": "block/langstrothbrood",
+     "base": "block/hive/langstroth/langstrothbrood",
      "rotateY": 270
      },
      "*-south": {
-        "base": "block/langstrothbrood",
+        "base": "block/hive/langstroth/langstrothbrood",
         "rotateY": 180
      },
      "*-west": {
-     "base": "block/langstrothbrood",
+     "base": "block/hive/langstroth/langstrothbrood",
      "rotateY": 90
      }
   },

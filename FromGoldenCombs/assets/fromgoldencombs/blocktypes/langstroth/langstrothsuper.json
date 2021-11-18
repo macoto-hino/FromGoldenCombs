@@ -22,19 +22,19 @@
 	},
   "shapeByType": {
   "*-north": {
-     "base": "block/langstrothsuper-{open}",
+     "base": "block/hive/langstroth/langstrothsuper-{open}",
      "rotateY": 0
      },
      "*-east": {
-     "base": "block/langstrothsuper-{open}",
+     "base": "block/hive/langstroth/langstrothsuper-{open}",
      "rotateY": 270
      },
      "*-south": {
-        "base": "block/langstrothsuper-{open}",
+        "base": "block/hive/langstroth/langstrothsuper-{open}",
         "rotateY": 180
      },
      "*-west": {
-     "base": "block/langstrothsuper-{open}",
+     "base": "block/hive/langstroth/langstrothsuper-{open}",
      "rotateY": 90
      }
   },

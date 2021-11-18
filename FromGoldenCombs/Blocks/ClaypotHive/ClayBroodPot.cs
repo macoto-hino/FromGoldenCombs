@@ -1,6 +1,5 @@
 ﻿using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using FromGoldenCombs.BlockEntities;
 
@@ -32,12 +31,10 @@ namespace FromGoldenCombs.Blocks
                 api.World.BlockAccessor.SetBlock(stack.Block.BlockId, blockSel.Position);
                 BECeramicBroodPot beCBP = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
                 beCBP.TryPutDirect(hivetopStack);
-                
             }
-
+            this.OnNeighbourBlockChange(world, blockSel.Position, blockSel.Position);
             return true;
         }
-
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {

@@ -10,6 +10,11 @@
     "origin": { "x": 0.5, "y": 0.2, "z": 0.5 },
     "scale": 0.59
   },
+  "attributes":  {
+    handbook: {
+			groupBy: ["decorative-*"]
+		}
+  },
      "variantgroups": [
       { "code": "top", "states": [ "withtop", "notop" ]}
     ],
@@ -19,8 +24,8 @@
     },
     "creativeinventory":{ "general": ["*"], "flora": ["*"], "decorative": ["*"] },
     "shapeByType": {
-      "*-notop": {"base": "block/ceramicbroodpot-notop"},
-      "*-withtop": {"base": "block/ceramicbroodpot-withtop"}
+      "*-notop": {"base": "block/hive/ceramic/ceramicbroodpot-notop"},
+      "*-withtop": {"base": "block/hive/ceramic/ceramicbroodpot-withtop"}
     },
     "collisionboxesByType": {
       "*-notop": [
@@ -53,10 +58,6 @@
     "sideopaque": { "all": false },
     "sidesolid": { "all": false },
     "blockmaterial": "Ceramic",
-    "soundsByType": {
-      "place": "game:block/planks",
-      "ambientByType": { "*-withtop": "game:creature/beehive" }
-    },
     "groundTransform": {
       "scale": 2.01
     }

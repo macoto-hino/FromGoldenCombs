@@ -11,6 +11,13 @@ namespace FromGoldenCombs
 {
     class FromGoldenCombs : ModSystem
     {
+        enum EnumHivePopSize
+        {
+            Poor = 0,
+            Decent = 1,
+            Large = 2
+        }
+
         public override bool ShouldLoad(EnumAppSide forSide)
         {
             return true;
@@ -31,7 +38,7 @@ namespace FromGoldenCombs
             api.RegisterBlockClass("ceramicbroodpot", typeof(CeramicBroodPot));
             api.RegisterBlockClass("claypothive", typeof(ClayBroodPot));
             api.RegisterBlockClass("hivetop", typeof(ClayHiveTop));
-            api.RegisterBlockClass("rawclaypothive", typeof(RawBroodPot));
+            api.RegisterBlockClass("rawceramichive", typeof(RawBroodPot));
             api.RegisterBlockClass("langstrothsuper", typeof(LangstrothSuper));
             api.RegisterBlockClass("langstrothbrood", typeof(LangstrothBrood));
             api.RegisterBlockClass("langstrothbase", typeof(LangstrothBase));

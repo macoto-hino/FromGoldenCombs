@@ -163,9 +163,9 @@
 			"______________"
 		]
 	],
-	"name": "recipe-clayforming-rawclaypothive",
+	"name": "recipe-clayforming-rawceramichive",
 	"output": {
 		"type": "block",
-		"code": "fromgoldencombs:rawclaypothive"
+		"code": "fromgoldencombs:rawceramichive"
 	}
 }

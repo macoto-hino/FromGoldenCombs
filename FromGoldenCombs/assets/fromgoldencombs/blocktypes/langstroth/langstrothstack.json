@@ -19,19 +19,19 @@
   }, 
   "shapeByType": {
     "*-north": {
-      "base": "block/langstrothstack",
+      "base": "block/hive/langstroth/langstrothstack",
       "rotateY": 90
     },
     "*-east": {
-      "base": "block/langstrothstack",
+      "base": "block/hive/langstroth/langstrothstack",
       "rotateY": 0
     },
     "*-south": {
-      "base": "block/langstrothstack",
+      "base": "block/hive/langstroth/langstrothstack",
       "rotateY": 270
     },
     "*-west": {
-      "base": "block/langstrothstack",
+      "base": "block/hive/langstroth/langstrothstack",
       "rotateY": 180
     }
   },

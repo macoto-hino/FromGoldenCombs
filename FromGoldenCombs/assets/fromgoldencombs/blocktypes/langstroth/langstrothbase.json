@@ -1,7 +1,6 @@
 {
   "code": "langstrothbase",
   "class": "langstrothbase",
-  //"entityClass": "belangstrothstack",
   "storageFlags": 2,
   "maxstacksize": 1,
   "behaviors": [{
@@ -23,19 +22,19 @@
 	},
   "shapeByType": {
   "*-north": {
-     "base": "block/langstrothbase",
+     "base": "block/hive/langstroth/langstrothbase",
      "rotateY": 0
      },
      "*-east": {
-     "base": "block/langstrothbase",
+     "base": "block/hive/langstroth/langstrothbase",
      "rotateY": 270
      },
      "*-south": {
-        "base": "block/langstrothbase",
+        "base": "block/hive/langstroth/langstrothbase",
         "rotateY": 180
      },
      "*-west": {
-     "base": "block/langstrothbase",
+     "base": "block/hive/langstroth/langstrothbase",
      "rotateY": 90
      }
   },

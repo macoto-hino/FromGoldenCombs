@@ -1,6 +1,6 @@
 {
-  "code": "rawclaypothive",
-  "class": "rawclaypothive",
+  "code": "rawceramichive",
+  "class": "rawceramichive",
   "behaviors": [
     { "name": "GroundStorable" },
       {
@@ -9,7 +9,7 @@
       },
       { "name": "RightClickPickup" }
   ],
-  "shape": { "base": "fromgoldencombs:block/rawclaypothive" },
+  "shape": { "base": "fromgoldencombs:block/hive/ceramic/rawceramichive" },
   "combustibleProps": {
     "meltingPoint": 650,
     "meltingDuration": 45,
@@ -17,7 +17,7 @@
     "smeltingType": "fire",
     "smeltedStack": {
       "type": "block",
-      "code": "fromgoldencombs:claypothive-empty-none-notop"
+      "code": "fromgoldencombs:ceramicbroodpot-notop",
     },
     "requiresContainer": false
   },

@@ -9,7 +9,7 @@
   "textures": {		
 			"cap": { base: "game:block/wood/debarked/{primary}" }
 	},
-  "shape": { "base": "item/beeframe-{harvestable}" },
+  "shape": { "base": "item/langstroth/beeframe-{harvestable}" },
   "attributes": {
     "beeframe": true
   },

@@ -217,10 +217,11 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (this.Block.Variant["open"] == "closed")
             {
-                sb.AppendLine(Lang.Get("fromgoldencombs:getmaterials", this.Block.Variant["primary"].ToString().UcFirst(), this.Block.Variant["accent"].ToString().UcFirst()));
+
                 return;
             } else if (index == 10)
             {
+                sb.AppendLine();
                 for (int i = 0; i < 10; i++)
                 {
                     ItemSlot slot = inv[i];
