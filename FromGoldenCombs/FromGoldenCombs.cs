@@ -1,10 +1,9 @@
 ﻿using Vintagestory.API.Common;
-using Vintagestory.API.Client;
-using Vintagestory.API.Config;
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.config;
 using FromGoldenCombs.Blocks.Langstroth;
+using FromGoldenCombs.Items;
 using VFromGoldenCombs.Blocks.Langstroth;
 
 namespace FromGoldenCombs
@@ -33,6 +32,7 @@ namespace FromGoldenCombs
             api.RegisterBlockEntityClass("beceramichive", typeof(BECeramicBroodPot));
             api.RegisterBlockEntityClass("belangstrothsuper", typeof(BELangstrothSuper));
             api.RegisterBlockEntityClass("belangstrothstack", typeof(BELangstrothStack));
+            api.RegisterBlockEntityClass("beframerack", typeof(BEFrameRack));
 
             //Blocks
             api.RegisterBlockClass("ceramicbroodpot", typeof(CeramicBroodPot));
@@ -43,11 +43,13 @@ namespace FromGoldenCombs
             api.RegisterBlockClass("langstrothbrood", typeof(LangstrothBrood));
             api.RegisterBlockClass("langstrothbase", typeof(LangstrothBase));
             api.RegisterBlockClass("langstrothstack", typeof(LangstrothStack));
+            api.RegisterBlockClass("framerack", typeof(FrameRack));
             api.RegisterBlockClass("waxblock", typeof(WaxBlock));
             api.RegisterBlockClass("honeyjar", typeof(HoneyJar));
 
             //Items
             api.RegisterItemClass("langstrothframe", typeof(LangstrothFrame));
+            api.RegisterItemClass("fgchoneycomb", typeof(HoneyComb));
 
 
             try
@@ -82,11 +84,6 @@ namespace FromGoldenCombs
             //TODO: Project List
             //Add Clay Honeypot For Pre-Bucket/Barrel storage
             //Add Wax Blocks For placeable, stackable storage of wax
-            //Langstroth Hive:
-            //Add Langstroth Base
-            //Langstroth base will contain controlling logic
-            //Add Langstroth Super
-            //Add Langstroth Brood Box
             //Give Raccons the ability to knock the top off a hive, and then eat it.
             //Give hivetops growth mechanics for volume.
         }

@@ -15,7 +15,8 @@ namespace FromGoldenCombs.Blocks.Langstroth
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             System.Diagnostics.Debug.WriteLine("StorageType is " + slot.StorageType.ToString());
             System.Diagnostics.Debug.WriteLine("Slot is " + slot.Empty);
-            if (slot.Empty && (int)slot.StorageType == 2)
+            
+        if (slot.Empty && (int)slot.StorageType == 2)
             {
                 ItemStack stack = api.World.BlockAccessor.GetBlock(blockSel.Position).OnPickBlock(api.World, blockSel.Position);
                 api.World.BlockAccessor.SetBlock(0, blockSel.Position);

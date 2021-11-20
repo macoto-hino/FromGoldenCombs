@@ -1,6 +1,7 @@
 ﻿using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.config;
+using FromGoldenCombs.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -145,7 +146,9 @@ namespace FromGoldenCombs.BlockEntities
                             {
                                 if (stack.Collectible.Variant["harvestable"] == "lined")
                                 {
+                                    int durability = stack.Attributes.GetInt("durability");
                                     stack = new ItemStack(Api.World.GetItem(stack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
+                                    stack.Attributes.SetInt("durability",durability);
                                     fillframes--;
                                 }
                                 curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents").SetItemstack((j - 1).ToString(), stack);

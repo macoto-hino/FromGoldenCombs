@@ -45,6 +45,7 @@
 	<Compile Remove="Blocks\BlockClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockHiveTop.cs" />
 	<Compile Remove="Blocks\BlockRawClaypotHive .cs" />
+	<Content Remove="assets\fromgoldencombs\recipes\grid\parts\beeframe.json" />
 	<Content Remove="assets\fromgoldencombs\shapes\block\ceramicbroodpot-withtop.json" />
 	<Content Remove="assets\fromgoldencombs\shapes\block\hive\ceramic\ceramicbroodpot-withtop.json" />
 	<Content Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothbrood-unused-small.json" />
@@ -57,8 +58,14 @@
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbrood.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothstack.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothsuper.json" />
+	<None Remove="assets\fromgoldencombs\blocktypes\langstroth\framerack.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\beeframe.json" />
+	<None Remove="assets\fromgoldencombs\itemtypes\frameliner.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\waxedtwine.json" />
+	<None Remove="assets\fromgoldencombs\recipes\grid\cleanframe.json" />
+	<None Remove="assets\fromgoldencombs\recipes\grid\parts\beeframe.json" />
+	<None Remove="assets\fromgoldencombs\recipes\grid\parts\frameliner.json" />
+	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothbase.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothbrood.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothpart-brood.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothsuper.json" />
@@ -72,6 +79,8 @@
 	<None Remove="assets\fromgoldencombs\shapes\item\beeframe-empty.json" />
 	<None Remove="assets\game\patches\beehive.json" />
 	<None Remove="assets\game\patches\beeswax.json" />
+	<None Remove="assets\game\patches\honeycomb.json" />
+	<None Remove="assets\game\patches\waxedlinen.json" />
 	<None Remove="modinfo.json" />
 	<Content Include="modinfo.json">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -29,14 +29,20 @@
   "block-langstrothstack-*": "Langstroth Stack",
   "langstrothstack-*-*-hive": "Langstroth Hive",
   "block-langstrothbrood-*": "Langstroth Brood Box",
+  "block-framerack-*": "Frame Rack",
+  "block-waxedlinen-*": "Waxed Linen",
   "getmaterials": "Constructed from {0} and {1}",
   
   //Items
   "item-beeframe-*-empty": "Empty Frame",
   "item-beeframe-*-lined": "Lined Frame",
   "item-beeframe-*-harvestable": "Harvestable Frame",
-  "item-langstrothbroodtop-*": "Langstroth Brood Super Top",
+  "item-langstrothbroodtop-*": "Langstroth Brood Box Top",
   "item-langstrothside-*": "Langstroth Super Part",
+  "item-waxedflaxtwine": "Waxed Flax Twine",
+  "item-frameliner":  "Waxed Linen Frame Liner",
+ 
+  
 
   //Guide Info
   "fromgoldencombsguide-title": "From Golden Combs - Guide To New Hives",

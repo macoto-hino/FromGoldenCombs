@@ -11,6 +11,7 @@ namespace FromGoldenCombs.config
         public int hiveHoursToHarvest = 120;
         public int clayPotHiveHoursToHarvest = 120;
         public int MaxStackSize = 6;
+        public int baseframedurability = 32;
         //private ArrayList HiveSeasons = new();
 
         public FromGoldenCombsConfig()
@@ -23,11 +24,12 @@ namespace FromGoldenCombs.config
             FromGoldenCombsConfig defaultConfig = new();
 
             //Set to 120 before launch
-            defaultConfig.hiveHoursToHarvest = 1;
+            defaultConfig.hiveHoursToHarvest = 120;
             //Set to 120 before launch
-            defaultConfig.clayPotHiveHoursToHarvest = 1;
+            defaultConfig.clayPotHiveHoursToHarvest = 120;
             //defaultConfig.HiveSeasons =
             defaultConfig.MaxStackSize = 6;
+            defaultConfig.baseframedurability = 32;
             return defaultConfig;
         }
 

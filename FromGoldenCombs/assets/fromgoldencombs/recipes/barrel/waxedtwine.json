@@ -1,5 +1,5 @@
 {
-	code: "waxedflaxtwine",
+	code: "waxedflaxtwines",
 	sealHours: 2,
 	ingredients: [
 		{ type: "item", code: "game:beeswax"},

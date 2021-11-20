@@ -29,7 +29,7 @@ namespace FromGoldenCombs.Blocks
                 //TODO: Switch this to default drop method (using JSON)
 
                 Random rand = new();
-                byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(world.GetItem(new AssetLocation("game", "honeycomb")), rand.Next(1, 5)));
+                byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(world.GetItem(new AssetLocation("game", "honeycomb")), rand.Next(2, 4)));
                 world.BlockAccessor.SetBlock(emptyTop.BlockId, blockSel.Position);
             }
             return true;

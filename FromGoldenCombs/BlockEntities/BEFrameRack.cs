@@ -1,4 +1,5 @@
 ﻿using FromGoldenCombs.Blocks;
+using FromGoldenCombs.config;
 using FromGoldenCombs.Items;
 using System.Text;
 using Vintagestory.API.Client;
@@ -15,17 +16,17 @@ namespace FromGoldenCombs.BlockEntities
     //TODO: Find out how to get animation functioning
     //TODO: Fix selection box issue
     
-    class BELangstrothSuper : BlockEntityDisplay
+    class BEFrameRack : BlockEntityDisplay
     {
 
         readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
 
-        public override string InventoryClassName => "langstrothsuper";
+        public override string InventoryClassName => "framerack";
 
         Block block;
 
-        public BELangstrothSuper()
+        public BEFrameRack()
         {
             inv = new InventoryGeneric(10, "frameslot-0", null, null);
             meshes = new MeshData[10];
@@ -54,9 +55,11 @@ namespace FromGoldenCombs.BlockEntities
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isBeeframe = colObj is LangstrothFrame;
             BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
+            int index = blockSel.SelectionBoxIndex;
             block.SetContents(new(block), this.GetContentStacks());
-                        
-            if ((slot.Empty || !isBeeframe) && blockSel.SelectionBoxIndex < 10 && this.Block.Variant["open"] == "open")
+            System.Diagnostics.Debug.WriteLine("Holding a " + slot.Itemstack?.Item?.FirstCodePart());
+
+            if (slot.Empty && index < 10)
             {
                 if (TryTake(byPlayer, blockSel))
                 {
@@ -64,39 +67,53 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
             }
-            else if (isBeeframe && blockSel.SelectionBoxIndex < 10  && this.Block.Variant["open"] == "open")
+            else if (slot.Itemstack?.Item?.FirstCodePart() == "knife" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "harvestable")
             {
-                //AssetLocation sound = slot.Itemstack?.Item?.Sounds?.Place;
+                ItemStack stack = slot.Itemstack;
+                ItemStack rackSlot = inv[index].Itemstack;
+                if (TryHarvest(stack, rackSlot, index))
+                {
+                    MarkDirty(true);
+                    return true;
+                }
+                MarkDirty(true);
+            }
+            else if (slot.Itemstack?.Item?.FirstCodePart() == "waxedflaxtwine" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "lined")
+            {
+                ItemStack rackSlot = inv[index].Itemstack;
+                if (TryRepair(slot, rackSlot, index))
+                {
+
+                    MarkDirty(true);
+                    return true;
+                }
+                MarkDirty(true);
+            }
+            else if (slot.Itemstack?.Item?.FirstCodePart() == "frameliner" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "empty")
+            {
+                ItemStack rackSlot = inv[index].Itemstack;
+                inv[index].Itemstack = new ItemStack(Api.World.GetItem(inv[index].Itemstack.Item.CodeWithVariant("harvestable", "lined")));
+                inv[index].Itemstack.Attributes.SetInt("durability", 32);
+                slot.TakeOut(1);
+                MarkDirty(true);
+                return true;
+            }
+            else if (isBeeframe && index < 10)
+            {
                 MarkDirty(true);
                 if (TryPut(slot, blockSel))
                 {
-                    //Api.World.PlaySoundAt(sound != null ? sound : new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                     return true;
                 }
 
             }
-            else if (//byPlayer.Entity.Controls.Sneak &&
-                     slot.Itemstack == null
+            else if (slot.Empty
                      && (int)slot.StorageType == 2
-                     && Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed"
-                     && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position))
-                     )
+                     && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position)))
             {
                 Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
                 MarkDirty(true);
                 return true;        
-            }
-            else if (this.Block.Variant["open"] == "open" && !byPlayer.Entity.Controls.Sneak)
-            {
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "closed")).BlockId, blockSel.Position);
-                MarkDirty(true);
-                return true;
-            }
-            else if (this.Block.Variant["open"] == "closed")
-            { 
-                Api.World.BlockAccessor.ExchangeBlock(Api.World.GetBlock(block.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
-                MarkDirty(true);
-                return true;
             }
             return false;
         }
@@ -144,6 +161,42 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
+        private bool TryHarvest(ItemStack handStack, ItemStack rackStack, int index)
+        {
+
+            if(rackStack.Attributes.GetInt("durability") == 0)
+            {
+                rackStack.Attributes.SetInt("durability", FromGoldenCombsConfig.Current.baseframedurability-1);
+            } else
+            {
+                rackStack.Attributes.SetInt("durability", FromGoldenCombsConfig.Current.baseframedurability - 1);
+            }
+            int durability = rackStack.Attributes.GetInt("durability");
+            rackStack = new ItemStack(Api.World.GetItem(rackStack.Item.CodeWithVariant("harvestable", "lined")));
+            rackStack.Attributes.SetInt("durability", durability);
+            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")),3),Pos.ToVec3d());
+            if(rackStack.Attributes.GetInt("durability") == 0)
+            rackStack = new ItemStack(Api.World.GetItem(rackStack.Item.CodeWithVariant("harvestable", "empty")), 1);
+
+            handStack.Attributes.SetInt("durability", handStack.Attributes.GetInt("durability") - 1);
+
+            inv[index].Itemstack = rackStack;
+            return true;
+        }
+
+        private bool TryRepair(ItemSlot slot, ItemStack rackStack, int index)
+        {
+            int durability = rackStack.Attributes.GetInt("durability");
+            int maxDurability = FromGoldenCombsConfig.Current.baseframedurability;
+
+            if (durability == maxDurability)
+            return false;
+
+            rackStack.Attributes.SetInt("durability", (maxDurability - durability) < 16 ? maxDurability : durability + 16);
+            slot.TakeOut(1);
+            inv[index].Itemstack = rackStack;
+            return true;
+        }
 
         readonly Matrixf mat = new();
 
@@ -167,11 +220,11 @@ namespace FromGoldenCombs.BlockEntities
         {
 
             ICoreClientAPI capi = Api as ICoreClientAPI;
-                nowTesselatingItem = stack.Item;
-                nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
-                capi.Tesselator.TesselateItem(stack.Item, out MeshData mesh, this);
+            nowTesselatingItem = stack.Item;
+            nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
+            capi.Tesselator.TesselateItem(stack.Item, out MeshData mesh, this);
 
-                mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
+            mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
 
             float x = 0f;
             float y = 0.069f;
@@ -216,12 +269,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 base.GetBlockInfo(forPlayer, sb);
             }
-            else if (this.Block.Variant["open"] == "closed")
-            {
-
-                return;
-            } else if (index == 10)
-            {
+            else { 
                 sb.AppendLine();
                 for (int i = 0; i < 10; i++)
                 {
@@ -234,18 +282,6 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         sb.AppendLine(slot.Itemstack.GetName());
                     }
-                }
-            }
-            else if (index < 10)
-            {
-                ItemSlot slot = inv[index];
-                if (slot.Empty)
-                {
-                    sb.AppendLine(Lang.Get("Empty"));
-                }
-                else
-                {
-                    sb.AppendLine(slot.Itemstack.GetName());
                 }
             }
         }

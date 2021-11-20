@@ -1,8 +1,8 @@
 {
-	code: "waxedflaxtwine",
-	shape: { "base": "game:item/resource/flaxtwine" },
+	code: "frameliner",
+	shape: { "base": "fromgoldencombs:item/langstroth/langstrothpart-side" },
 		"textures": {
-		"linen": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen" }
+		"accent": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen" }
 	},
 	attributes: {
 		clothingRepairStrength: 0.1,

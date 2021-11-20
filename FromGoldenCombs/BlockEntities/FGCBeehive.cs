@@ -80,7 +80,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 if (wasPlaced)
                 {
-                harvestableAtTotalHours = worldTime + getHarvestTime();
+                harvestableAtTotalHours = worldTime + GetHarvestTime();
                 cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
             }
 
@@ -108,16 +108,16 @@ namespace FromGoldenCombs.BlockEntities
 
             }
 
-            private double getHarvestTime()
+            private double GetHarvestTime()
             {
                 Random rand = new();
                 return (harvestBase * .75) + ((harvestBase * .5) * rand.NextDouble());
             }
 
-        Vec3d startPos = new();
-            Vec3d endPos = new();
-            Vec3f minVelo = new();
-            Vec3f maxVelo = new();
+        readonly Vec3d startPos = new();
+        readonly Vec3d endPos = new();
+        Vec3f minVelo = new();
+            //Vec3f maxVelo = new();
             private void SpawnBeeParticles(float dt)
             {
                 float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
@@ -161,7 +161,7 @@ namespace FromGoldenCombs.BlockEntities
                 wasPlaced = true;
                 if (Api?.World != null)
                 {
-                harvestableAtTotalHours = Api.World.Calendar.TotalHours + getHarvestTime();
+                harvestableAtTotalHours = Api.World.Calendar.TotalHours + GetHarvestTime();
                 }
             }
 
