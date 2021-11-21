@@ -44,12 +44,13 @@ namespace FromGoldenCombs
             api.RegisterBlockClass("langstrothbase", typeof(LangstrothBase));
             api.RegisterBlockClass("langstrothstack", typeof(LangstrothStack));
             api.RegisterBlockClass("framerack", typeof(FrameRack));
-            api.RegisterBlockClass("waxblock", typeof(WaxBlock));
-            api.RegisterBlockClass("honeyjar", typeof(HoneyJar));
+            //api.RegisterBlockClass("waxblock", typeof(WaxBlock));
+            //api.RegisterBlockClass("honeyjar", typeof(HoneyJar));
 
             //Items
             api.RegisterItemClass("langstrothframe", typeof(LangstrothFrame));
-            api.RegisterItemClass("fgchoneycomb", typeof(HoneyComb));
+            api.RegisterItemClass("langstrothpartcore", typeof(LangstrothPartCore));
+            //api.RegisterItemClass("langstrothside", typeof(LangstrothSide));
 
 
             try

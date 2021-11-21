@@ -69,7 +69,7 @@ namespace FromGoldenCombs.BlockEntities
             if (api.Side == EnumAppSide.Client)
             {
                 ICoreClientAPI capi = api as ICoreClientAPI;
-                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/ceramicbroodpot-withtop.json")).ToObject<Shape>();
+                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/ceramicbroodpot-notop.json")).ToObject<Shape>();
 
                 if (api.Side == EnumAppSide.Client)
                 {
@@ -125,7 +125,6 @@ namespace FromGoldenCombs.BlockEntities
                 Api.World.BlockAccessor.SetBlock(0, Pos);
                 return true;
             }
-            return false;
         }
 
         public void TryPutDirect(ItemStack stack)

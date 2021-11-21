@@ -8,7 +8,7 @@
 	"textureSizes": {
 	},
 	"textures": {
-		"accent": "game:block/wood/planks/maple1"
+		"primary": "game:block/wood/planks/maple1"
 	},
 	"elements": [
 		{
@@ -17,12 +17,12 @@
 			"to": [ 13.0, 1.0, 10.3 ], 
 			"rotationOrigin": [ 8.0, 28.0, 11.0 ],
 			"faces": {
-				"north": { "texture": "#accent", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
-				"east": { "texture": "#accent", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
-				"south": { "texture": "#accent", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
-				"west": { "texture": "#accent", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
-				"up": { "texture": "#accent", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
-				"down": { "texture": "#accent", "uv": [ 0.0, 0.0, 10.0, 4.0 ] }
+				"north": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
+				"east": { "texture": "#primary", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+				"south": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 1.0 ] },
+				"west": { "texture": "#primary", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+				"up": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 4.0 ] },
+				"down": { "texture": "#primary", "uv": [ 0.0, 0.0, 10.0, 4.0 ] }
 			}
 		}
 	]

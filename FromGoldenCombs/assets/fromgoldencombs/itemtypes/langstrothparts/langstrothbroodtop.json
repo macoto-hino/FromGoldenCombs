@@ -1,5 +1,6 @@
 {
 	code: "langstrothbroodtop",
+	"class": "langstrothpartcore",
 	variantgroups: [
 	 { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" }
@@ -18,30 +19,31 @@
 	},
 	combustibleProps: {
 		burnTemperature: 700,
-		burnDuration: 6,
+		burnDuration: 6
 	},
 	materialDensity: 700,
-	guiTransform: {
-		"translation": { "x": 3,"y": -0.3,"z": 0 },
-		"rotation": { "x": -14,"y": 1,"z": -176 },
-		"origin": { "x": 0.5,"y": 0,"z": -0.2 },
-		"scale": 1.71
+
+		guiTransform: {
+		translation: { x: 3, y: -0.3, z: 0 },
+		rotation: { x: -14, y: 1, z: -176 },
+		origin: { x: 0.5, y: 0, z: -0.2 },
+		scale: 1.71
 	},
 		fpHandTransform: {
-		"translation": { "x": -0.65,"y": 0.2,"z": 1.6 },
-		"rotation": { "x": 13,"y": 180,"z": -17 },
-		"origin": { "x": 0.5,"y": 0.7,"z": 0.1 }
-	},
-	  	"groundTransform": {
-		"translation": { "x": 0,"y": 0,"z": 0 },
-		"rotation": { "x": -8,"y": -12,"z": 4 },
-		"origin": { "x": 0.5,"y": 0,"z": 0.5299 },
-		"scale": 3.25
+		translation: { x: -0.65, y: 0.2, z: 1.5 },
+		rotation: { x: 13, y: 180, z: -17 },
+		origin: { x: 0.5, y: 0.7, z: 0.1 }
 	},
 		tpHandTransform: {
-		"translation": { "x": -1.4,"y": -1.6,"z": -0.8 },
-		"rotation": { "x": 19,"y": 90,"z": 4 },
-		"origin": { "x": 0.5,"y": 1.9,"z": 0.7 },
-		"scale": 0.59
+		translation: { x: -1.1, y: -3.8, z: -2.9 },
+		rotation: { x: -90, y: 13, z: 1 },
+		origin: { x: 0.5, y: 1.9, z: 0.7 },
+		scale: 0.5899
+	},
+			groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 3, y: -12, z: 4 },
+		origin: { x: 0.5, y: 0, z: 0.5299 },
+		scale: 3.25
 	}
 }

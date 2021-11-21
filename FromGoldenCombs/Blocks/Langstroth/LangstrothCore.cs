@@ -44,12 +44,11 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
         public override string GetPlacedBlockName(IWorldAccessor world, BlockPos pos)
         {
-            if (this is LangstrothStack) {
-
-                return base.GetPlacedBlockName(world, pos);
-                } 
-                StringBuilder sb = new();
-                return base.GetPlacedBlockName(world, pos).ToString() + sb.AppendLine() + Lang.Get("fromgoldencombs:getmaterials", this.Variant["primary"].ToString().UcFirst(), this.Variant["accent"].ToString().UcFirst());
+            if (this is LangstrothStack)
+            return base.GetPlacedBlockName(world, pos);
+ 
+            StringBuilder sb = new();
+            return base.GetPlacedBlockName(world, pos) + sb.AppendLine() + Lang.Get("fromgoldencombs:getmaterials", this.Variant["primary"].ToString().UcFirst(), this.Variant["accent"].ToString().UcFirst());
         }
     }
  }

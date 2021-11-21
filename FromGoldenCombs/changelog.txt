@@ -8,6 +8,17 @@
 	- Add Langstroth Brood Box
 	- Add Langstroth Base
 
+1.15.7-v1.3.0
+ - Langstroth Hive:
+ - Beeframes will have durability that will degrade when harvested
+	- Beeframes can be repaired with wax infused twine
+	- Beeframes require frame liners to make
+ - Wax infused linen swatches is crafted using wax and linen swatches, or waxed linen twince
+ - Frame liners are created using a knife and waxed linen
+ - Wax infused linen twine is crafted using wax and linen twine (in batches of 4 twine, 1 wax)
+ - Frame Rack for holding/processing/repairing hives
+
+
 Upcoming
  - Add config for changing swarm seasons
  - Varietal honey based on prominent flowers when skep/pot/frame fills.
@@ -17,16 +28,7 @@ Upcoming
 	- Add config
  - Add Clay Honeypot For Pre-Bucket/Barrel storage
  - Add Wax Blocks For placeable, stackable storage of wax
- - Langstroth Hive:
-	
-	 - Langstroth base will contain controlling logic
-	
- - Beeframes will have durability that will degrade when harvested
-	- Beeframes can be repaired with wax infused linen swatches/twine
-	- Beeframes require wax infused linen swatches to make
- - Wax infused linen swatches is crafted using wax and linen swatches, or waxed linen twince
- - Wax infused linen twine is crafted using wax and linen twine (in batches of 4 twine, 1 wax)
-  
+
  - Raccoons can knock the top off a claypot hive, and then eat from it.
 	- Have hive top gradually fill over time
 	- Adjust eat a portion of for raccoons to remove one portion

@@ -29,7 +29,7 @@ namespace FromGoldenCombs.Blocks
             return stack;
         }
 
-        public virtual void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack = null)
+        public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack = null)
         {
             base.OnNeighbourBlockChange(world, blockPos, blockPos);
         }

@@ -91,7 +91,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (slot.Itemstack?.Item?.FirstCodePart() == "frameliner" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "empty")
             {
-                ItemStack rackSlot = inv[index].Itemstack;
                 inv[index].Itemstack = new ItemStack(Api.World.GetItem(inv[index].Itemstack.Item.CodeWithVariant("harvestable", "lined")));
                 inv[index].Itemstack.Attributes.SetInt("durability", 32);
                 slot.TakeOut(1);
@@ -264,7 +263,6 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
-            int index = forPlayer.CurrentBlockSelection.SelectionBoxIndex;
             if (forPlayer.CurrentBlockSelection == null)
             {
                 base.GetBlockInfo(forPlayer, sb);

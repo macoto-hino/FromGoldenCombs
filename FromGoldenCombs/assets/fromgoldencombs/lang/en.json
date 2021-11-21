@@ -31,8 +31,10 @@
   "block-langstrothbrood-*": "Langstroth Brood Box",
   "block-framerack-*": "Frame Rack",
   "block-waxedlinen-*": "Waxed Linen",
-  "getmaterials": "Constructed from {0} and {1}",
-  
+  "getmaterials": "Made from {0} and {1}",  
+  "getpartmaterials1": "{0}",
+  "getpartmaterials2": "{0} and {1}",
+    
   //Items
   "item-beeframe-*-empty": "Empty Frame",
   "item-beeframe-*-lined": "Lined Frame",

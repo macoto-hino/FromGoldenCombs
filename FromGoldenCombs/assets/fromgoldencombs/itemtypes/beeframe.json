@@ -29,22 +29,22 @@
     "origin": { "x": 0.5, "y": 0.05, "z": 0.5},
     "scale": 3
   },
-  	"fpHandTransform:": {
-		"translation": { "x": 0.05,"y": 0.25,"z": 0 },
-		"rotation": { "x": 22,"y": -4,"z": -7 },
-		"origin": { "x": 0.5,"y": 0.05,"z": 0.5 },
-		"scale": 2.24
+		fpHandTransform: {
+		translation: { x: 0.65, y: 0.2, z: 0.7 },
+		rotation: { x: 21, y: 1, z: 5 },
+		origin: { x: 5.4, y: 0.3, z: 2 },
+		scale: 2.35
 	},
-  "tpHandTransform": {
-		"translation": { "x": -0.35,"y": 0.7,"z": -0.92 },
-		"rotation": { "x": -87,"y": 65,"z": -93 },
-		"origin": { "x": 0.44,"y": -1.21,"z": 0.47 },
-		"scale": 0.63
+  	tpHandTransform: {
+		translation: { x: -1, y: -0.2, z: 0.5 },
+		rotation: { x: 0, y: 90, z: 0 },
+		origin: { x: 1, y: 0, z: 0 },
+		scale: 0.77
 	},
-  	"groundTransform": {
-		"translation": { "x": 0,"y": 0,"z": 0 },
-		"rotation": { "x": 7,"y": -118,"z": 87 },
-		"origin": { "x": 0.47,"y": 0,"z": 0.5299 },
-		"scale": 4.37
+	  groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 7, y: -118, z: 87 },
+		origin: { x: 0.47, y: 0, z: 0.5299 },
+		scale: 4.37
 	}
 }

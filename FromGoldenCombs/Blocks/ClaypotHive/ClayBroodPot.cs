@@ -18,7 +18,6 @@ namespace FromGoldenCombs.Blocks
 
             if (bebeehive is BEClayBroodPot)
             {
-                System.Diagnostics.Debug.WriteLine("ClayBrood Checkpoint Beta");
 
                 bebeehive.BlockInteract(world);
             }

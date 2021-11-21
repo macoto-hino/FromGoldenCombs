@@ -55,12 +55,6 @@
       "scale": 4
     },
   	"fpHandTransform": {
-		"translation": { "x": 0,"y": 0.65,"z": 0 },
-		"rotation": { "x": 26,"y": -46,"z": -2 },
-		"origin": { "x": 1.7,"y": 0.1,"z": 0.3 },
-		"scale": 3.04
-	},
-  	"fpHandTransform": {
 		"translation": { "x": 0,"y": 0.85,"z": 0 },
 		"rotation": { "x": 26,"y": -136,"z": -1 },
 		"origin": { "x": 0.1,"y": 0.2,"z": -0.1 },
