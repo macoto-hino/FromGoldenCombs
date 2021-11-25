@@ -32,13 +32,18 @@ namespace FromGoldenCombs.Blocks
         public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack = null)
         {
             base.OnNeighbourBlockChange(world, blockPos, blockPos);
+            base.OnBlockPlaced(world,blockPos,byItemStack);
         }
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-                BEFrameRack beFrameRack = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BEFrameRack;
-                if (beFrameRack is BEFrameRack) return beFrameRack.OnInteract(byPlayer, blockSel);
-            return false;
+            System.Diagnostics.Debug.WriteLine("We've reached this a point.");
+            BEFrameRack beFrameRack = (BEFrameRack)world.BlockAccessor.GetBlockEntity(blockSel.Position) as BEFrameRack;
+
+                if (beFrameRack is BEFrameRack)
+                System.Diagnostics.Debug.WriteLine("We've reached this b point.");
+                return beFrameRack.OnInteract(byPlayer, blockSel);
+
         }
     }
 }

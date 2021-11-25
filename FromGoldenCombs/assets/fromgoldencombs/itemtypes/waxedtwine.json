@@ -1,26 +1,29 @@
 {
-	code: "waxedflaxtwine",
-	shape: { "base": "game:item/resource/flaxtwine" },
+	"code": "waxedflaxtwine",
+	"shape": { "base": "game:item/resource/flaxtwine" },
 		"textures": {
 		"linen": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen" }
 	},
-	attributes: {
-		clothingRepairStrength: 0.1,
+	"creativeinventory": { "general": ["*"] },
+	"attributes": {
+		"handbook": {
+		"extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-waxedflaxtwine", "text": "fromgoldencombs:item-handbooktext-waxedflaxtwine" } ]
+		},
+		"clothingRepairStrength": 0.1
 	},
-	"creativeinventory": { "general": ["*"], "items": ["*"] },
 	"maxstacksize": 32,
-	materialDensity: 210,
-	guiTransform: {
+	"materialDensity": 210,
+	"guiTransform": {
 		"rotation": { "x": 1,"y": 43,"z": -37 },
 		"origin": { "x": 0.5,"y": 0.1,"z": 0.5 },
 		"scale": 2.41
 	},
-	fpHandTransform: {
+	"fpHandTransform": {
 		"rotation": { "x": 109,"y": 89,"z": -42 },
 		"origin": { "x": 0.6,"y": 0.3,"z": 0.5 },
 		"scale": 1.48
 	},
-	tpHandTransform: {
+	"tpHandTransform": {
 		"translation": { "x": -1,"y": -1,"z": -1.3 },
 		"rotation": { "x": -93,"y": -3,"z": -5 },
 		"scale": 0.51

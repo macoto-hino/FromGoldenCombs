@@ -33,8 +33,9 @@ namespace FromGoldenCombs.BlockEntities
         int scanIteration;
         EnumHivePopSize hivePopSize;
         int harvestableFrames = 0;
-        string honeyVarietal;
-        List<String> honeyTypeCount = new();
+        int linedFrames = 0;
+        //string honeyVarietal;
+        //List<String> honeyTypeCount = new();
         public readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
 
@@ -78,7 +79,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 ICoreClientAPI capi = api as ICoreClientAPI;
                 Block ownBlock = block;
-                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/langstrothstack.json")).ToObject<Shape>();
+                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/langstroth/langstrothstack.json")).ToObject<Shape>();
 
                 if (api.Side == EnumAppSide.Client)
                 {
@@ -160,8 +161,8 @@ namespace FromGoldenCombs.BlockEntities
                 curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
             }
 
-            honeyVarietal = GetHoneyVarietal(honeyTypeCount.ToArray(),honeyTypeCount.Count);
-            System.Diagnostics.Debug.WriteLine("honeyVarietal on Update Is " + honeyVarietal);
+            //honeyVarietal = GetHoneyVarietal(honeyTypeCount.ToArray(),honeyTypeCount.Count);
+            //System.Diagnostics.Debug.WriteLine("honeyVarietal on Update Is " + honeyVarietal);
 
         }
 
@@ -202,6 +203,45 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             return harvestableFrames;
+        }
+
+        private int CountLinedFrames()
+        {
+
+            BELangstrothStack topStack = GetTopStack();
+            BELangstrothStack bottomStack = GetBottomStack();
+            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
+            bottomStack.linedFrames = 0;
+
+            while (curBE is BELangstrothStack)
+            {
+                for (int index = 2; index >= 0; index--)
+                {
+
+                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                    {
+                        ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
+                        int contentsSize = contents.Count;
+
+                        for (int j = 0; j <= contentsSize; j++)
+                        {
+                            ItemStack stack = contents.GetItemstack((j - 1).ToString());
+                            if (stack?.Collectible is LangstrothFrame)
+                            {
+                                if (stack.Collectible.Variant["harvestable"] == "lined")
+                                {
+                                    bottomStack.linedFrames++;
+                                }
+
+                            }
+                            curBE.inv[index].MarkDirty();
+                        }
+                    }
+                }
+                curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
+            }
+
+            return linedFrames;
         }
 
         public bool InitializePut(ItemStack first, ItemSlot slot)
@@ -332,7 +372,7 @@ namespace FromGoldenCombs.BlockEntities
             UpdateStackSize();
             return isSuccess;
 
-            //Summary: TryTake grabs the topmost index out of a stack of stacks. In a single stack, it takes the topmost index, or the targeted index if empty.
+            //Summar"y": TryTake grabs the topmost index out of a stack of stacks. In a single stack, it takes the topmost index, or the targeted index if empty.
         }
 
         private void UpdateStackSize()
@@ -364,7 +404,7 @@ namespace FromGoldenCombs.BlockEntities
                     .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-" + stacksize + "-" + this.Block.Variant["side"])).BlockId, Pos);
             }
 
-            //Summary: UpdateStackSize changes the size of the stack as blocks are added or removed from it.
+            //Summar"y": UpdateStackSize changes the size of the stack as blocks are added or removed from it.
             //If a single block is left in a stack, the stack is removed and that block placed, provided that the block under the stack is not another stack.
         }
 
@@ -643,8 +683,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             if (isActiveHive && (Pos == GetBottomStack().Pos))
             {
-                //int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
-                int harvestBase = 24;
+                int harvestBase = FromGoldenCombsConfig.Current.langstrothHiveHoursToHarvest;
                 double worldTime = Api.World.Calendar.TotalHours;
                 ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
                 if (conds == null) return;
@@ -659,16 +698,19 @@ namespace FromGoldenCombs.BlockEntities
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                     cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
                 }
-
-                if (!Harvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)
+                if (CountLinedFrames() <= 0)
+                {
+                    cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+                }
+                if (!Harvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor && CountLinedFrames()>0)
                 {
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 }
-                else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
+                else if (!Harvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor && CountLinedFrames() > 0)
                 {
 
                     GetTopStack().UpdateFrames(((int)hivePopSize));
-                    System.Diagnostics.Debug.WriteLine("Frames Updated, updated " + (int)hivePopSize + " frames.");
+                    //System.Diagnostics.Debug.WriteLine("Frames Updated, updated " + (int)hivePopSize + " frames.");
                     MarkDirty(true);
                     CountHarvestable();
                 }
@@ -763,8 +805,8 @@ namespace FromGoldenCombs.BlockEntities
                     OnScanComplete();
                 }
 
-                honeyTypeCount.Add(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
-                System.Diagnostics.Debug.WriteLine(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
+                //honeyTypeCount.Add(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
+                //System.Diagnostics.Debug.WriteLine(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
             }
         }
 
@@ -772,47 +814,47 @@ namespace FromGoldenCombs.BlockEntities
         {
             quantityNearbyFlowers = scanQuantityNearbyFlowers;
             quantityNearbyHives = scanQuantityNearbyHives;
-            hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 3 * quantityNearbyHives, 0, 2);
+            hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - (6 * quantityNearbyHives), 0, 2);
             MarkDirty();
         }
 
-        private String GetHoneyVarietal(String[] flowers, int n)
-        {
-            // Sort the array
-            Array.Sort(flowers);
+        //private String GetHoneyVarietal(String[] flowers, int n)
+        //{
+        //    // Sort the array
+        //    Array.Sort(flowers);
 
-            // find the max frequency using
-            // linear traversal
-            int max_count = 1;
-            String flowerSort = flowers[0];
-            int curr_count = 1;
+        //    // find the max frequency using
+        //    // linear traversal
+        //    int max_count = 1;
+        //    String flowerSort = flowers[0];
+        //    int curr_count = 1;
 
-            for (int i = 1; i < n; i++)
-            {
-                if (flowers[i] == flowers[i - 1])
-                    curr_count++;
-                else
-                {
-                    if (curr_count > max_count)
-                    {
-                        max_count = curr_count;
-                        flowerSort = flowers[i - 1];
-                    }
-                    curr_count = 1;
-                }
-            }
+        //    for (int i = 1; i < n; i++)
+        //    {
+        //        if (flowers[i] == flowers[i - 1])
+        //            curr_count++;
+        //        else
+        //        {
+        //            if (curr_count > max_count)
+        //            {
+        //                max_count = curr_count;
+        //                flowerSort = flowers[i - 1];
+        //            }
+        //            curr_count = 1;
+        //        }
+        //    }
 
-            // If last element is most frequent
-            if (curr_count > quantityNearbyFlowers || max_count > quantityNearbyFlowers)
-            {
-                if (curr_count > max_count)
-                {
-                    flowerSort = flowers[n - 1];
-                }
-                return flowerSort;
-            }
-            return "blended";
-        }
+        //    // If last element is most frequent
+        //    if (curr_count > quantityNearbyFlowers || max_count > quantityNearbyFlowers)
+        //    {
+        //        if (curr_count >= max_count)
+        //        {
+        //            flowerSort = flowers[n - 1];
+        //        }
+        //        return flowerSort;
+        //    }
+        //    return "blended";
+        //}
 
 
 //Misc Methods
@@ -879,11 +921,33 @@ namespace FromGoldenCombs.BlockEntities
             {
                 BELangstrothStack bottomStack = GetBottomStack();
                 sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames);
-                sb.AppendLine("Hive is Active: " + bottomStack.isActiveHive);
-                if (bottomStack.isActiveHive)
+                sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "The hive sits dormant.");
+
+                double worldTime = Api.World.Calendar.TotalHours;
+                int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
+                daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
+                string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
+                System.Diagnostics.Debug.WriteLine(CountLinedFrames() + " lined frames." + daysTillHarvest + " days till harvest.");
+                sb.AppendLine(hiveState);
+                if (daysTillHarvest > 0 && CountLinedFrames()>0)
                 {
-                    string str = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", bottomStack.quantityNearbyFlowers, bottomStack.hivePopSize);
-                    sb.AppendLine(str);
+                    string combPopTime;
+                    if (FromGoldenCombsConfig.Current.showcombpoptime)
+                    {
+                        combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
+                    } else
+                    {
+                        combPopTime = "The bees are out gathering";
+                    }
+                        sb.AppendLine(combPopTime);
+                }
+                else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
+                {
+                    sb.AppendLine("Hive lacks fillable frames, will not produce comb.");
+                }
+                else
+                {
+                    sb.AppendLine("The bees are still settling in.");
                 }
             }
         }

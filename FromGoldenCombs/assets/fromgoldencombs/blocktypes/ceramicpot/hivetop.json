@@ -39,7 +39,7 @@
       "requiresContainer": false
     }
   },
-  "creativeinventory":{ "general": ["*"], "flora": ["*"], "decorative": ["*"] },
+  "creativeinventory":{ "general": ["*-empty","*-raw"], "flora": ["*-empty","*-raw"], "decorative": ["*-empty","*-raw"] },
   "maxstacksize": 1,
   "blockmaterial": "Ceramic",
   "sideopaque": { "all": false },

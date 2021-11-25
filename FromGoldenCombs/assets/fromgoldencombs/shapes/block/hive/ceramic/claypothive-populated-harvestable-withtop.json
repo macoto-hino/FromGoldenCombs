@@ -8,7 +8,7 @@
 	"textureSizes": {
 	},
 	"textures": {
-		"clay": "fromgoldencombs:block/beehive/clay.png",
+		"clay": "game:block/clay/ceramic",
 		"wax": "fromgoldencombs:block/beehive/wax.png"
 	},
 	"elements": [

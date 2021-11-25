@@ -58,14 +58,16 @@
 	<None Remove="assets\fromgoldencombs\itemtypes\beeframe.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\frameliner.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\waxedtwine.json" />
+	<None Remove="assets\fromgoldencombs\recipes\barrel\waxedlinen.json" />
+	<None Remove="assets\fromgoldencombs\recipes\barrel\waxedtwine.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\cleanframe.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\beeframe.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\frameliner.json" />
+	<None Remove="assets\fromgoldencombs\recipes\grid\parts\framerack.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothbase.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothbrood.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothpart-brood.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothpart-side.json" />
-	<None Remove="assets\fromgoldencombs\recipes\grid\parts\langstrothsuper.json" />
 	<None Remove="assets\fromgoldencombs\shapes\block\ceramicbroodpot-notop.json" />
 	<None Remove="assets\fromgoldencombs\shapes\block\ceramicbroodpot-withtop.json" />
 	<None Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothbrood-unused-small.json" />
@@ -111,10 +113,10 @@
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\Mods\VSEssentials.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="VSModLauncher">
+    <!--<Reference Include="VSModLauncher">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\Mods\VSModLauncher.dll</HintPath>
       <Private>false</Private>
-    </Reference>
+    </Reference>-->
     <Reference Include="VSSurvivalMod">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\Mods\VSSurvivalMod.dll</HintPath>
       <Private>false</Private>
@@ -128,6 +130,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="assets\fromgoldencombs\shapes\block\hive\ceramic\ceramicbroodpot-withtop.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="changelog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

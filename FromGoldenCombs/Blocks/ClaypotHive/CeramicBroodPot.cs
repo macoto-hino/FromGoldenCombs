@@ -3,10 +3,11 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using FromGoldenCombs.BlockEntities;
+using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.Blocks
 {
-    class CeramicBroodPot : Block
+    class CeramicBroodPot : BlockContainer
     {
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)

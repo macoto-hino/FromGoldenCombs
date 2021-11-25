@@ -55,8 +55,17 @@ namespace FromGoldenCombs.BlockEntities
             bool isBeeframe = colObj is LangstrothFrame;
             BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
             block.SetContents(new(block), this.GetContentStacks());
-                        
-            if ((slot.Empty || !isBeeframe) && blockSel.SelectionBoxIndex < 10 && this.Block.Variant["open"] == "open")
+
+            
+            if (!slot.Empty && slot.Itemstack.Collectible.FirstCodePart() == "langstrothbroodtop" && (slot.Itemstack.Collectible.Variant["primary"] == this.Block.Variant["primary"] && slot.Itemstack.Collectible.Variant["accent"] == this.Block.Variant["accent"]))
+            {
+                
+                Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-empty-"+ this.Block.Variant["primary"] + "-" + this.Block.Variant["accent"] + "-" + this.block.Variant["side"])).BlockId,Pos);
+                slot.TakeOutWhole();
+                MarkDirty(true);
+                return true;
+            }
+            else if ((slot.Empty || !isBeeframe) && blockSel.SelectionBoxIndex < 10 && this.Block.Variant["open"] == "open")
             {
                 if (TryTake(byPlayer, blockSel))
                 {

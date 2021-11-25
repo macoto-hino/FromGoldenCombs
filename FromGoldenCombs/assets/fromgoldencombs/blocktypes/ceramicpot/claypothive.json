@@ -10,10 +10,9 @@
       { "code": "harvestable", "states": [ "none", "harvestable" ]},
       { "code": "top", "states": [ "withtop", "notop" ]}
     ],
-wwww  "behaviorsByType": {
+  "behaviorsByType": {
     "*-*-*-notop": [{ "name": "RightClickPickup" }]
     },
-    "creativeinventory":{ "general": ["*empty-none-notop"], "flora": ["*empty-none-notop"], "decorative": ["*empty-none-notop"] },
     "skipVariants": [
     "*-*-harvestable-notop",
     "*-empty-harvestable-*"

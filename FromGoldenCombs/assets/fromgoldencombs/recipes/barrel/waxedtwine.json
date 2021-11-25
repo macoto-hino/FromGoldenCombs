@@ -1,9 +1,9 @@
 {
-	code: "waxedflaxtwines",
-	sealHours: 2,
-	ingredients: [
-		{ type: "item", code: "game:beeswax"},
-		{ type: "item", code:	"game:flaxtwine",  quantity: 4}
+	"code": "waxedflaxtwines",
+	"sealHours": 2,
+	"ingredients": [
+		{ "type": "item", "code": "game:beeswax"},
+		{ "type": "item", "code":	"game:flaxtwine",  "quantity": 4}
 	],
-	output: { type: "item", code: "waxedflaxtwine", stackSize: 4 }
+	"output": { "type": "item", "code": "fromgoldencombs:waxedflaxtwine", "stacksize": 4 }
 }

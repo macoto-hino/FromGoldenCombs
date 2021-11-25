@@ -15,7 +15,8 @@
     { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
-  "textures": {		
+  "creativeinventory": { "general": ["*-east"] },
+   "textures": {		
       "primary": { "base": "game:block/wood/debarked/{primary}" },
 			"accent": { "base": "game:block/wood/debarked/{accent}" }
 	},
@@ -37,10 +38,6 @@
      "rotateY": 90
      }
   },
-  "creativeinventory": {
-      "general": [ "*-maple-birch-east" ],
-      "decorative": [  "*-*-*-east" ]
-    },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },

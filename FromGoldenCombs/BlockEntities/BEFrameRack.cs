@@ -37,17 +37,11 @@ namespace FromGoldenCombs.BlockEntities
             block = api.World.BlockAccessor.GetBlock(Pos);
             base.Initialize(api);
         }
-                
+
         public override void OnBlockBroken()
         {
             // Don't drop inventory contents
         }
-
-        //TODO: Add animations to Langstroth Super
-        //BlockEntityAnimationUtil AnimUtil
-        //{
-        //    get { return GetBehavior<BEBehaviorAnimatable>()?.animUtil; }
-        //}
         
         internal bool OnInteract(IPlayer byPlayer, BlockSelection blockSel)
         {
@@ -59,6 +53,7 @@ namespace FromGoldenCombs.BlockEntities
             block.SetContents(new(block), this.GetContentStacks());
             System.Diagnostics.Debug.WriteLine("Holding a " + slot.Itemstack?.Item?.FirstCodePart());
 
+            System.Diagnostics.Debug.WriteLine("We've reached this a point.");
             if (slot.Empty && index < 10)
             {
                 if (TryTake(byPlayer, blockSel))
@@ -99,6 +94,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (isBeeframe && index < 10)
             {
+                System.Diagnostics.Debug.WriteLine("We've reached this point.");
                 MarkDirty(true);
                 if (TryPut(slot, blockSel))
                 {
@@ -112,7 +108,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
                 MarkDirty(true);
-                return true;        
+                return true;
             }
             return false;
         }
@@ -162,8 +158,10 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryHarvest(ItemStack handStack, ItemStack rackStack, int index)
         {
-
-            if(rackStack.Attributes.GetInt("durability") == 0)
+            ThreadSafeRandom rnd = new();
+            int minYield = FromGoldenCombsConfig.Current.minFrameYield;
+            int maxYield = FromGoldenCombsConfig.Current.maxFrameYield;
+            if (rackStack.Attributes.GetInt("durability") == 0)
             {
                 rackStack.Attributes.SetInt("durability", FromGoldenCombsConfig.Current.baseframedurability-1);
             } else
@@ -173,7 +171,7 @@ namespace FromGoldenCombs.BlockEntities
             int durability = rackStack.Attributes.GetInt("durability");
             rackStack = new ItemStack(Api.World.GetItem(rackStack.Item.CodeWithVariant("harvestable", "lined")));
             rackStack.Attributes.SetInt("durability", durability);
-            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")),3),Pos.ToVec3d());
+            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")),rnd.Next(minYield,maxYield)),Pos.ToVec3d());
             if(rackStack.Attributes.GetInt("durability") == 0)
             rackStack = new ItemStack(Api.World.GetItem(rackStack.Item.CodeWithVariant("harvestable", "empty")), 1);
 

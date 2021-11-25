@@ -62,7 +62,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                ICoreClientAPI capi = api as ICoreClientAPI;
                 Block ownBlock = Api.World.BlockAccessor.GetBlock(Pos);
-                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/claypothive-empty-none-notop.json")).ToObject<Shape>();
+                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/ceramic/claypothive-empty-none-notop.json")).ToObject<Shape>();
                 capi.Tesselator.TesselateShape(ownBlock, shape, out plane);
 
                 if (api.Side == EnumAppSide.Client)

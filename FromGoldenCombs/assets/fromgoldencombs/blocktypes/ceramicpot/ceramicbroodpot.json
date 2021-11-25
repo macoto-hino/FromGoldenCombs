@@ -1,19 +1,14 @@
 {
 	"code": "ceramicbroodpot",
 	"class": "ceramicbroodpot",
+	"entityClass": "beceramichive",
 	"storageFlags": 2,
 	"maxstacksize": 1,
 	"heldTpIdleAnimation": "holdbothhands",
-	"attributes": {
-		"handbook": {
-			"groupBy": ["decorative-*"]
-		}
-	},
 	"variantgroups": [{
 		"code": "top",
 		"states": ["withtop", "notop"]
 	}],
-	"entityClass": "beceramichive",
 	"behaviorsByType": {
 		"*-*-*-notop": [{
 			"name": "RightClickPickup"

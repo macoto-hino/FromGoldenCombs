@@ -18,6 +18,27 @@
  - Wax infused linen twine is crafted using wax and linen twine (in batches of 4 twine, 1 wax)
  - Frame Rack for holding/processing/repairing hives
 
+ 1.15.7-v1.3.1
+ - Remove attributes from Ceramic Pot
+ - Update shape locations for Super/Stack/
+
+ 1.15.7-v1.3.2
+ - Added Documentation
+ - Added Names to the en.json
+
+ 1.15.7-v1.3.3
+ - Removed recipe for Langstroth Broodbox involving the super, changed to in-world interaction (right click super with a broodbox top with the matching pattern)
+ - Updated documentation to represent this.
+
+ 1.15.7-v1.3.4
+	- Fixed
+		- Broodtop not consumed when used to make a Brood Box.
+		- Finish Handbook Documentation
+		- Add more feedback from hive
+			- Reports remaining time to hive producing comb (configurable)
+		- Added missing populated bool to Ceramic Hive tree attributes.
+
+
 
 Upcoming
  - Add config for changing swarm seasons
@@ -28,6 +49,7 @@ Upcoming
 	- Add config
  - Add Clay Honeypot For Pre-Bucket/Barrel storage
  - Add Wax Blocks For placeable, stackable storage of wax
+ - Add Hive Tool (reduced damage to frames)
 
  - Raccoons can knock the top off a claypot hive, and then eat from it.
 	- Have hive top gradually fill over time

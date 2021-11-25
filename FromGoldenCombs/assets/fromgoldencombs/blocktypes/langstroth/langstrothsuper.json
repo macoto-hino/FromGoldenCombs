@@ -6,6 +6,7 @@
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
+  "creativeinventory": { "general": ["*-east"] },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
     { "name": "Unstable" }
@@ -38,10 +39,6 @@
      "rotateY": 90
      }
   },
-  "creativeinventory": {
-      "general": [ "*-closed-maple-birch-east" ],
-      "decorative": [  "*-closed-*-*-east" ]
-    },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },

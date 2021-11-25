@@ -13,10 +13,6 @@
       "loadFromProperties": "abstract/horizontalorientation"
     }
   ],
-   "attributes": {
-    "drop": {"*": false},
-    "drops": []
-  }, 
   "shapeByType": {
     "*-north": {
       "base": "block/hive/langstroth/langstrothstack",

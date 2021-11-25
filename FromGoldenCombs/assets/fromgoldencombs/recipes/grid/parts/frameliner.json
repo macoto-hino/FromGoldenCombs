@@ -1,10 +1,12 @@
+[
 {
 	"ingredientPattern": "K,L",
 	"ingredients": {
-		"K": { "type": "item", code: "game:knife-*", "isTool": true},
-		"L": { "type": "block", code: "game:linen-waxed-*"}
+		"K": { "type": "item", "code": "game:knife-*", "isTool": true},
+		"L": { "type": "block", "code": "game:linen-waxed-*"}
 		},
-		width: 1,
-		height: 2,
-		output: {	type: "item", code: "fromgoldencombs:frameliner", quantity: 2 }
+		"width": 1,
+		"height": 2,
+		"output": {	"type": "item", "code": "fromgoldencombs:frameliner", "quantity": 2 }
 }
+]

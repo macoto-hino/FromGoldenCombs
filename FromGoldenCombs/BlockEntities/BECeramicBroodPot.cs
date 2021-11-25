@@ -24,9 +24,10 @@ namespace FromGoldenCombs.BlockEntities
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
         int scanIteration;
-        bool populated;
+        bool isActiveHive;
         EnumHivePopSize hivePopSize;
-        
+        int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
+
         public readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
         public override string InventoryClassName => "ceramicbroodpot";
@@ -55,7 +56,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public bool GetPopulated()
         {
-            return populated;
+            return isActiveHive;
         }
 
         public override void Initialize(ICoreAPI api)
@@ -69,7 +70,7 @@ namespace FromGoldenCombs.BlockEntities
             if (api.Side == EnumAppSide.Client)
             {
                 ICoreClientAPI capi = api as ICoreClientAPI;
-                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/ceramicbroodpot-notop.json")).ToObject<Shape>();
+                Shape shape = capi.Assets.TryGet(new AssetLocation("fromgoldencombs", "shapes/block/hive/ceramic/ceramicbroodpot-notop.json")).ToObject<Shape>();
 
                 if (api.Side == EnumAppSide.Client)
                 {
@@ -92,15 +93,18 @@ namespace FromGoldenCombs.BlockEntities
                     MarkDirty(true);
                     return true;
                 }
-            } else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !populated)
+            } else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !isActiveHive)
             {
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
-                populated = true;
+
+                System.Diagnostics.Debug.WriteLine(this.Block.Variant["top"] + " 2");
+                isActiveHive = true;
                 return true;
             }
             else if (TryPut(slot)) {
                 {
                     Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(hive.CodeWithVariant("top", "withtop")).BlockId, Pos);
+                    System.Diagnostics.Debug.WriteLine(this.Block.Variant["top"] + " 3");
                     MarkDirty(true);
                 }
                 return true; //This prevents TryPlaceBlock from passing if TryPut fails.
@@ -114,9 +118,9 @@ namespace FromGoldenCombs.BlockEntities
             int index = 0;
             if (!inv[index].Empty)
             {
-
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(this.Block.CodeWithVariant("top", "notop")).BlockId, Pos);
                 player.InventoryManager.TryGiveItemstack(inv[0].TakeOutWhole());
+                System.Diagnostics.Debug.WriteLine(this.Block.Variant["top"] + " 1a");
                 return true;
             }
             else
@@ -193,7 +197,6 @@ namespace FromGoldenCombs.BlockEntities
 
         private void TestHarvestable(float dt)
         {
-            int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
             double worldTime = Api.World.Calendar.TotalHours;
             ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             if (conds == null) return;
@@ -211,31 +214,36 @@ namespace FromGoldenCombs.BlockEntities
                 cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
             }
 
-            if (emptyUnharvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)
+            if (this.Block.Variant["top"] == "withtop")
             {
-                harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-            }
-            else if (emptyUnharvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
-            {
-                inv[0].Itemstack = new(Api.World.GetItem(inv[0].Itemstack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
-                MarkDirty(true);
-            }
-
-            if (emptyUnharvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)
-            {
-                harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-            }
-            else if (worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
-            {
-                if (emptyUnharvestable)
-                {
-                    inv[0].Itemstack = new(Api.World.GetItem(inv[0].Itemstack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
-                    MarkDirty(true);
-                } else
+                if (emptyUnharvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)
                 {
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 }
+                else if (emptyUnharvestable && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
+                {
+                    inv[0].Itemstack = new(Api.World.GetItem(inv[0].Itemstack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
+                    MarkDirty(true);
+                }
+
+                if (emptyUnharvestable && harvestableAtTotalHours == 0 && hivePopSize > EnumHivePopSize.Poor)
+                {
+                    harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                }
+                else if (worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
+                {
+                    if (emptyUnharvestable)
+                    {
+                        inv[0].Itemstack = new(Api.World.GetItem(inv[0].Itemstack.Collectible.CodeWithVariant("harvestable", "harvestable")), 1);
+                        MarkDirty(true);
+                    }
+                    else
+                    {
+                        harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
+                    }
+                }
             }
+            cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
         }
 
         private double HarvestableTime(int i)
@@ -247,12 +255,10 @@ namespace FromGoldenCombs.BlockEntities
         readonly Vec3d startPos = new();
         readonly Vec3d endPos = new();
         Vec3f minVelo = new();
-
-        private bool isWildHive;
-
+                             
         private void SpawnBeeParticles(float dt)
         {
-            if (populated)
+            if (isActiveHive)
             {
                 float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
                 if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
@@ -292,7 +298,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void OnScanForFlowers(float dt)
         {
-            if (populated)
+            if (isActiveHive)
             {
                 //Scan to get number of nearby flowers and active hives
                 Room room = roomreg?.GetRoomForPosition(Pos);
@@ -389,10 +395,34 @@ namespace FromGoldenCombs.BlockEntities
                     Lang.Get("Nearby flowers: {0}, Nearby Hives: {1}, Empty Hives: {2}, Pop after hours: {3}. harvest in {4}, repop cooldown: {5}",quantityNearbyFlowers, quantityNearbyHives, (harvestableAtTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"), (cooldownUntilTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"))
                     + "\n" + Lang.Get("Population Size: " + hivePopSize));
             }
-            if (populated)
+            if (isActiveHive)
             {
-                string str = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
-                dsc.AppendLine(str);
+                double worldTime = Api.World.Calendar.TotalHours;
+                int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
+                daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
+                string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
+                dsc.AppendLine(hiveState);
+                if (daysTillHarvest > 0 && this.Block.Variant["top"] == "withtop")
+                {
+                    string combPopTime;
+                    if (FromGoldenCombsConfig.Current.showcombpoptime) {
+                        combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
+                    } else
+                    {
+                        combPopTime = "The bees are out gathering.";
+                    }
+
+                    dsc.AppendLine(combPopTime);
+                }
+                else if (isActiveHive && this.Block.Variant["top"] == "notop")
+                {
+                    dsc.AppendLine("Hive lacks a honey pot, will not produce comb.");
+                }
+                else
+                {
+                    dsc.AppendLine("The bees are still settling in.");
+                }
+
             }
         }
 
@@ -410,7 +440,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
             tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
 
-            tree.SetInt("isWildHive", isWildHive ? 1 : 0);
+            tree.SetBool("isactivehive", isActiveHive);
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)hivePopSize);
@@ -429,8 +459,7 @@ namespace FromGoldenCombs.BlockEntities
             scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
             scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
 
-            isWildHive = tree.GetInt("isWildHive") > 0;
-
+            isActiveHive = tree.GetBool("isactivehive");
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");

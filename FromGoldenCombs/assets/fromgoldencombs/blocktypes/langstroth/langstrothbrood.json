@@ -5,10 +5,11 @@
   "maxstacksize": 1,
   "behaviors": [{
         "name": "HorizontalOrientable",
-        "properties": { "dropBlockFace": "east" },
+        "properties": { "dropBlockFace": "east" }
     },
     { "name": "Unstable" }
   ],
+  "creativeinventory": { "general": ["*-east"] },
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "variantgroups": [ 
@@ -39,11 +40,6 @@
      "rotateY": 90
      }
   },
-  "creativeinventory": {
-      "general": [ "langstrothbrood-empty-oak-maple-east" ],
-      "flora": [ "langstrothbrood-empty-oak-maple-east" ],
-      "decorative": [ "langstrothbrood-empty-*-*-east" ]
-    },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },
