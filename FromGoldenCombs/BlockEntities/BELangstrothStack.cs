@@ -927,7 +927,6 @@ namespace FromGoldenCombs.BlockEntities
                 int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
                 string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
-                System.Diagnostics.Debug.WriteLine(CountLinedFrames() + " lined frames." + daysTillHarvest + " days till harvest.");
                 sb.AppendLine(hiveState);
                 if (daysTillHarvest > 0 && CountLinedFrames()>0)
                 {

@@ -75,22 +75,18 @@ namespace FromGoldenCombs.BlockEntities
         public void BlockInteract(IWorldAccessor world)
         {
 
-            System.Diagnostics.Debug.WriteLine("BlocKInteractTest");
             //TODO: Create simplified BlockInteract that converts it into the new Ceramic Hive.
             //This will require identifying the correct type of honeypot to give the player, if the Ceramic Hive has one,
             //Or, it will require converting the hive to a Ceramic Hive, and placing the new top.  Populated vs Not will have to be transferred as well
 
             Block hive = Api.World.BlockAccessor.GetBlock(Pos);
 
-            System.Diagnostics.Debug.WriteLine("BEClayBrood Checkpoint Alpha");
             ItemStack stack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "ceramicbroodpot-notop")));
-            System.Diagnostics.Debug.WriteLine("BEClayBrood Checkpoint Alpha-Beta");
             ItemStack hivetopStack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-" + (hive.Variant["harvestable"]=="harvestable"?"harvestable":"empty"))));
 
             stack.Attributes.SetBool("populated", this.Block.Variant["populated"] == "populated");      
 
             if(hive.Variant["top"] == "notop"){
-                System.Diagnostics.Debug.WriteLine("BlocKInteractTest");
                 Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
             } else
             {
