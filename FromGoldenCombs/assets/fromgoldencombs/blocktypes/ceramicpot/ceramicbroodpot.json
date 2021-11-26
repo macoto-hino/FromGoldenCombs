@@ -10,7 +10,7 @@
 		"states": ["withtop", "notop"]
 	}],
 	"behaviorsByType": {
-		"*-*-*-notop": [{
+		"*-notop": [{
 			"name": "RightClickPickup"
 		}]
 	},

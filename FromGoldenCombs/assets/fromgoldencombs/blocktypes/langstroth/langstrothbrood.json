@@ -9,7 +9,7 @@
     },
     { "name": "Unstable" }
   ],
-  "creativeinventory": { "general": ["*-east"] },
+  "creativeinventory": { "general": ["*-empty-*-*-east"] },
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "variantgroups": [ 

@@ -1,6 +1,8 @@
 ﻿using FromGoldenCombs.BlockEntities;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
 
 namespace FromGoldenCombs.Blocks.Langstroth
 {
@@ -54,6 +56,25 @@ namespace FromGoldenCombs.Blocks.Langstroth
             if (belangstrothstack is BELangstrothStack) return belangstrothstack.OnInteract(byPlayer);
             
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        }
+
+        public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
+        {
+            WorldInteraction[] wi;
+
+            wi = ObjectCacheUtil.GetOrCreate(api, "stackInteractions1", () =>
+            {
+
+                return new WorldInteraction[] {
+                            new WorldInteraction() {
+                                    ActionLangCode = "fromgoldencombs:blockhelp-langstrothstack",
+                                    MouseButton = EnumMouseButton.Right,
+                            }
+                    };
+
+            });
+
+            return wi;
         }
     }
 }

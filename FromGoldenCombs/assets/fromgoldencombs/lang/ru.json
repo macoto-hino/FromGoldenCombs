@@ -1,0 +1,58 @@
+{
+  "my-test-string": "From Golden Combs инициализирован.",
+  "hivewrongseason": "Улей не будет роиться до весны.",
+  
+
+  "block-claypothive": "Керамический горшок (улей)",
+  "block-fromgoldencombs:handbooktitle-claypothive": "Используется для:",
+  "block-fromgoldencombs:handbooktext-claypothive": "Тест керамического горшка",
+  "blockhelp-claypothive-empty-notop": "Поднимите керамический горшок с пчелиным расплодом в пустой слот рюкзака, <br> используйте заселенный улей или верхнюю часть улья.",
+  "blockhelp-claypothive-populated-notop": "Поднимите керамический горшок с пчелиным расплодом в пустой слот рюкзака,<br> либо поместите верхнюю часть улья.",
+  "blockhelp-claypothive-empty-withtop": "Щелкните правой кнопкой мыши, чтобы убрать горшок для мода, либо используйте заселенный улей.",
+  "blockhelp-claypothive-populated-withtop": "Щелкните правой кнопкой мыши, чтобы убрать горшок для меда, восковое кольцо указывает на то, что его можно собрать.",
+
+  "block-ceramicbroodpot-notop":  "Керамический улей",
+  "block-ceramicbroodpot-withtop":  "Керамический улей",
+  "block-claypothive-empty-none-notop": "Пустой керамический горшок с пчелиным расплодом",
+  "block-claypothive-empty-none-withtop": "Пустой улей в керамическом горшке",
+  "block-claypothive-populated-none-notop": "Заселённый улей в керамическом горшке с пчелиным расплодом",
+  "block-claypothive-populated-none-withtop": "Заселённый улей в керамическом горшке",
+  "block-claypothive-populated-harvestable-withtop": "Готовый для сбора заселённый улей в керамическом горшке",
+  "block-hivetop-raw": "Необожженный керамический горшок для меда",
+  "block-hivetop-empty": "Керамический горшок для меда",
+  "block-hivetop-harvestable": "Готовый для сбора керамический горшок для меда",
+  "blockhelp-hivetop-raw": "Поместите в яму для обжига.",
+  "block-rawclaypothive": "Необожженный керамический горшок с пчелиным расплодом",
+  "blockhelp-rawclaypothive": "Поместите в яму для обжига.",
+
+  "block-langstrothbase-*": "Основание улья Рута",
+  "block-langstrothsuper-*": "Корпус улья Рута",
+  "langstrothstack-*-*-hive": "Улей Рута",
+  "block-langstrothbrood-*": "Ящик улья Рута с пчелиным расплодом",
+  "block-framerack-*": "Frame Rack",
+  "block-waxedlinen-*": "Вощеное полотно",
+  "block-rawceramichive": "Необожженный керамический улей",
+  "getmaterials": "Сделано из {0} и {1}",  
+  "getpartmaterials1": "{0}",
+  "getpartmaterials2": "{0} и {1}",
+    
+
+  "item-beeframe-*-empty": "Пустая пчелиная рамка",
+  "item-beeframe-*-lined": "Пчелиная рамка с подкладкой",
+  "item-beeframe-*-harvestable": "Готовая для сбора пчелиная рамка",
+  "item-langstrothbroodtop-*": "Верхняя часть ящика улья Рута с пчелиным расплодом",
+  "item-langstrothside-*": "Часть улья Рута",
+  "item-waxedflaxtwine": "Вощеный льняной шпагат",
+  "item-frameliner":  "Подкладка рамки",
+ 
+
+  "block-handbooktitle-ceramicbroodpot":  "Керамический горшок с пчелиным расплодом",
+  "item-handbooktitle-langstrothbroodtop": "Верхняя часть ящика улья Рута с пчелиным расплодом",
+  "item-handbooktext-langstrothbroodtop": "Используйте это, чтобы создать <a href=\"handbooksearch://Langstroth Brood Box\">ящик улья Рута с пчелиным расплодом</a> шелкнув правой кнопкой мыши <a href=\"handbooksearch://Langstroth Super\">корпус улья Рута</a> с таким же деревянным узором.",
+  "item-handbooktitle-langstrothside": "Часть улья Рута",
+  "item-handbooktext-langstrothside": "Компонент, используемый для создания, оснований, и верхушек пчелиных расплодов в ульях Лангстрота—Рута.",
+  "item-handbooktitle-emptybeeframe": "Пустая пчелиная рамка",
+  "item-handbooktitle-linedbeeframe": "Пчелиная рамка с подкладкой",
+  "item-handbooktitle-harvestablebeeframe": "Готовая для сбора пчелиная рамка",
+  "item-handbooktitle-frameliner": "Подкладка рамки"
+}

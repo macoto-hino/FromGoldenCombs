@@ -38,7 +38,23 @@
 			- Reports remaining time to hive producing comb (configurable)
 		- Added missing populated bool to Ceramic Hive tree attributes.
 
+1.15.7-v1.3.5
+	- Fixed
+		- Ceramic pot interaction showing left-click to pick up.
+		- Updated Beeframe listing in folder.
+		- Added partial Russian translation.
+		- Added Interactions for more Langstroth Blocks
+		- Corrected crash caused by NPE in Super/Claypot Interactions
+		- More documentation
 
+1.15.7-v1.3.5-rc.1
+	- Documentation
+		- Fixed issue with game:block-linen-waxed-* not showing as Waxed linen.
+		- More documentation updates
+		- Corrected crash caused by NPE in Broodpot Interactions with an empty hand.
+		- Corrected error where brood box would be removed when attempting to pick up with no space for it.
+		- Made behavior consistent between picking up ceramic broodpot and Brood Box.
+		- Corrected error where hive would be rendered unpopulated on swapping from claypot to ceramic.
 
 Upcoming
  - Add config for changing swarm seasons

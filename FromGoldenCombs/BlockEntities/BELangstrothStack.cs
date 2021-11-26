@@ -920,14 +920,14 @@ namespace FromGoldenCombs.BlockEntities
             else
             {
                 BELangstrothStack bottomStack = GetBottomStack();
-                sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames);
+                if (harvestableFrames != 0) { sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames); }
                 sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "The hive sits dormant.");
 
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
                 string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
-                sb.AppendLine(hiveState);
+                if (isActiveHive) { sb.AppendLine(hiveState); }
                 if (daysTillHarvest > 0 && CountLinedFrames()>0)
                 {
                     string combPopTime;
@@ -942,7 +942,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
                 else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
                 {
-                    sb.AppendLine("Hive lacks fillable frames, will not produce comb.");
+                    sb.AppendLine("Hive lacks fillable frames.");
                 }
                 else
                 {

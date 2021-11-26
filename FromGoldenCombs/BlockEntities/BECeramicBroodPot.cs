@@ -24,7 +24,7 @@ namespace FromGoldenCombs.BlockEntities
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
         int scanIteration;
-        bool isActiveHive;
+        public bool isActiveHive { get; set; }
         EnumHivePopSize hivePopSize;
         int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
 
@@ -54,11 +54,6 @@ namespace FromGoldenCombs.BlockEntities
             );
         }
 
-        public bool GetPopulated()
-        {
-            return isActiveHive;
-        }
-
         public override void Initialize(ICoreAPI api)
         {
             base.Initialize(api);
@@ -78,8 +73,6 @@ namespace FromGoldenCombs.BlockEntities
                 }
             }
         }
-
-
 
         public bool OnInteract(IPlayer byPlayer)
         {
@@ -153,8 +146,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             return false;
         }
-
-
 
         //Rendering Processes
         readonly Matrixf mat = new();

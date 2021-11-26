@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Util;
 
 namespace FromGoldenCombs.Blocks
 {
@@ -8,10 +11,10 @@ namespace FromGoldenCombs.Blocks
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-           
+
             Block emptyTop = world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"));
-            
-            
+
+
             //TODO: Potentially remove the need for the active hotbar slot to be empty, ]
             //provided TryGiveItemStack just drops it into a convenient empty slot.
 
@@ -34,6 +37,45 @@ namespace FromGoldenCombs.Blocks
             }
             return true;
 
+        }
+
+        public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
+        {
+            WorldInteraction[] wi;
+            if (Variant["type"] == "harvestable") {
+                wi = ObjectCacheUtil.GetOrCreate(api, "honeyPotInteractions", () =>
+                {
+                    List<ItemStack> knifeStacklist = new List<ItemStack>();
+
+                    foreach (Item item in api.World.Items)
+                    {
+                        if (item.Code == null) continue;
+
+                        if (item.Tool == EnumTool.Knife)
+                        {
+                            knifeStacklist.Add(new ItemStack(item));
+                        }
+                    }
+
+                    return new WorldInteraction[] {
+                        new WorldInteraction() {
+                                ActionLangCode = "fromgoldencombs:blockhelp-honeypot-harvestable",
+                                MouseButton = EnumMouseButton.Right,
+                                Itemstacks = knifeStacklist.ToArray()
+                            }
+                        };
+                });
+                return wi.Append(base.GetPlacedBlockInteractionHelp(world, selection, forPlayer));
+            }
+
+            return new WorldInteraction[] {
+                    new WorldInteraction()
+                    {
+                        ActionLangCode = Variant["type"] == "raw" ? "fromgoldencombs:blockhelp-honeypot-raw" : "fromgoldencombs:blockhelp-honeypot-empty",
+                        MouseButton = EnumMouseButton.Right,
+                        Itemstacks = null
+                    }
+            };
         }
     }
 }

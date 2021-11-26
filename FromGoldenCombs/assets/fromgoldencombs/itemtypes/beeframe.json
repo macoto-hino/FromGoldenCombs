@@ -11,21 +11,21 @@
 	},
   "shape": { "base": "item/langstroth/beeframe-{harvestable}" },  
   "creativeinventory": { "general": ["*"] },
-   "attributes": {
+  "attributes": {
         "handbookByType": {
           "*-empty": {
-            "groupBy": ["empty-*"],
+            "groupBy": ["beeframe-*-empty"],
             "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-emptybeeframe", "text": "fromgoldencombs:item-handbooktext-emptybeeframe" } ]
           },
           "*-lined": {
-            "groupBy": ["lined-*"],
+            "groupBy": ["beeframe-*-lined"],
             "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-linedbeeframe", "text": "fromgoldencombs:item-handbooktext-linedbeeframe" } ]
           },
           "*-harvestable": {
-            "groupBy": ["harvestable-*"],
+            "groupBy": ["beeframe-*-harvestable"],
             "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-harvestablebeeframe", "text": "fromgoldencombs:item-handbooktext-harvestablebeeframe" } ]
           }
-        }  
+        }
   },
   "durability": 32,
   "toolDurabilityByType":{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
@@ -15,18 +16,41 @@ namespace FromGoldenCombs.Blocks.Langstroth
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             System.Diagnostics.Debug.WriteLine("StorageType is " + slot.StorageType.ToString());
             System.Diagnostics.Debug.WriteLine("Slot is " + slot.Empty);
-            
-        if (slot.Empty && (int)slot.StorageType == 2)
+            if (slot.Empty)
             {
                 ItemStack stack = api.World.BlockAccessor.GetBlock(blockSel.Position).OnPickBlock(api.World, blockSel.Position);
-                api.World.BlockAccessor.SetBlock(0, blockSel.Position);
-                return byPlayer.InventoryManager.TryGiveItemstack(stack);
-            } else if (byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && Variant["populated"] == "empty")
+                if (byPlayer.InventoryManager.TryGiveItemstack(stack))
+                {
+                    api.World.BlockAccessor.SetBlock(0, blockSel.Position);
+                    return true;
+                }
+
+            } else if (slot.Itemstack?.Collectible.FirstCodePart() == "skep" && slot.Itemstack.Collectible.Variant["type"] == "populated"  && Variant["populated"] == "empty")
             {
                 api.World.BlockAccessor.SetBlock(api.World.BlockAccessor.GetBlock(this.CodeWithVariant("populated","populated")).BlockId, blockSel.Position);
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
             }
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        }
+
+
+        public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
+        {
+            WorldInteraction[] wi;
+
+            wi = ObjectCacheUtil.GetOrCreate(api, "superInteractions1", () =>
+            {
+
+                return new WorldInteraction[] {
+                            new WorldInteraction() {
+                                    ActionLangCode = "fromgoldencombs:blockhelp-langstrothbrood",
+                                    MouseButton = EnumMouseButton.Right,
+                                                               }
+                    };
+
+            });
+
+            return wi;
         }
 
         public override string GetPlacedBlockName(IWorldAccessor world, BlockPos pos) {
@@ -35,6 +59,4 @@ namespace FromGoldenCombs.Blocks.Langstroth
             return Variant["populated"].UcFirst() + " " + sb.ToString() + base.GetPlacedBlockName(world, pos);
         }
     }
-
-    
 }

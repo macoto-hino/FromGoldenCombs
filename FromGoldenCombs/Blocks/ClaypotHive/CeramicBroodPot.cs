@@ -4,6 +4,8 @@ using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using FromGoldenCombs.BlockEntities;
 using Vintagestory.GameContent;
+using Vintagestory.API.Util;
+using System.Collections.Generic;
 
 namespace FromGoldenCombs.Blocks
 {
@@ -19,15 +21,15 @@ namespace FromGoldenCombs.Blocks
 
         public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
         {
-            
-            return base.OnPickBlock(world, pos); 
+
+            return base.OnPickBlock(world, pos);
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
         {
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(pos);
             //If the hive is broken, and is populated, potentially spawn bee mob.
-            if (beCeramicBroodPot.GetPopulated()  && world.Rand.NextDouble() < 0.4)
+            if (beCeramicBroodPot.isActiveHive && world.Rand.NextDouble() < 0.4)
             {
                 EntityProperties type = world.GetEntityType(new AssetLocation("beemob"));
                 Entity entity = world.ClassRegistry.CreateEntity(type);
@@ -50,15 +52,71 @@ namespace FromGoldenCombs.Blocks
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {
-            //Information about world interaction
-            return new WorldInteraction[]
-            {
-                new WorldInteraction()
-                {
-                    ActionLangCode = Variant["top"] == "notop" && Variant["populated"] == "empty" ? "fromgoldencombs:blockhelp-claypothive-empty-notop" : Variant["top"] == "notop" && Variant["populated"] == "populated" ? "fromgoldencombs:blockhelp-claypothive-populated-notop" : Variant["top"] == "withtop" && Variant["populated"] == "empty" ? "fromgoldencombs:blockhelp-claypothive-empty-withtop" : "fromgoldencombs:blockhelp-claypothive-populated-withtop",
-                }
-            };
+            WorldInteraction[] wi = null;
+            WorldInteraction[] wi2 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
+            WorldInteraction[] wi3 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
 
+            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(selection.Position);
+            if (beCeramicBroodPot != null)
+            {
+
+                List<ItemStack> topList = new List<ItemStack>();
+                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"))));
+                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
+
+                //Information about world interaction
+                if (!beCeramicBroodPot.isActiveHive)
+                {
+                    wi = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions", () =>
+                    {
+                        List<ItemStack> skepList = new List<ItemStack>();
+                        skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-populated-east")), 1));
+
+                        return new WorldInteraction[]
+                        {
+                        new WorldInteraction(){
+                            ActionLangCode = "fromgoldencombs:blockhelp-ceramichive-empty-notop",
+                            MouseButton = EnumMouseButton.Right,
+                            Itemstacks = skepList.ToArray()
+                        }
+                        };
+                    });
+                }
+
+                wi2 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions2", () =>
+                {
+                    return new WorldInteraction[]
+                    {
+                      new WorldInteraction(){
+                            ActionLangCode = "Place or Remove honey pot",
+                            MouseButton = EnumMouseButton.Right,
+                            Itemstacks = topList.ToArray()
+                   }
+                 };
+                });
+
+                if (Variant["top"] == "notop")
+                {
+                    wi3 = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions3", () =>
+                        {
+
+                            return new WorldInteraction[]
+                            {
+                        new WorldInteraction(){
+                            ActionLangCode = "Pick up in empty bag slot",
+                            MouseButton = EnumMouseButton.Right,
+                            Itemstacks = null
+                        }
+                            };
+                        });
+                }
+            }
+
+            if (wi != null)
+            {
+                return wi.Append(wi2).Append(wi3);
+            }
+                return wi2.Append(wi3);
         }
 
         public override BlockDropItemStack[] GetDropsForHandbook(ItemStack handbookStack, IPlayer forPlayer)

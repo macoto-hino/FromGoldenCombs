@@ -58,6 +58,7 @@
 	<None Remove="assets\fromgoldencombs\itemtypes\beeframe.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\frameliner.json" />
 	<None Remove="assets\fromgoldencombs\itemtypes\waxedtwine.json" />
+	<None Remove="assets\fromgoldencombs\lang\ru.json" />
 	<None Remove="assets\fromgoldencombs\recipes\barrel\waxedlinen.json" />
 	<None Remove="assets\fromgoldencombs\recipes\barrel\waxedtwine.json" />
 	<None Remove="assets\fromgoldencombs\recipes\grid\cleanframe.json" />

@@ -16,9 +16,10 @@ namespace FromGoldenCombs.Blocks
             ItemStack hivetopStack = new(world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-" + (this.Variant["harvestable"] == "harvestable" ? "harvestable" : "empty"))));
             stack.Attributes.SetBool("populated", this.Variant["populated"] == "populated");
 
+            System.Diagnostics.Debug.WriteLine(bebeehive);
             if (bebeehive is BEClayBroodPot)
             {
-
+                System.Diagnostics.Debug.WriteLine("is BEClayBroodPot");
                 bebeehive.BlockInteract(world);
             }
             else if (this.Variant["top"] == "notop")
