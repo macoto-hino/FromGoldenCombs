@@ -6,10 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="assets\fromgoldencombs\patches\**" />
+    <Compile Remove="assets\itemtypes\**" />
     <Compile Remove="bin\**" />
     <Compile Remove="obj\**" />
+    <EmbeddedResource Remove="assets\fromgoldencombs\patches\**" />
+    <EmbeddedResource Remove="assets\itemtypes\**" />
     <EmbeddedResource Remove="bin\**" />
     <EmbeddedResource Remove="obj\**" />
+    <None Remove="assets\fromgoldencombs\patches\**" />
+    <None Remove="assets\itemtypes\**" />
     <None Remove="bin\**" />
     <None Remove="obj\**" />
   </ItemGroup>
@@ -38,6 +44,8 @@
 	<Content Include="assets/**">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
+	<Content Remove="assets\fromgoldencombs\patches\**" />
+	<Content Remove="assets\itemtypes\**" />
 	<Compile Remove="BlockEntities\BlockEntityClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockClaypotHive.cs" />
 	<Compile Remove="Blocks\BlockHiveTop.cs" />
@@ -87,9 +95,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="assets\fromgoldencombs\patches\" />
     <Folder Include="assets\fromgoldencombs\textures\item\" />
-    <Folder Include="assets\itemtypes\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
