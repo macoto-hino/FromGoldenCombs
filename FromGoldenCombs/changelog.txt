@@ -56,6 +56,13 @@
 		- Made behavior consistent between picking up ceramic broodpot and Brood Box.
 		- Corrected error where hive would be rendered unpopulated on swapping from claypot to ceramic.
 
+1.15.7-v1.3.5-rc.2
+	- Documentation
+		- Fixed Ceramic Hive killing colony when picking up brood pot with active colony
+		- Fixed bees taking excessive amount of time to settle in to a Ceramic Hive
+		- Fixed interacting with populated hive while holding a populated skep resulting in a crash.
+		- Polished hive block info feedback.
+
 Upcoming
  - Add config for changing swarm seasons
  - Varietal honey based on prominent flowers when skep/pot/frame fills.

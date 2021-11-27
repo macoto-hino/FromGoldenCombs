@@ -93,7 +93,7 @@ namespace FromGoldenCombs.Blocks
 
                 wi3 = ObjectCacheUtil.GetOrCreate(api, "superInteractions4", () =>
                 {
-                    List<ItemStack> toplist = new List<ItemStack>();
+                    List<ItemStack> toplist = new();
 
                     foreach (Item item in api.World.Items)
                     {

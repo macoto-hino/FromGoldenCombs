@@ -106,6 +106,7 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
                     }
+                    GetBottomStack().isActiveHive = IsValidHive();
                     return true;
                 }
             }
@@ -674,6 +675,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public void ResetHive()
         {
+            GetBottomStack().harvestableAtTotalHours = 0;
             GetBottomStack().quantityNearbyFlowers = 0;
             GetBottomStack().hivePopSize = 0;
         }
@@ -710,7 +712,6 @@ namespace FromGoldenCombs.BlockEntities
                 {
 
                     GetTopStack().UpdateFrames(((int)hivePopSize));
-                    //System.Diagnostics.Debug.WriteLine("Frames Updated, updated " + (int)hivePopSize + " frames.");
                     MarkDirty(true);
                     CountHarvestable();
                 }
@@ -814,7 +815,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             quantityNearbyFlowers = scanQuantityNearbyFlowers;
             quantityNearbyHives = scanQuantityNearbyHives;
-            hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - (6 * quantityNearbyHives), 0, 2);
+            hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 6 * quantityNearbyHives, 0, 2);
             MarkDirty();
         }
 
@@ -909,7 +910,7 @@ namespace FromGoldenCombs.BlockEntities
         }
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
-
+            System.Diagnostics.Debug.WriteLine("EnumHivePopSize = " + hivePopSize);
             if (forPlayer.CurrentBlockSelection == null)
             {
 
@@ -921,32 +922,36 @@ namespace FromGoldenCombs.BlockEntities
             {
                 BELangstrothStack bottomStack = GetBottomStack();
                 if (harvestableFrames != 0) { sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames); }
-                sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "The hive sits dormant.");
+                sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "");
 
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
                 string hiveState = Lang.Get("Nearby flowers: {0}\nPopulation Size: {1}", quantityNearbyFlowers, hivePopSize);
-                if (isActiveHive) { sb.AppendLine(hiveState); }
-                if (daysTillHarvest > 0 && CountLinedFrames()>0)
+                if (isActiveHive)
                 {
-                    string combPopTime;
-                    if (FromGoldenCombsConfig.Current.showcombpoptime)
+                    sb.AppendLine(hiveState);
+                    if (daysTillHarvest > 0 && CountLinedFrames() > 0)
                     {
-                        combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
-                    } else
-                    {
-                        combPopTime = "The bees are out gathering";
-                    }
+                        string combPopTime;
+                        if (FromGoldenCombsConfig.Current.showcombpoptime)
+                        {
+                            combPopTime = "Your bees will produce comb in " + (daysTillHarvest < 1 ? "less than one day" : daysTillHarvest + " days");
+                        }
+                        else
+                        {
+                            combPopTime = "The bees are out gathering";
+                        }
                         sb.AppendLine(combPopTime);
-                }
-                else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
-                {
-                    sb.AppendLine("Hive lacks fillable frames.");
-                }
-                else
-                {
-                    sb.AppendLine("The bees are still settling in.");
+                    }
+                    else if (daysTillHarvest == 0 && CountLinedFrames() == 0)
+                    {
+                        sb.AppendLine("Hive lacks fillable frames.");
+                    }
+                    else
+                    {
+                        sb.AppendLine("The bees are settling in after being disturbed.");
+                    }
                 }
             }
         }

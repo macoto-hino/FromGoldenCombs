@@ -6,23 +6,32 @@ using FromGoldenCombs.BlockEntities;
 using Vintagestory.GameContent;
 using Vintagestory.API.Util;
 using System.Collections.Generic;
+using Vintagestory.API.Datastructures;
 
 namespace FromGoldenCombs.Blocks
 {
+
     class CeramicBroodPot : BlockContainer
     {
+        TreeAttribute treeAttribute = new();
+        BoolAttribute populated;
+
+        public object ActionLangCode { get; private set; }
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
-            if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
-            return base.OnBlockInteractStart(world, byPlayer, blockSel);
+                             
+                BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
+                if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
+
+                return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
-        public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
+        public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack = null)
         {
-
-            return base.OnPickBlock(world, pos);
+            base.OnBlockPlaced(world, blockPos, byItemStack);
+            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
+            beCeramicBroodPot.isActiveHive = byItemStack.Attributes.GetBool("populated", false);
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)
@@ -58,9 +67,10 @@ namespace FromGoldenCombs.Blocks
 
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(selection.Position);
             if (beCeramicBroodPot != null)
+
             {
 
-                List<ItemStack> topList = new List<ItemStack>();
+                List<ItemStack> topList = new();
                 topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"))));
                 topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
 
@@ -69,7 +79,7 @@ namespace FromGoldenCombs.Blocks
                 {
                     wi = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions", () =>
                     {
-                        List<ItemStack> skepList = new List<ItemStack>();
+                        List<ItemStack> skepList = new();
                         skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-populated-east")), 1));
 
                         return new WorldInteraction[]
@@ -109,6 +119,9 @@ namespace FromGoldenCombs.Blocks
                         }
                             };
                         });
+
+
+
                 }
             }
 
