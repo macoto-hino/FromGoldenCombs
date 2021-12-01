@@ -4,6 +4,7 @@ using FromGoldenCombs.Items;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -51,9 +52,6 @@ namespace FromGoldenCombs.BlockEntities
             BlockContainer block = Api.World.BlockAccessor.GetBlock(blockSel.Position) as BlockContainer;
             int index = blockSel.SelectionBoxIndex;
             block.SetContents(new(block), this.GetContentStacks());
-            System.Diagnostics.Debug.WriteLine("Holding a " + slot.Itemstack?.Item?.FirstCodePart());
-
-            System.Diagnostics.Debug.WriteLine("We've reached this a point.");
             if (slot.Empty && index < 10)
             {
                 if (TryTake(byPlayer, blockSel))
@@ -66,11 +64,14 @@ namespace FromGoldenCombs.BlockEntities
             {
                 ItemStack stack = slot.Itemstack;
                 ItemStack rackSlot = inv[index].Itemstack;
-                if (TryHarvest(stack, rackSlot, index))
+                if (TryHarvest(Api.World, byPlayer, inv[index]))
                 {
+
+                    slot.Itemstack.Item.DamageItem(Api.World, byPlayer.Entity, slot, 1);
                     MarkDirty(true);
                     return true;
                 }
+                System.Diagnostics.Debug.WriteLine("TryHarvest Checkpoint Beta");
                 MarkDirty(true);
             }
             else if (slot.Itemstack?.Item?.FirstCodePart() == "waxedflaxtwine" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "lined")
@@ -94,7 +95,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (isBeeframe && index < 10)
             {
-                System.Diagnostics.Debug.WriteLine("We've reached this point.");
                 MarkDirty(true);
                 if (TryPut(slot, blockSel))
                 {
@@ -120,14 +120,13 @@ namespace FromGoldenCombs.BlockEntities
             for (int i = 0; i < inv.Count; i++)
             {
                 int slotnum = (index + i) % inv.Count;
-                if (inv[slotnum].Empty)
-                {
-                    int moved = slot.TryPutInto(Api.World, inv[slotnum]);
-                    updateMeshes();
-                    return moved > 0;
-                }
+                    if (inv[slotnum].Empty)
+                    {
+                        int moved = slot.TryPutInto(Api.World, inv[slotnum]);
+                        updateMeshes();
+                        return moved > 0;
+                    }
             }
-
             return false;
         }
 
@@ -156,28 +155,30 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-        private bool TryHarvest(ItemStack handStack, ItemStack rackStack, int index)
+        private bool TryHarvest(IWorldAccessor world, IPlayer player, ItemSlot rackStack)
         {
             ThreadSafeRandom rnd = new();
             int minYield = FromGoldenCombsConfig.Current.minFrameYield;
             int maxYield = FromGoldenCombsConfig.Current.maxFrameYield;
-            if (rackStack.Attributes.GetInt("durability") == 0)
+            ItemStack stackHandler;
+            int durability = FromGoldenCombsConfig.Current.baseframedurability;
+
+            stackHandler = rackStack.Itemstack;
+            durability = rackStack.Itemstack.Attributes.GetInt("durability");
+
+            //Check to see if harvestable rack will break when harvested
+            if (rackStack.Itemstack.Attributes.GetInt("durability") == 1)
             {
-                rackStack.Attributes.SetInt("durability", FromGoldenCombsConfig.Current.baseframedurability-1);
-            } else
-            {
-                rackStack.Attributes.SetInt("durability", FromGoldenCombsConfig.Current.baseframedurability - 1);
+                //Next use will destroy frame, swap it for an empty frame instead
+                rackStack.Itemstack = new ItemStack(Api.World.GetItem(stackHandler.Item.CodeWithVariant("harvestable", "empty")));
+            } else {
+                rackStack.Itemstack.Collectible.DamageItem(Api.World, player.Entity, rackStack, 1);
+                durability = rackStack.Itemstack.Attributes.GetInt("durability");
+                rackStack.Itemstack = new ItemStack(Api.World.GetItem(stackHandler.Item.CodeWithVariant("harvestable", "lined")));
+                rackStack.Itemstack.Attributes.SetInt("durability", durability);
+
             }
-            int durability = rackStack.Attributes.GetInt("durability");
-            rackStack = new ItemStack(Api.World.GetItem(rackStack.Item.CodeWithVariant("harvestable", "lined")));
-            rackStack.Attributes.SetInt("durability", durability);
-            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")),rnd.Next(minYield,maxYield)),Pos.ToVec3d());
-            if(rackStack.Attributes.GetInt("durability") == 0)
-            rackStack = new ItemStack(Api.World.GetItem(rackStack.Item.CodeWithVariant("harvestable", "empty")), 1);
-
-            handStack.Attributes.SetInt("durability", handStack.Attributes.GetInt("durability") - 1);
-
-            inv[index].Itemstack = rackStack;
+            Api.World.SpawnItemEntity(new ItemStack(Api.World.GetItem(new AssetLocation("game", "honeycomb")), rnd.Next(minYield, maxYield)), Pos.ToVec3d());
             return true;
         }
 

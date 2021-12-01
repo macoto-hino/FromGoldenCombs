@@ -27,8 +27,7 @@
           }
         }
   },
-  "durability": 32,
-  "toolDurabilityByType":{
+  "durabilityByType":{
     "*-empty": 0,
     "*-harvestable": 32,
     "*-lined": 32

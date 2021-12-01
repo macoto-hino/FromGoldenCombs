@@ -13,7 +13,7 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    class FGCBeehive : BlockEntity, IAnimalFoodSource
+    class FGCBeehive : BlockEntityBeehive, IAnimalFoodSource
     {
       
             public enum EnumHivePopSize

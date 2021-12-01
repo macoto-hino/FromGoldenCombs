@@ -63,7 +63,23 @@
 		- Fixed interacting with populated hive while holding a populated skep resulting in a crash.
 		- Polished hive block info feedback.
 
-Upcoming
+1.15.7-v1.3.5-rc.3
+	- Removed one piece of dangling ding-dang code that was crashin' the whole works. 
+
+1.15.7-v1.3.5-rc.4
+	- Ensured langstroth stack references bottom stack when reporting OnBlockInfo
+	- Fixed Ceramic Hive killing colony when picking up brood pot with active colony (again)
+	- Fixed bees taking excessive amount of time to settle in to a Ceramic Hive (again)
+	- Modified hive feedback in OnBlockInfo for Ceramic and Langstroth Hives
+	- Corrected issue with harvestable skeps breaking into skep blocks. Now break properly. 
+	- Claypot Hives now properly convert to Ceramic Hives
+
+
+Future Errors To Correct
+ - Hives not showing proper hive/flower ratio. Always seem to be large so long as there are any flowers nearby.
+ - Standardize blockType and itemType with same verbiage for similar features.
+
+Upcoming Features
  - Add config for changing swarm seasons
  - Varietal honey based on prominent flowers when skep/pot/frame fills.
  - Changing swarm frequency

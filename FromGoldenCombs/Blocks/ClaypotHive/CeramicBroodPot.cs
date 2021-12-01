@@ -19,19 +19,23 @@ namespace FromGoldenCombs.Blocks
         public object ActionLangCode { get; private set; }
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
-        {
-                             
+        {                          
                 BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
                 if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
-
                 return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
-        public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack = null)
+        public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack)
         {
-            base.OnBlockPlaced(world, blockPos, byItemStack);
+            base.OnBlockPlaced(world, blockPos);
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
-            beCeramicBroodPot.isActiveHive = byItemStack.Attributes.GetBool("populated", false);
+            if (byItemStack is null){
+                beCeramicBroodPot.isActiveHive = false;
+            } else
+            {
+                beCeramicBroodPot.isActiveHive = byItemStack.Attributes.GetBool("populated", false);
+            }
+            
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)

@@ -58,6 +58,8 @@
 	<Content Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstroth-all-components.json" />
 	<Content Remove="assets\fromgoldencombs\shapes\block\hive\langstroth\langstrothsuper-unused.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\ceramicbroodpot.json" />
+	<None Remove="assets\fromgoldencombs\blocktypes\ceramicpot\ceramicbroodpot.json" />
+	<None Remove="assets\fromgoldencombs\blocktypes\ceramicpot\claypothive.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbase.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothbrood.json" />
 	<None Remove="assets\fromgoldencombs\blocktypes\langstrothstack.json" />

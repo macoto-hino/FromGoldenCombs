@@ -37,13 +37,12 @@ namespace FromGoldenCombs.Blocks
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-            System.Diagnostics.Debug.WriteLine("We've reached this a point.");
             BEFrameRack beFrameRack = (BEFrameRack)world.BlockAccessor.GetBlockEntity(blockSel.Position) as BEFrameRack;
 
                 if (beFrameRack is BEFrameRack)
-                System.Diagnostics.Debug.WriteLine("We've reached this b point.");
                 return beFrameRack.OnInteract(byPlayer, blockSel);
-
+            System.Diagnostics.Debug.WriteLine("New problem may be in OnBlockInteract in Frame Rack");
+            return false;
         }
     }
 }

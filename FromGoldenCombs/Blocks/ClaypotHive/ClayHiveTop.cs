@@ -33,6 +33,7 @@ namespace FromGoldenCombs.Blocks
 
                 Random rand = new();
                 byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(world.GetItem(new AssetLocation("game", "honeycomb")), rand.Next(2, 4)));
+                byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack.Item.DamageItem(world, byPlayer.Entity, byPlayer.InventoryManager.ActiveHotbarSlot, 1);
                 world.BlockAccessor.SetBlock(emptyTop.BlockId, blockSel.Position);
             }
             return true;

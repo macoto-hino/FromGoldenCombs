@@ -87,17 +87,14 @@ namespace FromGoldenCombs.BlockEntities
             stack.Attributes.SetBool("populated", this.Block.Variant["populated"] == "populated");      
 
             if(hive.Variant["top"] == "notop"){
-
-                Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+                Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos, stack);
                 BECeramicBroodPot beCBP = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(Pos);
-                beCBP.isActiveHive = this.Block.Variant["populated"] == "populated";
-
-            } else
+            } 
+            else
             {
-                Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos);
+                Api.World.BlockAccessor.SetBlock(stack.Block.BlockId, Pos, stack);
                 BECeramicBroodPot beCBP = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(Pos);
                 beCBP.TryPutDirect(hivetopStack);
-                beCBP.isActiveHive = this.Block.Variant["populated"] == "populated";
             }
         }
 
