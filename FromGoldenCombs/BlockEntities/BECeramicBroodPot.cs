@@ -154,7 +154,7 @@ namespace FromGoldenCombs.BlockEntities
         //Rendering Processes
         readonly Matrixf mat = new();
 
-        protected override void updateMeshes()
+        public override void updateMeshes()
         {
             mat.Identity();
             mat.RotateYDeg(this.Block.Shape.rotateY);
@@ -162,13 +162,13 @@ namespace FromGoldenCombs.BlockEntities
             base.updateMeshes();
         }
 
-        protected override MeshData genMesh(ItemStack stack, int index)
+        protected override MeshData genMesh(ItemStack stack)
         {
             MeshData mesh;
 
             ICoreClientAPI capi = Api as ICoreClientAPI;
             mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-            nowTesselatingItem = stack.Item;
+            //nowTesselatingItem = stack.Item;
             nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Block.Shape.Base);
             mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
 

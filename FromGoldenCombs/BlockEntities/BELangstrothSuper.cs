@@ -1,12 +1,9 @@
-﻿using FromGoldenCombs.Blocks;
-using FromGoldenCombs.Items;
+﻿using FromGoldenCombs.Items;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
-using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
-using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
@@ -37,7 +34,7 @@ namespace FromGoldenCombs.BlockEntities
             base.Initialize(api);
         }
                 
-        public override void OnBlockBroken()
+        public override void OnBlockBroken(IPlayer player)
         {
             // Don't drop inventory contents
         }
@@ -164,60 +161,75 @@ namespace FromGoldenCombs.BlockEntities
             return base.OnTesselation(mesher, tessThreadTesselator);
         }
 
-        protected override void updateMeshes()
+        public override void updateMeshes()
         {
-            mat.Identity();
-            mat.RotateYDeg(block.Shape.rotateY);
+            for (int i = 0; i < this.meshes.Length; i++)
+            {
+                this.updateMesh(i);
+            }
 
             base.updateMeshes();
         }
 
-        protected override MeshData genMesh(ItemStack stack, int index)
+        protected override void updateMesh(int index)
         {
+            if (this.Api == null || this.Api.Side == EnumAppSide.Server)
+            {
+                return;
+            }
+            if (this.Inventory[index].Empty)
+            {
+                this.meshes[index] = null;
+                return;
+            }
+            MeshData meshData = this.genMesh(this.Inventory[index].Itemstack);
+            this.TranslateMesh(meshData, index);
+            this.meshes[index] = meshData;
+        }
 
-            ICoreClientAPI capi = Api as ICoreClientAPI;
-                nowTesselatingItem = stack.Item;
-                nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
-                capi.Tesselator.TesselateItem(stack.Item, out MeshData mesh, this);
-
-                mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
-
+        public override void TranslateMesh(MeshData mesh, int index)
+        {
             float x = 0f;
             float y = 0.069f;
             float z = 0f;
 
-            if (block.Variant["side"] == "north")
+            if (block.Variant["side"] == "north" || block.Variant["side"] == "south")
             {
                 x = .7253f + .0625f * index - 1;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
-            } else if (block.Variant["side"] == "south")
+            }
+            else
             {
-                x = 1.2878f - .0625f * index - 1;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
-            } else if (block.Variant["side"] == "east")
-            {
-                z = 1.2878f - .0625f * index - 1;
+                x = .7253f + .0625f * index - 1;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }
-            else if (block.Variant["side"] == "west")
+        }
+        protected override MeshData genMesh(ItemStack stack)
+        {
+
+            IContainedMeshSource containedMeshSource = stack.Collectible as IContainedMeshSource;
+            MeshData meshData;
+            if (containedMeshSource != null)
             {
-                z = .7253f + .0625f * index - 1;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
+                meshData = containedMeshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
+                meshData.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
+            } else
+            {
+                this.nowTesselatingObj = stack.Collectible;
+                this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);
+                capi.Tesselator.TesselateItem(stack.Item, out meshData, this);
             }
             ModelTransform transform = stack.Collectible.Attributes.AsObject<ModelTransform>();
             transform.EnsureDefaultValues();
             transform.Rotation.X = 0;
             transform.Rotation.Y = block.Shape.rotateY;
             transform.Rotation.Z = 0;
-            mesh.ModelTransform(transform);
+            meshData.ModelTransform(transform);
 
-            return mesh;
+            return meshData;
         }
-
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
             int index = forPlayer.CurrentBlockSelection.SelectionBoxIndex;
