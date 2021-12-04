@@ -14,7 +14,6 @@ namespace FromGoldenCombs.Blocks
         public override void OnLoaded(ICoreAPI api)
         {
             base.OnLoaded(api);
-            // Todo: Add interaction help
         }
 
         //Picks up block while retaining its contents

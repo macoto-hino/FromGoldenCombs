@@ -103,27 +103,27 @@
 
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory1.16.10-pre.1\Lib\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\VintageStory1160\Lib\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory1.16.10-pre.1\VintagestoryAPI.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\VintageStory1160\VintagestoryAPI.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory1.16.10-pre.1\VintagestoryLib.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\VintageStory1160\VintagestoryLib.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory1.16.10-pre.1\Mods\VSCreativeMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\VintageStory1160\Mods\VSCreativeMod.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VSEssentials">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory1.16.10-pre.1\Mods\VSEssentials.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\VintageStory1160\Mods\VSEssentials.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory1.16.10-pre.1\Mods\VSSurvivalMod.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\VintageStory1160\Mods\VSSurvivalMod.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
@@ -145,6 +145,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="changelog.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="modicon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

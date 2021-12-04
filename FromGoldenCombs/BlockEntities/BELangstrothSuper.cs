@@ -155,8 +155,11 @@ namespace FromGoldenCombs.BlockEntities
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
         {
-            mat.Identity();
-            mat.RotateYDeg(block.Shape.rotateY);
+            //mat.Identity();
+            //if (block.Variant["side"] == "north" || block.Variant["side"] == "south")
+            //{
+            //    mat.RotateYDeg(block.Shape.rotateY);
+            //}
 
             return base.OnTesselation(mesher, tessThreadTesselator);
         }
@@ -193,15 +196,27 @@ namespace FromGoldenCombs.BlockEntities
             float y = 0.069f;
             float z = 0f;
 
-            if (block.Variant["side"] == "north" || block.Variant["side"] == "south")
+            if (block.Variant["side"] == "north")
             {
                 x = .7253f + .0625f * index - 1;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }
-            else
+            else if (block.Variant["side"] == "south")
             {
                 x = .7253f + .0625f * index - 1;
+                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
+                mesh.Translate(offset.XYZ);
+            }
+            else if (block.Variant["side"] == "west")
+            {
+                z = 0.7253f + .0625f * index - 1;
+                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
+                mesh.Translate(offset.XYZ);
+            }
+            else if (block.Variant["side"] == "east")
+            {
+                z = 0.7253f + .0625f * index - 1;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }

@@ -74,6 +74,14 @@
 	- Corrected issue with harvestable skeps breaking into skep blocks. Now break properly. 
 	- Claypot Hives now properly convert to Ceramic Hives
 
+1.15.7-v.1.3.5-rc.5
+	- Corrected logic error where right-clicking a ceramic brood pot with no place to put it would still remove the pot.
+
+1.16.0-v1.3.5-rc.1
+    - updated to be compatible with 1.16.0-pre.3+
+
+1.16.0-v.1.3.5-rc.2
+	- Corrected logic error where right-clicking a ceramic brood pot with no place to put it would still remove the pot.
 
 Future Errors To Correct
  - Hives not showing proper hive/flower ratio. Always seem to be large so long as there are any flowers nearby.

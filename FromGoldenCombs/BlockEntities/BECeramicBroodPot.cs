@@ -116,11 +116,14 @@ namespace FromGoldenCombs.BlockEntities
             else
             {
                 ItemStack stack = this.Block.OnPickBlock(Api.World, Pos);
-                stack.Attributes.SetBool("populated", isActiveHive);
-                player.InventoryManager.TryGiveItemstack(stack);
-                Api.World.BlockAccessor.SetBlock(0, Pos);
-                return true;
+                if (player.InventoryManager.TryGiveItemstack(stack))
+                {
+                    stack.Attributes.SetBool("populated", isActiveHive);
+                    Api.World.BlockAccessor.SetBlock(0, Pos);
+                    return true;
+                }
             }
+            return false;
         }
 
         public void TryPutDirect(ItemStack stack)
@@ -413,7 +416,7 @@ namespace FromGoldenCombs.BlockEntities
                     dsc.AppendLine("The bees are out gathering.");
                 } else
                 {
-                    dsc.AppendLine("The bees are still settling in.");
+                    dsc.AppendLine("The bees are scouting for flowers.");
                 }
 
             }

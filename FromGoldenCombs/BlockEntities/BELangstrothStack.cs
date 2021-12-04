@@ -968,7 +968,7 @@ namespace FromGoldenCombs.BlockEntities
                     }
                     else
                     {
-                        sb.AppendLine("The bees are settling in after being disturbed.");
+                        sb.AppendLine("The bees are out scouting for flowers.");
                     }
                 }
             } else

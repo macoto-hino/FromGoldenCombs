@@ -6,6 +6,12 @@
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
+  "attributes": {
+        "handbookByType": {
+        "*": { "groupBy": ["framerack-*"] }
+        },
+        "extraSections": [ { title: "item-handbooktitle-framerack", text: "item-handbooktitle-framerack" } ]
+  },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
     { "name": "Unstable" }
