@@ -83,6 +83,9 @@
 1.16.0-v.1.3.5-rc.2
 	- Corrected logic error where right-clicking a ceramic brood pot with no place to put it would still remove the pot.
 
+1.16.0-v.1.3.6-rc.1	
+	- Added Updated Russian Translations
+
 Future Errors To Correct
  - Hives not showing proper hive/flower ratio. Always seem to be large so long as there are any flowers nearby.
  - Standardize blockType and itemType with same verbiage for similar features.
