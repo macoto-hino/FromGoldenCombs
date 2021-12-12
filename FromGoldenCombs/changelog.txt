@@ -74,6 +74,17 @@
 	- Corrected issue with harvestable skeps breaking into skep blocks. Now break properly. 
 	- Claypot Hives now properly convert to Ceramic Hives
 
+1.15.10-v1.3.5-rc.5
+	- Honey pots can no longer be set on unstable surfaces
+	- Russian translation updated
+	- Fixed bug with ceramic hives vanishing when right-clicked with full bag slots
+
+1.15.10-v1.3.5-rc.6
+	- New sounds added
+	- Only 1 brood box top from a stack is taken when right clicking a super to convert it to a brood box.
+	- Only empty supers can be converted into a brood box.
+	- All types of linen can now be used to make waxed linen
+
 
 Future Errors To Correct
  - Hives not showing proper hive/flower ratio. Always seem to be large so long as there are any flowers nearby.

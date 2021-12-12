@@ -57,11 +57,11 @@ namespace FromGoldenCombs.BlockEntities
             block.SetContents(new(block), this.GetContentStacks());
 
             
-            if (!slot.Empty && slot.Itemstack.Collectible.FirstCodePart() == "langstrothbroodtop" && (slot.Itemstack.Collectible.Variant["primary"] == this.Block.Variant["primary"] && slot.Itemstack.Collectible.Variant["accent"] == this.Block.Variant["accent"]))
+            if (!slot.Empty && slot.Itemstack.Collectible.FirstCodePart() == "langstrothbroodtop" && (slot.Itemstack.Collectible.Variant["primary"] == this.Block.Variant["primary"] && slot.Itemstack.Collectible.Variant["accent"] == this.Block.Variant["accent"]) && isEmpty())
             {
                 
                 Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-empty-"+ this.Block.Variant["primary"] + "-" + this.Block.Variant["accent"] + "-" + this.block.Variant["side"])).BlockId,Pos);
-                slot.TakeOutWhole();
+                slot.TakeOut(1);
                 MarkDirty(true);
                 return true;
             }
@@ -75,11 +75,12 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (isBeeframe && blockSel.SelectionBoxIndex < 10  && this.Block.Variant["open"] == "open")
             {
-                //AssetLocation sound = slot.Itemstack?.Item?.Sounds?.Place;
-                MarkDirty(true);
+             
                 if (TryPut(slot, blockSel))
                 {
-                    //Api.World.PlaySoundAt(sound != null ? sound : new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
+                    AssetLocation sound = slot.Itemstack?.Block?.Sounds?.Place;
+                    Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
+                    MarkDirty(true);
                     return true;
                 }
 
@@ -126,6 +127,21 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             return false;
+        }
+
+        private bool isEmpty()
+        {
+
+            for (int i = 0; i < inv.Count; i++)
+            {
+                int slotnum = (i+1) % inv.Count;
+                if (!inv[slotnum].Empty)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool TryTake(IPlayer byPlayer, BlockSelection blockSel)

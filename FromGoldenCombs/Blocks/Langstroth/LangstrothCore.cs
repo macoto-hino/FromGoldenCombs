@@ -23,7 +23,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             Block block = api.World.BlockAccessor.GetBlock(blockSel.Position);
             if (!slot.Empty &&
-                IsValidLangstroth(block))
+                IsValidLangstroth(block) && !(slot.Itemstack?.Block is FrameRack))
             {
                 ItemStack super = this.OnPickBlock(api.World, blockSel.Position);
                 api.World.BlockAccessor.SetBlock(api.World.GetBlock(
@@ -35,7 +35,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
         }
         public bool IsValidLangstroth(Block block)
         {
-            if (block is LangstrothCore && !(block is LangstrothBrood))
+            if (block is LangstrothCore && !(block is LangstrothBrood) && !(block is FrameRack))
             {
                 return true;
             }

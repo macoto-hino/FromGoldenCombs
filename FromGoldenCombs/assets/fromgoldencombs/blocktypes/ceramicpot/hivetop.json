@@ -19,7 +19,7 @@
         "__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility, must be used to permit pitkilning"
       }
     ],
-    "*": [ { "name": "RightClickPickup" } ]
+    "*": [ { "name": "RightClickPickup" },{"name": "Unstable"}]
   },
   "shapebytype": {
     "*-empty": { "base": "block/hive/ceramic/hivetop-empty" },

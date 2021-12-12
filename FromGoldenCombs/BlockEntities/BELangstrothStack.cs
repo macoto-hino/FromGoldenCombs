@@ -94,7 +94,7 @@ namespace FromGoldenCombs.BlockEntities
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isLangstroth = colObj is LangstrothCore;
             if ((int)slot.StorageType != 2) return false;
-
+            
             if (slot.Empty)
             {
                 if (TryTake(byPlayer)) //Attempt to take a super from the topmost stack
@@ -117,6 +117,9 @@ namespace FromGoldenCombs.BlockEntities
                                   //any stacks above this, or as a new stack above the
                                   //topmost stack if the block at that position is an air block.
                 {
+                    
+                    AssetLocation sound = slot.Itemstack?.Block?.Sounds?.Place;
+                    Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                     GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
                     GetBottomStack().ResetHive();
                     MarkDirty(true);
