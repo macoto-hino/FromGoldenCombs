@@ -93,7 +93,7 @@ namespace FromGoldenCombs.BlockEntities
                 isActiveHive = true;
                 return true;
             }
-            else if (TryPut(slot)) {
+            else if (slot.Itemstack.Collectible.FirstCodePart() != "hivetop" && TryPut(slot) ) {
                 {
                     Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(hive.CodeWithVariant("top", "withtop")).BlockId, Pos);
                     MarkDirty(true);

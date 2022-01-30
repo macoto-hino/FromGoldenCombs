@@ -3,7 +3,7 @@
 	"sealHours": 2,
 	"ingredients": [
 		{ "type": "item", "code": "game:beeswax"},
-		{ "type": "block", "code":	"game:linen-normal-down"}
+		{ "type": "block", "code":	"game:linen-*-down"}
 	],
 	"output": { "type": "block", "code": "game:linen-waxed-down", "stackSize": 1  }
 }

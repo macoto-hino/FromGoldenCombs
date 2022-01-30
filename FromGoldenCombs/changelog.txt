@@ -86,9 +86,15 @@
 1.16.0-v.1.3.6-rc.1	
 	- Added Updated Russian Translations
 
+1.16.0-v.1.3.6-rc.2
+	- Removed waxed linen from recipe for bandages to permit making frame liners
 Future Errors To Correct
  - Hives not showing proper hive/flower ratio. Always seem to be large so long as there are any flowers nearby.
  - Standardize blockType and itemType with same verbiage for similar features.
+
+ 1.16.0-v.1.3.6-rc.3
+	- Update beeswax patch to provide compatibility with Ancient Tools
+
 
 Upcoming Features
  - Add config for changing swarm seasons
