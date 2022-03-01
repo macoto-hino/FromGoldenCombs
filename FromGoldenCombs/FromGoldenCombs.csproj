@@ -108,15 +108,14 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="VintagestoryLib">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\VintagestoryLib.dll</HintPath>
-    </Reference>
-    <Reference Include="VSBuildLib">
-      <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\VSBuildLib.dll</HintPath>
     </Reference>
     <Reference Include="VSCreativeMod">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Mods\VSCreativeMod.dll</HintPath>
