@@ -2,8 +2,9 @@
   "profiles": {
     "VinterMods.Mods.FromGoldenCombs": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\Owner\\AppData\\Roaming\\Vintagestory1160\\Vintagestory.exe",
+      "executablePath": "C:\\Users\\Owner\\AppData\\Roaming\\Vintagestory\\VS1163\\Vintagestory.exe",
       "commandLineArgs": "--addModPath=\"C:\\Users\\Owner\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  --addOrigin=\"C:\\Users\\Owner\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
+      "workingDirectory": "C:\\Users\\Owner\\AppData\\Roaming\\Vintagestory\\VS1163\\",
       "sqlDebugging": false
     }
   }

@@ -29,6 +29,7 @@ namespace FromGoldenCombs.Blocks
 
         public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack)
         {
+            System.Diagnostics.Debug.WriteLine("Checkpoint Beta Reached");
             base.OnBlockPlaced(world, blockPos);
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
             if (byItemStack is null){

@@ -78,7 +78,6 @@ namespace FromGoldenCombs.BlockEntities
         {
             Block hive = Api.World.BlockAccessor.GetBlock(Pos);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
-            System.Diagnostics.Debug.WriteLine("Hey");
             if (slot.Empty)
             {
                 if (TryTake(byPlayer))
