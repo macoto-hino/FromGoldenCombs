@@ -19,10 +19,12 @@ namespace FromGoldenCombs.Blocks
         public object ActionLangCode { get; private set; }
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
-        {                          
-                BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
-                if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
-                return base.OnBlockInteractStart(world, byPlayer, blockSel);
+        {                      
+            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
+            System.Diagnostics.Debug.WriteLine("Checkpoint Alpha Reached");
+            if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
+            System.Diagnostics.Debug.WriteLine("Checkpoint Alpha Beta Reached");
+            return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
         public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack)

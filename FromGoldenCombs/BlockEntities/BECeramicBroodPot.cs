@@ -78,7 +78,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             Block hive = Api.World.BlockAccessor.GetBlock(Pos);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
-
+            System.Diagnostics.Debug.WriteLine("Hey");
             if (slot.Empty)
             {
                 if (TryTake(byPlayer))
@@ -139,10 +139,10 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryPut(ItemSlot slot)
         {
-
+            System.Diagnostics.Debug.WriteLine("Checkpoint Beta Reached");
             int index = 0;
             if (inv[index].Empty
-               && slot.Itemstack.Block.FirstCodePart() == "hivetop" && slot.Itemstack.Block.Variant["type"] != "raw")
+                && slot.Itemstack.Block.FirstCodePart() == "hivetop" && slot.Itemstack.Block.Variant["type"] != "raw")
             {
                 slot.TryPutInto(Api.World, inv[index]);
                 if(inv[index].Itemstack.Block.Variant["type"] != "raw" && isActiveHive)

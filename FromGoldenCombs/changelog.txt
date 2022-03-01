@@ -92,7 +92,7 @@ Future Errors To Correct
  - Hives not showing proper hive/flower ratio. Always seem to be large so long as there are any flowers nearby.
  - Standardize blockType and itemType with same verbiage for similar features.
 
- 1.16.0-v.1.3.6-rc.3
+ 1.16.0-v.1.3.6-rc.4
 	- Fixed issues with barrel recipes preventing waxed linen from being made. Now working with any linen.
 	- Fixed waxed twine not being able to be made.
 	- Patch bandage recipe to not use waxed linen, frame liners can be made again.
