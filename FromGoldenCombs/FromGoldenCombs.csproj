@@ -105,6 +105,7 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Lib\0Harmony.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Lib\Newtonsoft.Json.dll</HintPath>
@@ -116,15 +117,19 @@
     </Reference>
     <Reference Include="VintagestoryLib">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\VintagestoryLib.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="VSCreativeMod">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Mods\VSCreativeMod.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="VSEssentials">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Mods\VSEssentials.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>..\..\..\..\AppData\Roaming\VintageStory\VS1163\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 

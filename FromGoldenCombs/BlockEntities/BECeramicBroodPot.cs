@@ -139,9 +139,10 @@ namespace FromGoldenCombs.BlockEntities
         private bool TryPut(ItemSlot slot)
         {
             System.Diagnostics.Debug.WriteLine("Checkpoint Beta Reached");
+            System.Diagnostics.Debug.WriteLine(slot.Itemstack.Collectible.FirstCodePart() + " " + slot.Itemstack.Collectible.Variant["type"]);1
             int index = 0;
             if (inv[index].Empty
-                && slot.Itemstack.Block.FirstCodePart() == "hivetop" && slot.Itemstack.Block.Variant["type"] != "raw")
+                && slot.Itemstack.Collectible.FirstCodePart() == "hivetop" && slot.Itemstack.Collectible.Variant["type"] != "raw")
             {
                 slot.TryPutInto(Api.World, inv[index]);
                 if(inv[index].Itemstack.Block.Variant["type"] != "raw" && isActiveHive)
