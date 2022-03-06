@@ -18,6 +18,17 @@ namespace FromGoldenCombs.Blocks
 
         public object ActionLangCode { get; private set; }
 
+        public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
+        {
+            ItemStack stack = base.OnPickBlock(world, pos);
+            BECeramicBroodPot bec = world.BlockAccessor.GetBlockEntity(pos) as BECeramicBroodPot;
+            if (bec is BECeramicBroodPot)
+            {
+                stack.Attributes.SetBool("populated", bec.isActiveHive);
+            };
+            return stack;
+        }
+
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {                      
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
@@ -29,16 +40,12 @@ namespace FromGoldenCombs.Blocks
 
         public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack)
         {
-            System.Diagnostics.Debug.WriteLine("Checkpoint Beta Reached");
+            System.Diagnostics.Debug.WriteLine(byItemStack.Attributes.TryGetBool("populated") == null ? "null" : byItemStack.Attributes.GetBool("populated", false));
+            System.Diagnostics.Debug.WriteLine(byItemStack.Attributes.GetBool("populated", false));
+            bool isHiveActive = byItemStack.Attributes.GetBool("populated", false);
             base.OnBlockPlaced(world, blockPos);
             BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
-            if (byItemStack is null){
-                beCeramicBroodPot.isActiveHive = false;
-            } else
-            {
-                beCeramicBroodPot.isActiveHive = byItemStack.Attributes.GetBool("populated", false);
-            }
-            
+            beCeramicBroodPot.isActiveHive = isHiveActive;
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)

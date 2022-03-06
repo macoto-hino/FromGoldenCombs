@@ -4,7 +4,7 @@
   "name": "From Golden Combs",
   "author": ["Vinter Nacht"],
   "description": "Adding depth, variety, and complexity to Vintage Apiculture",
-  "version": "1.3.6-rc.4",
+  "version": "1.3.6-rc.5",
   "dependencies": {
     "game": ""
   }

@@ -117,7 +117,6 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack stack = this.Block.OnPickBlock(Api.World, Pos);
                 if (player.InventoryManager.TryGiveItemstack(stack))
                 {
-                    stack.Attributes.SetBool("populated", isActiveHive);
                     Api.World.BlockAccessor.SetBlock(0, Pos);
                     return true;
                 }
