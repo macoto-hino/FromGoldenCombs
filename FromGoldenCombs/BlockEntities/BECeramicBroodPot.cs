@@ -92,7 +92,7 @@ namespace FromGoldenCombs.BlockEntities
                 isActiveHive = true;
                 return true;
             }
-            else if (slot.Itemstack.Collectible.FirstCodePart() != "hivetop" && TryPut(slot) ) {
+            else if (TryPut(slot) ) {
                 {
                     Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(hive.CodeWithVariant("top", "withtop")).BlockId, Pos);
                     MarkDirty(true);
@@ -139,7 +139,7 @@ namespace FromGoldenCombs.BlockEntities
         private bool TryPut(ItemSlot slot)
         {
             System.Diagnostics.Debug.WriteLine("Checkpoint Beta Reached");
-            System.Diagnostics.Debug.WriteLine(slot.Itemstack.Collectible.FirstCodePart() + " " + slot.Itemstack.Collectible.Variant["type"]);1
+            System.Diagnostics.Debug.WriteLine(slot.Itemstack.Collectible.FirstCodePart() + " " + slot.Itemstack.Collectible.Variant["type"]);
             int index = 0;
             if (inv[index].Empty
                 && slot.Itemstack.Collectible.FirstCodePart() == "hivetop" && slot.Itemstack.Collectible.Variant["type"] != "raw")
