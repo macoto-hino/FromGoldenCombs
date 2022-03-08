@@ -72,7 +72,6 @@ namespace FromGoldenCombs.BlockEntities
                     MarkDirty(true);
                     return true;
                 }
-                System.Diagnostics.Debug.WriteLine("TryHarvest Checkpoint Beta");
                 MarkDirty(true);
             }
             else if (slot.Itemstack?.Item?.FirstCodePart() == "waxedflaxtwine" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "lined")
@@ -96,7 +95,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (isBeeframe && index < 10)
             {
-                System.Diagnostics.Debug.WriteLine("Beeframe Entry");
                 MarkDirty(true);
                 if (TryPut(slot, blockSel))
                 {

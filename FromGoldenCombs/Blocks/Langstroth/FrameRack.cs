@@ -42,7 +42,6 @@ namespace FromGoldenCombs.Blocks
             if (beFrameRack is BEFrameRack)
                 beFrameRack.updateMeshes();
                 return beFrameRack.OnInteract(byPlayer, blockSel);
-            System.Diagnostics.Debug.WriteLine("New problem may be in OnBlockInteract in Frame Rack");
             return false;
         }
     }
