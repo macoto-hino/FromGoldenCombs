@@ -96,6 +96,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (isBeeframe && index < 10)
             {
+                System.Diagnostics.Debug.WriteLine("Beeframe Entry");
                 MarkDirty(true);
                 if (TryPut(slot, blockSel))
                 {
@@ -201,16 +202,21 @@ namespace FromGoldenCombs.BlockEntities
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
         {
-            mat.Identity();
-            mat.RotateYDeg(block.Shape.rotateY);
+            //mat.Identity();
+            //if (block.Variant["side"] == "north" || block.Variant["side"] == "south")
+            //{
+            //    mat.RotateYDeg(block.Shape.rotateY);
+            //}
 
             return base.OnTesselation(mesher, tessThreadTesselator);
         }
 
         public override void updateMeshes()
         {
-            mat.Identity();
-            mat.RotateYDeg(block.Shape.rotateY);
+            for (int i = 0; i < this.meshes.Length; i++)
+            {
+                this.updateMesh(i);
+            }
 
             base.updateMeshes();
         }
@@ -245,26 +251,25 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (block.Variant["side"] == "south")
             {
-                x = 1.2878f - .0625f * index - 1;
-                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
-                mesh.Translate(offset.XYZ);
-            }
-            else if (block.Variant["side"] == "east")
-            {
-               x = 1.2878f - .0625f * index - 1;
+                x = .7253f + .0625f * index - 1;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }
             else if (block.Variant["side"] == "west")
             {
-                z = .7253f + .0625f * index - 1;
+                z = 0.7253f + .0625f * index - 1;
+                Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
+                mesh.Translate(offset.XYZ);
+            }
+            else if (block.Variant["side"] == "east")
+            {
+                z = 0.7253f + .0625f * index - 1;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }
         }
-
         protected override MeshData genMesh(ItemStack stack)
-         {
+        {
 
             IContainedMeshSource containedMeshSource = stack.Collectible as IContainedMeshSource;
             MeshData meshData;
@@ -272,7 +277,8 @@ namespace FromGoldenCombs.BlockEntities
             {
                 meshData = containedMeshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
                 meshData.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
-            } else
+            }
+            else
             {
                 this.nowTesselatingObj = stack.Collectible;
                 this.nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Item.Shape.Base);

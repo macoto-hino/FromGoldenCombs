@@ -79,10 +79,10 @@ namespace FromGoldenCombs.Blocks
             WorldInteraction[] wi2 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
             WorldInteraction[] wi3 = base.GetPlacedBlockInteractionHelp(world, selection, forPlayer);
 
-            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(selection.Position);
+            
             if (world.BlockAccessor.GetBlockEntity(selection.Position) is BECeramicBroodPot)
             {
-
+                BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(selection.Position);
                 if (beCeramicBroodPot != null)
 
                 {
