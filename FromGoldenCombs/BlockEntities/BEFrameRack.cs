@@ -249,13 +249,13 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (block.Variant["side"] == "south")
             {
-                x = .7253f + .0625f * index - 1;
+                x = 0.2747f - .0625f * index;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }
             else if (block.Variant["side"] == "west")
             {
-                z = 0.7253f + .0625f * index - 1;
+                z = 0.2747f - .0625f * index;
                 Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
                 mesh.Translate(offset.XYZ);
             }

@@ -102,6 +102,9 @@ Future Errors To Correct
 	- Corrected NPE when interacting with Ceramic Hives
 	- Corrected inability to place honey pots on Ceramic Hives.
 
+1.16.4-v.1.3.6-rc.6
+	- Updated rendering for both frame racks and supers so they render the appropriate direction
+	- Eliminated error when interacting with ceramic hive that caused a crash (Crouching+right-clicking hive produced a crash)
 
 Outstanding Errors
 	- Compatibility with Bricklayers/Ancient Tools is currently borked. Will fix.
