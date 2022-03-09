@@ -106,11 +106,14 @@ Future Errors To Correct
 	- Updated rendering for both frame racks and supers so they render the appropriate direction
 	- Eliminated error when interacting with ceramic hive that caused a crash (Crouching+right-clicking hive produced a crash)
 
-Outstanding Errors
+
+1.16.4-v1.3.6-rc.7
+	- Ancient Tools compatibility fixed
+	- Linen will now show in barrels
+
+Outstanding Issues
 	- Compatibility with Bricklayers/Ancient Tools is currently borked. Will fix.
 	- Handbook issues.
-	- Crash when right-clicking a ceramic hive with anything other than a honeypot. Take care for now, but will fix.
-
 
 Upcoming Features
  - Add config for changing swarm seasons
@@ -124,6 +127,6 @@ Upcoming Features
  - Add Hive Tool (reduced damage to frames)
 
  - Raccoons can knock the top off a claypot hive, and then eat from it.
-	- Have hive top gradually fill over time
+	- Have hive top gradually fill over time?
 	- Adjust eat a portion of for raccoons to remove one portion
 	- Raccoons can reduce hive population as well (Once my hive population process is introduced)
