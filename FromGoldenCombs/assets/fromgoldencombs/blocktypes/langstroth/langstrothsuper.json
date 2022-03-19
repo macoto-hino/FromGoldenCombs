@@ -18,8 +18,8 @@
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
   "textures": {		
-      "primary": { "base": "game:block/wood/debarked/{primary}" },
-			"accent": { "base": "game:block/wood/debarked/{accent}" }
+      "top": { "base": "game:block/wood/debarked/{primary}" },
+			"bottom": { "base": "game:block/wood/debarked/{accent}" }
 	},
   "shapeByType": {
   "*-north": {

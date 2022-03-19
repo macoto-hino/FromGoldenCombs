@@ -823,9 +823,6 @@ namespace FromGoldenCombs.BlockEntities
                     scanIteration = 0;
                     OnScanComplete();
                 }
-
-                //honeyTypeCount.Add(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
-                //System.Diagnostics.Debug.WriteLine(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
             }
         }
 
@@ -938,7 +935,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (Pos == bottomStack.Pos)
             {
-                System.Diagnostics.Debug.WriteLine(GameMath.Clamp(quantityNearbyFlowers - 6 * quantityNearbyHives, 0, 2));
                 if (bottomStack.harvestableFrames != 0) { sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames); }
                 sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "");
 

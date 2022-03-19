@@ -21,9 +21,9 @@ namespace FromGoldenCombs.Blocks
         public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
         {
             ItemStack stack = base.OnPickBlock(world, pos);
-            BECeramicBroodPot bec = world.BlockAccessor.GetBlockEntity(pos) as BECeramicBroodPot;
-            if (bec is BECeramicBroodPot)
+            if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot)
             {
+                BECeramicBroodPot bec = world.BlockAccessor.GetBlockEntity(pos) as BECeramicBroodPot;
                 stack.Attributes.SetBool("populated", bec.isActiveHive);
             };
             return stack;
@@ -31,21 +31,21 @@ namespace FromGoldenCombs.Blocks
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {                      
-            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
-            System.Diagnostics.Debug.WriteLine("Checkpoint Alpha Reached");
+            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);         
             if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
-            System.Diagnostics.Debug.WriteLine("Checkpoint Alpha Beta Reached");
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
-        public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack byItemStack)
+        public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ItemStack stack)
         {
-            System.Diagnostics.Debug.WriteLine(byItemStack.Attributes.TryGetBool("populated") == null ? "null" : byItemStack.Attributes.GetBool("populated", false));
-            System.Diagnostics.Debug.WriteLine(byItemStack.Attributes.GetBool("populated", false));
-            bool isHiveActive = byItemStack.Attributes.GetBool("populated", false);
-            base.OnBlockPlaced(world, blockPos);
-            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
-            beCeramicBroodPot.isActiveHive = isHiveActive;
+            if (stack != null)
+            {
+                bool isHiveActive = stack.Attributes.GetBool("populated", false);
+                base.OnBlockPlaced(world, blockPos);
+                BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockPos);
+                if (beCeramicBroodPot == null) return;
+                beCeramicBroodPot.isActiveHive = isHiveActive;
+            }
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1)

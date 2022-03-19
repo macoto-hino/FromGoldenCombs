@@ -24,7 +24,8 @@ namespace FromGoldenCombs.BlockEntities
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
         int scanIteration;
-        public bool isActiveHive { get; set; }
+        public bool isActiveHive = false;
+        //public bool isActiveHive { get; set; } = false;
         EnumHivePopSize hivePopSize;
         int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
 
@@ -137,8 +138,6 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryPut(ItemSlot slot)
         {
-            System.Diagnostics.Debug.WriteLine("Checkpoint Beta Reached");
-            System.Diagnostics.Debug.WriteLine(slot.Itemstack.Collectible.FirstCodePart() + " " + slot.Itemstack.Collectible.Variant["type"]);
             int index = 0;
             if (inv[index].Empty
                 && slot.Itemstack.Collectible.FirstCodePart() == "hivetop" && slot.Itemstack.Collectible.Variant["type"] != "raw")

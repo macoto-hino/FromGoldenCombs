@@ -111,22 +111,8 @@ Future Errors To Correct
 	- Ancient Tools compatibility fixed
 	- Linen will now show in barrels
 
-Outstanding Issues
-	- Compatibility with Bricklayers/Ancient Tools is currently borked. Will fix.
-	- Handbook issues.
+1.16.4-v1.3.7
+	- Eliminated error where placing a ceramic hive caused everyone on a server to crash BUT the one with the hive.
 
-Upcoming Features
- - Add config for changing swarm seasons
- - Varietal honey based on prominent flowers when skep/pot/frame fills.
- - Changing swarm frequency
-	- Add config
- - Wild hives depopulate when moved to skep
-	- Add config
- - Add Clay Honeypot For Pre-Bucket/Barrel storage
- - Add Wax Blocks For placeable, stackable storage of wax
- - Add Hive Tool (reduced damage to frames)
-
- - Raccoons can knock the top off a claypot hive, and then eat from it.
-	- Have hive top gradually fill over time?
-	- Adjust eat a portion of for raccoons to remove one portion
-	- Raccoons can reduce hive population as well (Once my hive population process is introduced)
+1.16.4=v1.3.8
+	- Removed patch involving doors that was accidentally left in.
