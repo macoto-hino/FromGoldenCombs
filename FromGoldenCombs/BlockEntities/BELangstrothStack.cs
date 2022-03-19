@@ -587,34 +587,57 @@ namespace FromGoldenCombs.BlockEntities
         //Rendering Processes
         readonly Matrixf mat = new();
 
-        protected override void updateMeshes()
-        {
-            mat.Identity();
-            mat.RotateYDeg(this.Block.Shape.rotateY);
-
-            base.updateMeshes();
-        }
-
-        protected override MeshData genMesh(ItemStack stack, int index)
+        protected override MeshData genMesh(ItemStack stack)
         {
             MeshData mesh;
 
             ICoreClientAPI capi = Api as ICoreClientAPI;
             mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-            nowTesselatingItem = stack.Item;
+            nowTesselatingObj = stack.Collectible;
             nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Block.Shape.Base);
             mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
 
+            return mesh;
+        }
+
+        public override void updateMeshes()
+        {
+            for (int i = 0; i < this.meshes.Length; i++)
+            {
+                this.updateMesh(i);
+            }
+
+            base.updateMeshes();
+        }
+
+        protected override void updateMesh(int index)
+        {
+            if (this.Api == null || this.Api.Side == EnumAppSide.Server)
+            {
+                return;
+            }
+            if (this.Inventory[index].Empty)
+            {
+                this.meshes[index] = null;
+                return;
+            }
+            MeshData meshData = this.genMesh(this.Inventory[index].Itemstack);
+            this.TranslateMesh(meshData, index);
+            this.meshes[index] = meshData;
+        }
+
+        public override void TranslateMesh(MeshData mesh, int index)
+        {
             float x = 0;
             float y = .3333f * index;
             float z = 0;
             Vec4f offset = mat.TransformVector(new Vec4f(x, y, z, 0));
             //This seems to work for rotating the actual appearance of the blocks in the itemslots.
-            mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, this.Block!=null?this.Block.Shape.rotateY * GameMath.DEG2RAD:0f, 0f);
+            mesh.Rotate(new Vec3f(0.5f, 0f, 0.5f), 0f, this.Block != null ? this.Block.Shape.rotateY * GameMath.DEG2RAD : 0f, 0f);
             mesh.Translate(offset.XYZ);
-
-            return mesh;
         }
+
+        
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
         {
@@ -800,9 +823,6 @@ namespace FromGoldenCombs.BlockEntities
                     scanIteration = 0;
                     OnScanComplete();
                 }
-
-                //honeyTypeCount.Add(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
-                //System.Diagnostics.Debug.WriteLine(GetBottomStack().GetHoneyVarietal(flowerList.ToArray(), flowerList.Count));
             }
         }
 
@@ -915,7 +935,6 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (Pos == bottomStack.Pos)
             {
-                System.Diagnostics.Debug.WriteLine(GameMath.Clamp(quantityNearbyFlowers - 6 * quantityNearbyHives, 0, 2));
                 if (bottomStack.harvestableFrames != 0) { sb.AppendLine("Harvestable Frames: " + bottomStack.harvestableFrames); }
                 sb.AppendLine(bottomStack.isActiveHive ? "The hive buzzes busily." : "");
 
@@ -945,7 +964,7 @@ namespace FromGoldenCombs.BlockEntities
                     }
                     else
                     {
-                        sb.AppendLine("The bees are settling in after being disturbed.");
+                        sb.AppendLine("The bees are out scouting for flowers.");
                     }
                 }
             } else

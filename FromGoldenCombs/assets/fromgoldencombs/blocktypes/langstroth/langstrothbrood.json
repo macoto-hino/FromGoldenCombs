@@ -3,6 +3,15 @@
   "class": "langstrothbrood",
   "storageFlags": 2,
   "maxstacksize": 1,
+  "attributes": {
+        "handbookByType": {
+          "*-empty-*": {
+            "groupBy": ["*-langstrothbrood-empty-*"],
+            "extraSections": [ { title: "item-handbooktitle-langstrothbrood", text: "item-handbooktitle-langstrothbrood" } ]
+          },
+          "*-populated-*": { "exclude": true }
+        }
+  },
   "behaviors": [{
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }

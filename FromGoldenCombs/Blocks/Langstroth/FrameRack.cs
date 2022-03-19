@@ -39,9 +39,9 @@ namespace FromGoldenCombs.Blocks
         {
             BEFrameRack beFrameRack = (BEFrameRack)world.BlockAccessor.GetBlockEntity(blockSel.Position) as BEFrameRack;
 
-                if (beFrameRack is BEFrameRack)
+            if (beFrameRack is BEFrameRack)
+                beFrameRack.updateMeshes();
                 return beFrameRack.OnInteract(byPlayer, blockSel);
-            System.Diagnostics.Debug.WriteLine("New problem may be in OnBlockInteract in Frame Rack");
             return false;
         }
     }

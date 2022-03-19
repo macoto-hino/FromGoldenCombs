@@ -24,7 +24,8 @@ namespace FromGoldenCombs.BlockEntities
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
         int scanIteration;
-        public bool isActiveHive { get; set; }
+        public bool isActiveHive = false;
+        //public bool isActiveHive { get; set; } = false;
         EnumHivePopSize hivePopSize;
         int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
 
@@ -78,7 +79,6 @@ namespace FromGoldenCombs.BlockEntities
         {
             Block hive = Api.World.BlockAccessor.GetBlock(Pos);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
-
             if (slot.Empty)
             {
                 if (TryTake(byPlayer))
@@ -93,7 +93,7 @@ namespace FromGoldenCombs.BlockEntities
                 isActiveHive = true;
                 return true;
             }
-            else if (TryPut(slot)) {
+            else if (TryPut(slot) ) {
                 {
                     Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(hive.CodeWithVariant("top", "withtop")).BlockId, Pos);
                     MarkDirty(true);
@@ -116,11 +116,13 @@ namespace FromGoldenCombs.BlockEntities
             else
             {
                 ItemStack stack = this.Block.OnPickBlock(Api.World, Pos);
-                stack.Attributes.SetBool("populated", isActiveHive);
-                player.InventoryManager.TryGiveItemstack(stack);
-                Api.World.BlockAccessor.SetBlock(0, Pos);
-                return true;
+                if (player.InventoryManager.TryGiveItemstack(stack))
+                {
+                    Api.World.BlockAccessor.SetBlock(0, Pos);
+                    return true;
+                }
             }
+            return false;
         }
 
         public void TryPutDirect(ItemStack stack)
@@ -136,10 +138,9 @@ namespace FromGoldenCombs.BlockEntities
 
         private bool TryPut(ItemSlot slot)
         {
-
             int index = 0;
             if (inv[index].Empty
-               && slot.Itemstack.Block.FirstCodePart() == "hivetop" && slot.Itemstack.Block.Variant["type"] != "raw")
+                && slot.Itemstack.Collectible.FirstCodePart() == "hivetop" && slot.Itemstack.Collectible.Variant["type"] != "raw")
             {
                 slot.TryPutInto(Api.World, inv[index]);
                 if(inv[index].Itemstack.Block.Variant["type"] != "raw" && isActiveHive)
@@ -154,7 +155,7 @@ namespace FromGoldenCombs.BlockEntities
         //Rendering Processes
         readonly Matrixf mat = new();
 
-        protected override void updateMeshes()
+        public override void updateMeshes()
         {
             mat.Identity();
             mat.RotateYDeg(this.Block.Shape.rotateY);
@@ -162,13 +163,13 @@ namespace FromGoldenCombs.BlockEntities
             base.updateMeshes();
         }
 
-        protected override MeshData genMesh(ItemStack stack, int index)
+        protected override MeshData genMesh(ItemStack stack)
         {
             MeshData mesh;
 
             ICoreClientAPI capi = Api as ICoreClientAPI;
             mesh = capi.TesselatorManager.GetDefaultBlockMesh(stack.Block).Clone();
-            nowTesselatingItem = stack.Item;
+            //nowTesselatingItem = stack.Item;
             nowTesselatingShape = capi.TesselatorManager.GetCachedShape(stack.Block.Shape.Base);
             mesh.RenderPassesAndExtraBits.Fill((short)EnumChunkRenderPass.BlendNoCull);
 
@@ -413,7 +414,7 @@ namespace FromGoldenCombs.BlockEntities
                     dsc.AppendLine("The bees are out gathering.");
                 } else
                 {
-                    dsc.AppendLine("The bees are still settling in.");
+                    dsc.AppendLine("The bees are scouting for flowers.");
                 }
 
             }
