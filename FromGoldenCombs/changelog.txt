@@ -116,3 +116,8 @@ Future Errors To Correct
 
 1.16.4=v1.3.8
 	- Removed patch involving doors that was accidentally left in.
+
+1.16.4-v1.3.9
+	- Minor updates to the lang file
+	- Added incontainertexturebytype to linen
+
