@@ -1,5 +1,4 @@
-﻿using FromGoldenCombs.Blocks.Langstroth;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Vintagestory.API.Client;
@@ -8,7 +7,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
-namespace VFromGoldenCombs.Blocks.Langstroth
+namespace FromGoldenCombs.Blocks.Langstroth
 {
     class LangstrothBase : LangstrothCore
     {

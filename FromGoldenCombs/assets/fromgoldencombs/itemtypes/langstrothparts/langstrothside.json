@@ -12,12 +12,18 @@
 	
   "creativeinventory": { "general": ["*"] },
   "attributes": {
-        "handbookByType": {
+        "handbook": {
           "langstrothside-*": {
             "groupBy": ["langstrothside-*"],
             "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-langstrothside", "text": "fromgoldencombs:item-handbooktext-langstrothside" } ]
-          }
-        }  
+          },
+					"extraSections": [
+        {
+          "title": "fromgoldencombs:item-handbooktitle-langstrothside",
+          "text": "fromgoldencombs:item-handbooktext-langstrothside"
+        }
+      ]
+    }
   },
 	"combustibleProps": {
 		"burnTemperature": 700,

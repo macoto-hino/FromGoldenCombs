@@ -7,6 +7,17 @@
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
   "creativeinventory": { "general": ["*-closed-*-*-east"] },
+  "attributes": {
+        "handbookByType": {
+        "*": { "groupBy": ["langstrothsuper-*"] }
+        },
+        "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-langstrothsuper",
+          "text": "fromgoldencombs:block-handbooktext-langstrothsuper"
+        }
+      ]
+  },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
     { "name": "Unstable" }

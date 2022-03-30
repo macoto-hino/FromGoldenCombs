@@ -5,14 +5,20 @@
 	 { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" }
 	],
-	"creativeinventory": { "general": ["*"] },
-  	"attributes": {
-        "handbookByType": {
-          "langstrothbroodtop-*": {
-            "groupBy": ["langstrothbroodtop-*"],
-            "extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-langstrothbroodtop", "text": "fromgoldencombs:item-handbooktext-langstrothbroodtop" } ]
-          }
-        }  
+	"creativeinventory": { "general": ["langstrothbroodtop-*"] },
+ "attributes": {
+    "handbook": {
+      "groupBy": ["langstrothbroodtop-*"],
+      "extraSectionsByType": {
+        "langstrothbroodtop-*": [{ "title": "fromgoldencombs:item-handbooktitle-langstrothbroodtop", "text": "fromgoldencombs:item-handbooktext-langstrothbroodtop" }]
+      },
+			"extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-langstrothbroodtop",
+          "text": "fromgoldencombs:block-handbooktext-langstrothbroodtop"
+        }
+      ]
+    }
   },
 	"maxstacksize": 64,
 	"shape": { "base": "item/langstroth/langstrothpart-broodtop" },

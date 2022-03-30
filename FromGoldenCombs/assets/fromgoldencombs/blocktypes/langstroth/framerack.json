@@ -10,7 +10,12 @@
         "handbookByType": {
         "*": { "groupBy": ["framerack-*"] }
         },
-        "extraSections": [ { title: "item-handbooktitle-framerack", text: "item-handbooktitle-framerack" } ]
+        "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-framerack",
+          "text": "fromgoldencombs:block-handbooktext-framerack"
+        }
+      ]
   },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},

@@ -56,11 +56,15 @@ namespace FromGoldenCombs.BlockEntities
             
             if (!slot.Empty && slot.Itemstack.Collectible.FirstCodePart() == "langstrothbroodtop" && (slot.Itemstack.Collectible.Variant["primary"] == this.Block.Variant["primary"] && slot.Itemstack.Collectible.Variant["accent"] == this.Block.Variant["accent"]))
             {
-                
-                Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-empty-"+ this.Block.Variant["primary"] + "-" + this.Block.Variant["accent"] + "-" + this.block.Variant["side"])).BlockId,Pos);
-                slot.TakeOutWhole();
-                MarkDirty(true);
-                return true;
+                if (inv.Empty)
+                {
+                    Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-empty-" + this.Block.Variant["primary"] + "-" + this.Block.Variant["accent"] + "-" + this.block.Variant["side"])).BlockId, Pos);
+                    slot.TakeOutWhole();
+                    MarkDirty(true);
+                    return true;
+                }
+                (byPlayer.Entity.World.Api as ICoreClientAPI)?.TriggerIngameError(this, "nonemptysuper", Lang.Get("fromgoldencombs:nonemptysuper"));
+                System.Diagnostics.Debug.WriteLine("Super to Broodbox conversion fail due to non-empty super.");
             }
             else if ((slot.Empty || !isBeeframe) && blockSel.SelectionBoxIndex < 10 && this.Block.Variant["open"] == "open")
             {

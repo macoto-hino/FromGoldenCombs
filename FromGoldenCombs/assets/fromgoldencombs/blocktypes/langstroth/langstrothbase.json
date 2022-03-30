@@ -3,6 +3,22 @@
   "class": "langstrothbase",
   "storageFlags": 2,
   "maxstacksize": 1,
+  "attributes": {
+        "handbookByType": {
+        "*": { "groupBy": ["langstrothbase-*"] }
+        },
+        "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-langstrothbase",
+          "text": "fromgoldencombs:block-handbooktext-langstrothbase"
+        }
+      ]
+  },
+  "variantgroups": [
+    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
+    { "code": "side", "loadFromProperties": "abstract/horizontalorientation"}
+  ],
   "behaviors": [{
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }
@@ -12,11 +28,6 @@
   "creativeinventory": { "general": ["*-east"] },
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
-  "variantgroups": [
-    { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
-    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
-    { "code": "side", "loadFromProperties": "abstract/horizontalorientation"}
-  ],
   "textures": {		
       "primary": { "base": "game:block/wood/debarked/{primary}" },
 			"accent": { "base": "game:block/wood/debarked/{accent}" }

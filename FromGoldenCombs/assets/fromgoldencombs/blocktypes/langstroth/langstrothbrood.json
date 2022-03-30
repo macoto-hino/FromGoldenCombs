@@ -5,12 +5,14 @@
   "maxstacksize": 1,
   "attributes": {
         "handbookByType": {
-          "*-empty-*": {
-            "groupBy": ["*-langstrothbrood-empty-*"],
-            "extraSections": [ { title: "item-handbooktitle-langstrothbrood", text: "item-handbooktitle-langstrothbrood" } ]
-          },
-          "*-populated-*": { "exclude": true }
+        "*": { "groupBy": ["langstrothbrood-*"] }
+        },
+        "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-langstrothbrood",
+          "text": "fromgoldencombs:block-handbooktext-langstrothbrood"
         }
+      ]
   },
   "behaviors": [{
         "name": "HorizontalOrientable",

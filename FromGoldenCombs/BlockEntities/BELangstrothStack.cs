@@ -5,7 +5,7 @@ using FromGoldenCombs.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VFromGoldenCombs.Blocks.Langstroth;
+using FromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;

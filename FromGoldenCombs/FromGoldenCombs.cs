@@ -4,7 +4,7 @@ using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.config;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Items;
-using VFromGoldenCombs.Blocks.Langstroth;
+using FromGoldenCombs.Blocks.Langstroth;
 
 namespace FromGoldenCombs
 {
@@ -82,7 +82,7 @@ namespace FromGoldenCombs
             //TODO: Project List
             //Add Clay Honeypot For Pre-Bucket/Barrel storage
             //Add Wax Blocks For placeable, stackable storage of wax
-            //Give Raccons the ability to knock the top off a hive, and then eat it.
+            //Give Raccoons the ability to knock the top off a hive, and then eat it.
             //Give hivetops growth mechanics for volume.
         }
 }
