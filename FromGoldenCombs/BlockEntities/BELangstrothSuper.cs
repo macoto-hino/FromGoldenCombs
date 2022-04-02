@@ -64,7 +64,6 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
                 (byPlayer.Entity.World.Api as ICoreClientAPI)?.TriggerIngameError(this, "nonemptysuper", Lang.Get("fromgoldencombs:nonemptysuper"));
-                System.Diagnostics.Debug.WriteLine("Super to Broodbox conversion fail due to non-empty super.");
             }
             else if ((slot.Empty || !isBeeframe) && blockSel.SelectionBoxIndex < 10 && this.Block.Variant["open"] == "open")
             {
@@ -80,13 +79,13 @@ namespace FromGoldenCombs.BlockEntities
                 MarkDirty(true);
                 if (TryPut(slot, blockSel))
                 {
+                    //TODO: Add Sound on Placement
                     //Api.World.PlaySoundAt(sound != null ? sound : new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                     return true;
                 }
 
             }
-            else if (//byPlayer.Entity.Controls.Sneak &&
-                     slot.Itemstack == null
+            else if (slot.Itemstack == null
                      && (int)slot.StorageType == 2
                      && Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed"
                      && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position))

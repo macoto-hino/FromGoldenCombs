@@ -22,24 +22,29 @@ namespace FromGoldenCombs.Blocks.Langstroth
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             Block block = api.World.BlockAccessor.GetBlock(blockSel.Position);
-            if (!slot.Empty &&
-                IsValidLangstroth(block))
+            if (!slot.Empty && slot.Itemstack.Collectible is Block && isValidLangstroth(slot.Itemstack.Block, block))
             {
-                ItemStack super = this.OnPickBlock(api.World, blockSel.Position);
-                api.World.BlockAccessor.SetBlock(api.World.GetBlock(
-                new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.LastCodePart())).BlockId, blockSel.Position);
-                BELangstrothStack lStack = (BELangstrothStack)api.World.BlockAccessor.GetBlockEntity(blockSel.Position);
-                lStack.InitializePut(super, slot);
-            }
-            return true;
-        }
-        public bool IsValidLangstroth(Block block)
-        {
-            if (block is LangstrothCore && !(block is LangstrothBrood))
-            {
+                createLangstrothStack(slot, byPlayer, block, blockSel.Position);
                 return true;
             }
+
             return false;
+        }
+
+        //Is The Langstroth Block of type LangstrothCore
+        public bool isValidLangstroth(Block heldBlock, Block targetBlock)
+        {
+            return (!(targetBlock is LangstrothBrood) && heldBlock is LangstrothCore);
+            
+        }
+
+        public void createLangstrothStack(ItemSlot slot, IPlayer byPlayer, Block block, BlockPos pos)
+        {
+            ItemStack super = this.OnPickBlock(api.World, pos);
+            api.World.BlockAccessor.SetBlock(api.World.GetBlock(
+            new AssetLocation("fromgoldencombs", "langstrothstack-two-" + block.LastCodePart())).BlockId, pos);
+            BELangstrothStack lStack = (BELangstrothStack)api.World.BlockAccessor.GetBlockEntity(pos);
+            lStack.InitializePut(super, slot);
         }
 
         public override string GetPlacedBlockName(IWorldAccessor world, BlockPos pos)

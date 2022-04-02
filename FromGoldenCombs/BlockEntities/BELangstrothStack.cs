@@ -95,6 +95,8 @@ namespace FromGoldenCombs.BlockEntities
             bool isLangstroth = colObj is LangstrothCore;
             if ((int)slot.StorageType != 2) return false;
 
+            if (!(slot.Empty) && slot.Itemstack.Collectible is Item) return false;
+
             if (slot.Empty)
             {
                 if (TryTake(byPlayer)) //Attempt to take a super from the topmost stack
@@ -138,7 +140,7 @@ namespace FromGoldenCombs.BlockEntities
                 for (int index = 2; index >= 0; index--)
                 {
 
-                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Collectible is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
                     {
                         ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
                         int contentsSize = contents.Count;
@@ -179,7 +181,7 @@ namespace FromGoldenCombs.BlockEntities
                     for (int index = 2; index >= 0; index--)
                     {
 
-                        if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                        if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Collectible is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
                         {
                             ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
                             int contentsSize = contents.Count;
@@ -217,7 +219,7 @@ namespace FromGoldenCombs.BlockEntities
                 for (int index = 2; index >= 0; index--)
                 {
 
-                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Block is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
+                    if (curBE.inv[index].Itemstack != null && curBE.inv[index].Itemstack.Collectible is LangstrothSuper && curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents") != null)
                     {
                         ITreeAttribute contents = curBE.inv[index].Itemstack.Attributes.GetTreeAttribute("contents");
                         int contentsSize = contents.Count;
@@ -245,6 +247,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public bool InitializePut(ItemStack first, ItemSlot slot)
         {
+            if (slot.Itemstack.Collectible is Item) return false;
             inv[0].Itemstack = first;
             inv[1].Itemstack = slot.TakeOutWhole();
             UpdateStackSize();
@@ -252,7 +255,6 @@ namespace FromGoldenCombs.BlockEntities
             CountHarvestable();
             MarkDirty(true);
             return true;
-
         }
 
         private bool TryPut(ItemSlot slot)
@@ -263,58 +265,51 @@ namespace FromGoldenCombs.BlockEntities
             {
                 index++;
             }
-            //TODO: Add check to determine if the index under the current one is a brood box, and fail TryPut() if it is.
-
-            if (inv[index].Empty) //If the new target index is empty, place a super
+            //If the new target index is empty, place a super
+            if (inv[index].Empty)
             {
-
-                if (index - 1 >= 0 && inv[index - 1].Itemstack.Block is LangstrothBrood)
-                {
-                    return false;
-                }
-                else if (index - 1 < 0 && IsLangstrothStackAt(Pos.DownCopy()))
-                {
-                    BELangstrothStack stack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.DownCopy());
-                    if (stack.GetStackIndex(2).Block is LangstrothBrood)
-                    {
-                        Api.World.BlockAccessor.SetBlock(0, Pos);
-                        return false;
-                    }
-                    inv[index].Itemstack = slot.TakeOutWhole();
-                    return true;
-                }
-                inv[index].Itemstack = slot.TakeOutWhole();
-                updateMeshes();
-                return true;
+                if (index - 1 >= 0 && inv[index - 1].Itemstack.Collectible is LangstrothBrood) return false;
+                return placeLangstrothBlock(index, slot);
             }
-            else if (IsLangstrothAt(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
+            //Otherwise, we're at the top block. Check that it isn't a brood box and see if there is a langstroth stack above this stack.
+            else if (!(inv[index].Itemstack.Collectible is LangstrothBrood))
             {
-                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()) is LangstrothStack) //If It's a SuperStack, Send To Next Stack
+
+                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()) is LangstrothStack)
                 {
                     (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).ReceiveSuper(slot);
-                }
-                else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()) is LangstrothCore) //If It's a LangstrothCore, create a new LangstrothStack
+                };
+
+                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air)
                 {
-                    ItemStack langstrothBlock = this.Block.OnPickBlock(Api.World, Pos.UpCopy());
-                    Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
-                    BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
-                    lStack.InitializePut(langstrothBlock, slot);
-                    MarkDirty(true);
+                    Api.World.BlockAccessor.SetBlock(Api.World.
+                    GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
+                    TryPut(slot);
                 }
-            }
-            else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air)
-            {
-                Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
-                TryPut(slot);
             }
             UpdateStackSize();
             return true;
         }
 
+        private bool placeLangstrothBlock(int index, ItemSlot slot)
+        {
+                inv[index].Itemstack = slot.TakeOutWhole();
+                updateMeshes();
+                return true;
+        }
+
+        private void createNewStackUp(ItemSlot slot)
+        {
+            ItemStack langstrothBlock = this.Block.OnPickBlock(Api.World, Pos.UpCopy());
+            Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
+            BELangstrothStack lStack = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy());
+            lStack.InitializePut(langstrothBlock, slot);
+            MarkDirty(true);
+        }
+
         //TryTake attemps to retrieve the contents of an Inventory Slot in the stack
         private bool TryTake(IPlayer byPlayer)
         {
-            //TODO: Restructure code to take top super in any stack, or top index from top stack in a stack of stacks.
             bool isSuccess = false;
             int index = 0;
 
@@ -342,15 +337,7 @@ namespace FromGoldenCombs.BlockEntities
             if (langstrothAbove)
             {
                 Block block = Api.World.BlockAccessor.GetBlock(Pos.UpCopy());
-                //If it's not a LangstrothStack, take the block
-                if (!(block is LangstrothStack) && block is LangstrothCore)
-                {
-                    ItemStack stack = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).OnPickBlock(Api.World, Pos.UpCopy());
-                    
-                    return byPlayer.InventoryManager.TryGiveItemstack(stack);
-                }
-                //If it is a stack, retrieve the block from the stack
-                else if (block is LangstrothStack)
+                 if (block is LangstrothStack)
                 {
                     BELangstrothStack BELangStack = Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack;
                     
@@ -393,19 +380,20 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.World.BlockAccessor.SetBlock(0, this.Pos);
             }
-            else if (stacksize == "one" && !IsLangstrothAt(Pos.DownCopy())) //If there's only one block left in the stack, and the below stack is a langstroth block
+            else if (stacksize == "one" && !IsLangstrothAt(Pos.DownCopy())) //If there's only one block left in the stack, and there isn't a Langstroth stack below.
             {
-                ItemStack stack = inv[0].TakeOutWhole();
-                Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.GetBlock(stack.Block.CodeWithVariant("side", GetSide(this.Block))).BlockId, Pos, stack);
+                Api.World.BlockAccessor.SetBlock(Api.World.BlockAccessor.
+                    GetBlock(inv[0].Itemstack.Block.CodeWithVariant("side", GetSide(this.Block))).BlockId, Pos, inv[0].Itemstack);
             }
             else
             {
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor
-                    .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-" + stacksize + "-" + this.Block.Variant["side"])).BlockId, Pos);
+                    .GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-" + stacksize + "-" + 
+                    this.Block.Variant["side"])).BlockId, Pos);
             }
 
-            //Summar"y": UpdateStackSize changes the size of the stack as blocks are added or removed from it.
-            //If a single block is left in a stack, the stack is removed and that block placed, provided that the block under the stack is not another stack.
+            //Summary: UpdateStackSize changes the size of the stack as blocks are added or removed from it.
+            //If a single block is left in a stack, and the below block is not a stack, the stack is removed and that block placed in its stead.
         }
 
         public void ReceiveSuper(ItemSlot slot)
@@ -462,13 +450,13 @@ namespace FromGoldenCombs.BlockEntities
             BELangstrothStack bottomStack = GetBottomStack();
             CountHarvestable();
            //Check bottomStack's bottom index for a LangstrothBase
-            if (!(bottomStack.inv[0].Itemstack.Block is LangstrothBase)) {
+            if (!(bottomStack.inv[0].Itemstack.Collectible is LangstrothBase)) {
                 ResetHive();
                 return false;
             }     
 
         //Check topStack's top Index for populated brood box
-            Block topBlock = topStack?.inv[topStack.StackSize() - 1].Itemstack.Block;
+            Block topBlock = topStack?.inv[topStack.StackSize() - 1 >= 0 ? topStack.StackSize() - 1 : 0].Itemstack.Block;
             if (!(topBlock is LangstrothBrood && topBlock.Variant["populated"] == "populated")){
                 ResetHive();
                 return false;
@@ -489,7 +477,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 for (int i = topStack.StackSize() - 2; i >= 0; i--)
                 {
-                    if (!(topStack.inv[i].Itemstack.Block is LangstrothSuper)) {
+                    if (!(topStack.inv[i].Itemstack.Collectible is LangstrothSuper)) {
                         ResetHive(); ;
                     return false;
                     }
@@ -499,7 +487,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     for (int index = 2; index >= 0 && !(curBE.Pos == bottomStack.Pos && index == 0); index--)
                     {
-                        if (!(curBE.inv[index].Itemstack.Block is LangstrothSuper)) {
+                        if (!(curBE.inv[index].Itemstack.Collectible is LangstrothSuper)) {
                             ResetHive();
                             return false;
                         }
@@ -507,8 +495,8 @@ namespace FromGoldenCombs.BlockEntities
                     downCount++;
                     curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy(downCount));
                 }
-            } else if ((topStack.inv[2].Itemstack.Block is LangstrothBrood && topStack.inv[2].Itemstack.Block.Variant["populated"] == "populated")
-                        && topStack.inv[0].Itemstack.Block is LangstrothBase)
+            } else if ((topStack.inv[2].Itemstack.Collectible is LangstrothBrood && topStack.inv[2].Itemstack.Collectible.Variant["populated"] == "populated")
+                        && topStack.inv[0].Itemstack.Collectible is LangstrothBase)
             {
                 return true;
             }

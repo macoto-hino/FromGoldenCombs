@@ -113,22 +113,6 @@ namespace FromGoldenCombs.Blocks
                     };
                 });
 
-                //wx = ObjectCacheUtil.GetOrCreate(api, "superInteractions5", () =>
-                //{
-                //    List<ItemStack> partlist = new();
-
-                //    partlist.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothsuper-closed-maple-oak-east")),1));
-                //    partlist.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbrood-maple-oak-east")), 1));
-                //    partlist.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "langstrothbase-maple-oak-east")), 1));
-
-                //    return new WorldInteraction[] {
-                //            new WorldInteraction() {
-                //                    ActionLangCode = "fromgoldencombs:blockhelp-langstrothsuper-createstack",
-                //                    MouseButton = EnumMouseButton.Right,
-                //                    Itemstacks = partlist.ToArray()
-                //            }
-                //    };
-                //});
             }
             if (wi2 == null || wi3 == null)
             {

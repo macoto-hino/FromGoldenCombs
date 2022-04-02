@@ -1,4 +1,9 @@
-﻿1.16.4-v1.3.11
+﻿1.16.4-v1.3.12
+	- Corrected NPE error when interacting with LangstrothCore blocks with an item.
+	- Refactored LangstrothCore onBlockInteractStart()
+	- Removed unnecessary code from LangstrothStack
+
+1.16.4-v1.3.11
 	- Cleaning up errors that occurred due to compiler weirdness.
 	- Fixed Langstroth Part recipe.
 
