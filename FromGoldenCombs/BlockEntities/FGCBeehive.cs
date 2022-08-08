@@ -33,7 +33,6 @@ namespace FromGoldenCombs.BlockEntities
             float popHiveAfterHours;
             double cooldownUntilTotalHours;
             double harvestableAtTotalHours;
-            public bool Harvestable;
             int harvestBase = FromGoldenCombsConfig.Current.clayPotHiveHoursToHarvest;
             
             // Current scan values
@@ -44,7 +43,6 @@ namespace FromGoldenCombs.BlockEntities
             // Temporary values
             EnumHivePopSize hivePopSize;
             bool wasPlaced = false;
-            public static SimpleParticleProperties Bees;
             string orientation;
 
             static FGCBeehive()
@@ -238,7 +236,7 @@ namespace FromGoldenCombs.BlockEntities
                 Block wildhive2 = Api.World.GetBlock(new AssetLocation("wildbeehive-large"));
 
 
-                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, pos) =>
+                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
                     if (block.Id == 0) return;
 
@@ -246,7 +244,7 @@ namespace FromGoldenCombs.BlockEntities
 
                     if (block == emptySkepN || block == emptySkepE || block == emptySkepS || block == emptySkepW)
                     {
-                        scanEmptySkeps.Add(pos.Copy());
+                        scanEmptySkeps.Add(new BlockPos(posx, posy, posz));
                     }
                     if (block == fullSkepN || block == fullSkepE || block == fullSkepS || block == fullSkepW || block == wildhive1 || block == wildhive2)
                     {
@@ -347,7 +345,7 @@ namespace FromGoldenCombs.BlockEntities
 
             private void TryPopCurrentSkep()
             {
-                Block skepToPopBlock = Api.World.BlockAccessor.GetBlock(skepToPop);
+                Block skepToPopBlock = Api.World.BlockAccessor.GetBlock(skepToPop, 0);
                 if (skepToPopBlock == null || !(skepToPopBlock is BlockSkep))
                 {
                     // Skep must have changed since last time we checked, so lets restart 
@@ -542,14 +540,6 @@ namespace FromGoldenCombs.BlockEntities
                 return diet.Contains("Honey");
             }
 
-            public float ConsumeOnePortion()
-            {
-                Api.World.BlockAccessor.BreakBlock(Pos, null, 1f);
-                return 1f;
-            }
-
-            public Vec3d Position => base.Pos.ToVec3d().Add(0.5, 0.5, 0.5);
-            public string Type => "food";
             #endregion
 
 

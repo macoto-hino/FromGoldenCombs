@@ -68,12 +68,12 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void Initialize(ICoreAPI api)
         {
-            Block block = api.World.BlockAccessor.GetBlock(Pos);
+            Block block = api.World.BlockAccessor.GetBlock(Pos, 0);
             base.Initialize(api);
             RegisterGameTickListener(TestHarvestable, 6000);
             RegisterGameTickListener(OnScanForFlowers, api.World.Rand.Next(5000) + 30000);
 
-            block = Api.World.BlockAccessor.GetBlock(Pos);
+            block = Api.World.BlockAccessor.GetBlock(Pos, 0);
 
             if (api.Side == EnumAppSide.Client)
             {
@@ -102,7 +102,7 @@ namespace FromGoldenCombs.BlockEntities
                                        //Or from the topmost occupied slot of this stack.
                 {
                     
-                    if (Api.World.BlockAccessor.GetBlock(Pos) is LangstrothStack)
+                    if (Api.World.BlockAccessor.GetBlock(Pos, 0) is LangstrothStack)
                     {
                         GetBottomStack().isActiveHive = GetBottomStack().IsValidHive();
                         GetBottomStack().ResetHive();
@@ -146,7 +146,7 @@ namespace FromGoldenCombs.BlockEntities
                         for (int j = 0; j <= contentsSize && fillframes > 0; j++)
                         {
                             ItemStack stack = contents.GetItemstack((j - 1).ToString());
-                            if (stack?.Collectible is LangstrothFrame)
+                            if (stack?.Collectible.FirstCodePart() == "beeframe")
                             {
                                 if (stack.Collectible.Variant["harvestable"] == "lined")
                                 {
@@ -187,7 +187,7 @@ namespace FromGoldenCombs.BlockEntities
                             for (int j = 0; j <= contentsSize; j++)
                             {
                                 ItemStack stack = contents.GetItemstack((j - 1).ToString());
-                                if (stack?.Collectible is LangstrothFrame)
+                                if (stack?.Collectible.FirstCodePart() == "beeframe")
                                 {
                                     if (stack.Collectible.Variant["harvestable"] == "harvestable")
                                     {
@@ -225,7 +225,7 @@ namespace FromGoldenCombs.BlockEntities
                         for (int j = 0; j <= contentsSize; j++)
                         {
                             ItemStack stack = contents.GetItemstack((j - 1).ToString());
-                            if (stack?.Collectible is LangstrothFrame)
+                            if (stack?.Collectible.FirstCodePart() == "beeframe")
                             {
                                 if (stack.Collectible.Variant["harvestable"] == "lined")
                                 {
@@ -289,11 +289,11 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (IsLangstrothAt(Pos.UpCopy())) //Otherwise, check to see if the next block up is a Super or SuperStack
             {
-                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()) is LangstrothStack) //If It's a SuperStack, Send To Next Stack
+                if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0) is LangstrothStack) //If It's a SuperStack, Send To Next Stack
                 {
                     (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).ReceiveSuper(slot);
                 }
-                else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()) is LangstrothCore) //If It's a LangstrothCore, create a new LangstrothStack
+                else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0) is LangstrothCore) //If It's a LangstrothCore, create a new LangstrothStack
                 {
                     ItemStack langstrothBlock = this.Block.OnPickBlock(Api.World, Pos.UpCopy());
                     Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
@@ -302,7 +302,7 @@ namespace FromGoldenCombs.BlockEntities
                     MarkDirty(true);
                 }
             }
-            else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air)
+            else if (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).BlockMaterial == EnumBlockMaterial.Air)
             {
                 Api.World.BlockAccessor.SetBlock(Api.World.GetBlock(new AssetLocation("fromgoldencombs", "langstrothstack-two-" + GetSide(this.Block))).BlockId, Pos.UpCopy());
                 TryPut(slot);
@@ -327,7 +327,7 @@ namespace FromGoldenCombs.BlockEntities
             // Confirm if this is the top inventory slot of the stack
             bool isTopSlot = index == inv.Count - 1;
             bool langstrothAbove = IsLangstrothAt(Pos.UpCopy());
-            bool airAbove = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).BlockMaterial == EnumBlockMaterial.Air;
+            bool airAbove = Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).BlockMaterial == EnumBlockMaterial.Air;
 
             // If the index is empty, return isSuccess (False at this point)
             if (inv[index].Empty) return isSuccess;
@@ -341,11 +341,11 @@ namespace FromGoldenCombs.BlockEntities
             //If the above block is of type LangstrothCore
             if (langstrothAbove)
             {
-                Block block = Api.World.BlockAccessor.GetBlock(Pos.UpCopy());
+                Block block = Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0);
                 //If it's not a LangstrothStack, take the block
                 if (!(block is LangstrothStack) && block is LangstrothCore)
                 {
-                    ItemStack stack = Api.World.BlockAccessor.GetBlock(Pos.UpCopy()).OnPickBlock(Api.World, Pos.UpCopy());
+                    ItemStack stack = Api.World.BlockAccessor.GetBlock(Pos.UpCopy(), 0).OnPickBlock(Api.World, Pos.UpCopy());
                     
                     return byPlayer.InventoryManager.TryGiveItemstack(stack);
                 }
@@ -437,7 +437,7 @@ namespace FromGoldenCombs.BlockEntities
         //Identify if the block at the given BlockPos is of type LangstrothCore
         private bool IsLangstrothAt(BlockPos pos)
         {
-            Block aboveBlockName = Api.World.BlockAccessor.GetBlock(pos);
+            Block aboveBlockName = Api.World.BlockAccessor.GetBlock(pos, 0);
 
             return aboveBlockName is LangstrothCore;
         }
@@ -445,7 +445,7 @@ namespace FromGoldenCombs.BlockEntities
         //Identify if the block at the given BlockPos is a LangstrothStack
         private bool IsLangstrothStackAt(BlockPos pos)
         {
-            if (IsLangstrothAt(pos) && Api.World.BlockAccessor.GetBlock(pos) is LangstrothStack)
+            if (IsLangstrothAt(pos) && Api.World.BlockAccessor.GetBlock(pos, 0) is LangstrothStack)
                 return true;
 
             return false;
@@ -562,7 +562,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             BlockPos topPos = Pos;
             int upCount = 1;
-            while (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(upCount)) is LangstrothStack)
+            while (Api.World.BlockAccessor.GetBlock(Pos.UpCopy(upCount), 0) is LangstrothStack)
             {
                 topPos = Pos.UpCopy(upCount);
                 upCount++;
@@ -575,7 +575,7 @@ namespace FromGoldenCombs.BlockEntities
             BlockPos bottomPos = Pos;
             int downCount = 1;
 
-            while (Api.World.BlockAccessor.GetBlock(Pos.DownCopy(downCount)) is LangstrothStack)
+            while (Api.World.BlockAccessor.GetBlock(Pos.DownCopy(downCount), 0) is LangstrothStack)
             {
                 bottomPos = Pos.DownCopy(downCount);
                 downCount++;
@@ -795,7 +795,7 @@ namespace FromGoldenCombs.BlockEntities
                 Block langstrothstack3w = Api.World.GetBlock(new AssetLocation("langstrothstack-three-west"));
 
 
-                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, pos) =>
+                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
                     if (block.Id == 0) return;
 

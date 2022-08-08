@@ -77,7 +77,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public bool OnInteract(IPlayer byPlayer)
         {
-            Block hive = Api.World.BlockAccessor.GetBlock(Pos);
+            Block hive = Api.World.BlockAccessor.GetBlock(Pos,0);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             if (slot.Empty)
             {
@@ -342,7 +342,7 @@ namespace FromGoldenCombs.BlockEntities
                 Block langstrothstack3s = Api.World.GetBlock(new AssetLocation("langstrothstack-three-south"));
                 Block langstrothstack3w = Api.World.GetBlock(new AssetLocation("langstrothstack-three-west"));
 
-                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, pos) =>
+                Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
                     if (block.Id == 0) return;
 
